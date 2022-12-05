@@ -1,7 +1,13 @@
 import { useState } from 'react'
 import { getDataLocalStorage, setDataLocalStorage } from 'utils'
 
-export function useLocalStorage(key: string, initValue?: string): [string, (value: any) => void, (key: string) => void] {
+type useLocalStorageReturn = [
+  string | undefined,
+  (value: any) => void,
+  (key: string) => void
+]
+
+export function useLocalStorage(key: string, initValue: string = ""): useLocalStorageReturn {
   const [storedValue, setStoredValue] = useState<string>(getDataLocalStorage(key, initValue))
 
   function setValue(value: string) {

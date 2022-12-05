@@ -5,7 +5,7 @@ interface FormProps {
     formik: FormikContextType<any>
 }
 
-export default function Form(props: FormProps) {
+export default function Form(props: FormProps): JSX.Element {
     const { children, formik } = props
     const { handleSubmit } = formik
 

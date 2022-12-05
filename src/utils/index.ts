@@ -1,27 +1,34 @@
-export function indexTab(index: number) {
+interface indexTabReturn {
+    id: string
+    'aria-controls': string
+}
+
+export function indexTab(index: number): indexTabReturn {
     return {
         id: `scrollable-force-tab-${index}`,
         'aria-controls': `scrollable-force-tabpanel-${index}`,
     }
 }
 
-export function isObject(value: any) {
+export function isObject(value: any): boolean {
     return typeof value === 'object'
 }
 
-export function isBoolean(value: any) {
+export function isBoolean(value: any): boolean {
     return typeof value === 'boolean'
 }
 
-export function isString(value: any) {
+export function isString(value: any): boolean {
     return typeof value === 'string'
 }
 
-export function addInArray<T>(array: T[] | [], data: T) {
+export function addInArray<T>(array: T[] | [], data: T): T[] {
     return [...array, data]
 }
 
-export function getDataLocalStorage(key: string, initValue?: any) {
+type getDataLocalStorageReturn<T> = T | string
+
+export function getDataLocalStorage<T>(key: string, initValue: T | string = ""): getDataLocalStorageReturn<T> {
     try {
         const item = window.localStorage.getItem(key)
         if (item) {
@@ -34,7 +41,7 @@ export function getDataLocalStorage(key: string, initValue?: any) {
     }
 }
 
-export function setDataLocalStorage(key: string, data: any) {
+export function setDataLocalStorage(key: string, data: any): boolean {
     try {
         window.localStorage.setItem(key, data)
         return true
@@ -44,7 +51,7 @@ export function setDataLocalStorage(key: string, data: any) {
     }
 }
 
-export function serializarToken(token: string) {
+export function serializarToken(token: string): string {
     return token.replace(/["']/g, '')
 }
 
