@@ -1,4 +1,4 @@
-import { Theme } from "@mui/material"
+import { Theme } from "@mui/material/styles"
 
 function Button(theme: Theme) {
   return {

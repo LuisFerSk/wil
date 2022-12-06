@@ -6,7 +6,7 @@ import { HashRouter } from 'react-router-dom'
 import ThemeConfig from 'theme'
 import { BreakpointsInterface, CustomPaletteInterface, CustomShadowsInterface, ShapeInterface } from 'interfaces'
 
-declare module '@mui/material' {
+declare module '@mui/material/styles' {
   interface Theme {
     palette: CustomPaletteInterface
     breakpoints: BreakpointsInterface

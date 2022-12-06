@@ -9,7 +9,8 @@ import Backdrop from './Backdrop'
 import Typography from './Typography'
 import IconButton from './IconButton'
 import Autocomplete from './Autocomplete'
-import { Theme } from '@mui/material'
+
+import { Theme } from '@mui/material/styles'
 
 
 export default function ComponentsOverrides(theme: Theme) {

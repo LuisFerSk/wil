@@ -1,9 +1,7 @@
 import { useMemo } from 'react'
-// material
+
 import { CssBaseline } from '@mui/material'
 import { ThemeProvider, createTheme, StyledEngineProvider } from '@mui/material/styles'
-
-//
 
 import shape from './shape'
 import palette from './palette'
@@ -12,7 +10,6 @@ import breakpoints from './breakpoints'
 
 import shadows, { customShadows } from './shadows'
 import ComponentsOverrides from './overrides'
-
 
 interface ThemeConfigProps {
   children: JSX.Element

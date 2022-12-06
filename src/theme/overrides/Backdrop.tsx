@@ -1,5 +1,4 @@
-import { alpha } from '@mui/material/styles'
-import { Theme } from '@mui/material'
+import { alpha,Theme } from '@mui/material/styles'
 
 export default function Backdrop(theme: Theme) {
   const varLow = alpha(theme.palette.grey[900], 0.48)

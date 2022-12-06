@@ -38,7 +38,7 @@ function createShadow(color: string): Shadows {
   ]
 }
 
-const createCustomShadow = (color: string) => {
+function createCustomShadow(color: string) {
   const transparent = alpha(color, 0.24)
 
   return {

@@ -2,17 +2,18 @@ import { alpha, styled } from '@mui/material/styles'
 import { Card } from '@mui/material'
 import { ColorThemeType } from 'interfaces'
 
-export const CustomCard = (color: ColorThemeType) =>
-  styled(Card)(({ theme }) => ({
+export function CustomCard(color: ColorThemeType) {
+  return styled(Card)(({ theme }) => ({
     boxShadow: 'none',
     textAlign: 'center',
     padding: theme.spacing(5, 0),
     color: theme.palette[color].darker,
     backgroundColor: theme.palette[color].lighter,
   }))
+}
 
-export const IconWrapper = (color: ColorThemeType) =>
-  styled('div')(({ theme }) => ({
+export function IconWrapper(color: ColorThemeType) {
+  return styled('div')(({ theme }) => ({
     margin: 'auto',
     display: 'flex',
     borderRadius: '50%',
@@ -27,3 +28,4 @@ export const IconWrapper = (color: ColorThemeType) =>
       0.24
     )} 100%)`
   }))
+}
