@@ -21,13 +21,8 @@ export const sidebarConfigUser: SidebarConfigInterface = [
         icon: getIcon(pieChart2Fill),
     },
     {
-        title: 'Funcionarios',
-        path: '/dashboard/funcionarios',
-        icon: <AssignmentIndIcon />,
-    },
-    {
         title: 'Equipos',
-        path: '/dashboard/equipos',
+        path: '/equipos',
         icon: <DesktopWindowsIcon />,
     },
     {
