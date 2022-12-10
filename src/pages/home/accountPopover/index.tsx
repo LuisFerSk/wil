@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useContext, useRef, useState } from 'react'
 
 import { Icon, IconifyIcon } from '@iconify/react'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -6,6 +6,7 @@ import { Button, Box, MenuItem, Typography, Grid } from '@mui/material'
 
 import { MenuPopover } from 'components'
 import formTextboxPassword from '@iconify/icons-mdi/form-textbox-password';
+import { authContext } from 'provider/Auth';
 
 type MenuOption = {
     label: string
@@ -29,6 +30,9 @@ export default function AccountPopover(props: AccountPopoverProps): JSX.Element 
     const anchorRef = useRef(null)
     const [open, setOpen] = useState(false)
 
+    const authsContext = useContext(authContext)
+    const { user, logout } = authsContext;
+
     function handleOpen() {
         setOpen(true)
     }
@@ -48,7 +52,7 @@ export default function AccountPopover(props: AccountPopoverProps): JSX.Element 
             >
                 <Grid container justifyContent="flex-end" maxHeight={60}>
                     <Typography variant='subtitle1' noWrap>
-                        user?.username
+                        {user}
                     </Typography>
                     <ExpandMoreIcon />
                 </Grid>
@@ -88,6 +92,7 @@ export default function AccountPopover(props: AccountPopoverProps): JSX.Element 
                         color='inherit'
                         variant='outlined'
                         onClick={() => {
+                            logout()
                         }}
                     >
                         Cerrar sesión

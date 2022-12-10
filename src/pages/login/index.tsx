@@ -3,12 +3,15 @@ import { loginInitialValues, loginSchema } from './schema'
 import { Form, Logo, TextFieldPassword } from 'components'
 import { useFormikFiledProps, useMessage } from 'hooks'
 import { Button, Grid, Paper, TextField } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
+import { login } from 'api/auth'
+import { useContext } from 'react'
+import { authContext } from 'provider/Auth'
 
 
 
 function Login(): JSX.Element {
-	const navigate = useNavigate();
+	const authsContext = useContext(authContext)
+
 	const [mensaje, setMensaje, mensajeLoader] = useMessage()
 
 	const formik = useFormik({
@@ -16,7 +19,15 @@ function Login(): JSX.Element {
 		validationSchema: loginSchema,
 		onSubmit: (data) => {
 			mensajeLoader()
-			navigate("/")
+			login(data)
+				.then((result) => {
+					if (result.status === 200) {
+						authsContext.login(result.data)
+					}
+				})
+				.catch((err) => {
+					setMensaje('error', err.response.data)
+				})
 		},
 	})
 

@@ -131,25 +131,6 @@ export interface EntityInterface {
     update_time: null
 }
 
-interface FuncionarioBaseProps {
-    nombre: string,
-    identificacion: string,
-}
-
-export interface FuncionarioProps extends FuncionarioBaseProps {
-    sectorial: string,
-    subsector: string | null
-}
-
-export interface FuncionarioInterface extends FuncionarioProps, EntityInterface { }
-
-export interface FuncionarioConsultaInterface extends FuncionarioBaseProps, EntityInterface {
-    sectorial: string,
-    subsector: string
-    id_sectorial: string,
-    id_subsector: string
-}
-
 export interface EquipoProps {
     sectorial: string,
     subsector: string,
@@ -220,32 +201,9 @@ export interface UpdateInterface<T> {
     setData: Dispatch<SetStateAction<T[] | []>>
 }
 
-export interface PerifericoBaseProps {
-    referenciaPeriferico: string,
-    numeroSerial: string,
-}
 
-export interface PerifericioProps extends PerifericoBaseProps {
-    observaciones: string | null
-    tipo_dispositivo: string,
-    estado: string,
-}
-
-export interface PerifericoInterface extends EntityInterface, PerifericioProps { }
-
-export interface PerifericoConsultaInterface extends PerifericoBaseProps, EntityInterface {
-    tipo_dispositivo: string,
-    id_tipo_dispositivo: string,
-    observaciones: string
-    estado: string,
-    id_estado: string
-}
-
-export interface BasicUserInterface extends EntityInterface {
+export interface BasicUserInterface {
     username: string,
-    rol: string,
-    estado: string,
-    id_estado: string,
 }
 
 export interface UsuarioInterface extends EntityInterface, BasicUserInterface {
@@ -254,21 +212,8 @@ export interface UsuarioInterface extends EntityInterface, BasicUserInterface {
 
 export type ColorThemeType = 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success'
 
-export interface SectorialInterface extends EntityInterface {
-    nombre: string
-}
-
-export interface SubsectorInterface extends EntityInterface {
-    nombre: string,
-    sectorial: string
-}
-
 export interface ProviderProps {
     children: ReactNode
 }
 
 export type stateMessage = JSX.Element | null;
-
-export interface TipoDispositivoInterface extends EntityInterface {
-    nombre: string
-}

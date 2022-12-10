@@ -1,6 +1,6 @@
-import { getMe } from 'api/usuario'
+import { verifyToken } from 'api/auth'
 import { useLocalStorage } from 'hooks'
-import { BasicUserInterface, ProviderProps, SectorialInterface, SubsectorInterface, TipoDispositivoInterface } from 'interfaces'
+import { ProviderProps } from 'interfaces'
 import { useState, useEffect } from 'react'
 
 import { createContext } from 'react'
@@ -8,42 +8,36 @@ import { serializarToken } from 'utils'
 
 const initToken = ''
 
-const initialStateConstantState = {
-    sectoriales: [],
-    subsectores: [],
-    tipoDispositivos: []
+interface loginProps {
+    status: string,
+    message: string
+    username: string
+    token: string
 }
 
 const initialStateAuthState = {
     user: undefined,
     token: initToken,
-    login: (token: string) => { },
+    login: () => { },
     logout: () => { },
     getUser: () => { return undefined },
-    ...initialStateConstantState
 }
 
 export const authContext = createContext<AuthContextProps>(initialStateAuthState)
 
-interface ContextProps {
-    sectoriales: SectorialInterface[] | never[],
-    subsectores: SubsectorInterface[] | never[],
-    tipoDispositivos: TipoDispositivoInterface[] | never[]
-}
-
-interface AuthContextProps extends ContextProps {
-    user: BasicUserInterface | undefined | null
+interface AuthContextProps {
+    user: string | undefined | null
     token: string | undefined
-    login: (token: string) => void
+    login: (data: loginProps) => void
     logout: () => void
 }
 
 export default function AuthState(props: ProviderProps): JSX.Element {
     const { children } = props;
 
-    const [user, setUser] = useState<BasicUserInterface | undefined | null>()
+    const [user, setUser] = useState<string | undefined | null>()
 
-    const [token, setToken] = useLocalStorage('token', initToken);
+    const [token, setToken] = useLocalStorage('token', initToken)
 
     const [tokenSerializado, setTokenSerializado] = useState(token)
 
@@ -51,11 +45,10 @@ export default function AuthState(props: ProviderProps): JSX.Element {
         setToken(initToken)
     }
 
-    function login(token: string): void {
-        setToken(token)
+    function login(data: loginProps): void {
+        setToken(data.token)
+        setUser(data.username)
     }
-
-    const [constants, setConstants] = useState<ContextProps>(initialStateConstantState)
 
     useEffect(() => {
         if (typeof token === 'string' && token.length > 0) {
@@ -63,20 +56,17 @@ export default function AuthState(props: ProviderProps): JSX.Element {
 
             setTokenSerializado(_tokenSerializado)
 
-            getMe(_tokenSerializado)
-                .then(result => {
-                    if (result.status === 200) {
-                        setUser(result.data.data)
-                    }
+            verifyToken(_tokenSerializado)
+                .then(({ data }) => {
+                    setUser(data.info.username)
                 })
-                .catch((error) => {
+                .catch(error => {
                     console.log(error)
                     setUser(null)
                 })
             return;
         }
         setUser(null)
-        setConstants(initialStateConstantState)
     }, [token])
 
     return (
@@ -86,7 +76,6 @@ export default function AuthState(props: ProviderProps): JSX.Element {
                 token: tokenSerializado,
                 login,
                 logout,
-                ...constants
             }}
         >
             {children}
