@@ -1,6 +1,6 @@
 import { Icon } from '@iconify/react'
 import searchFill from '@iconify/icons-eva/search-fill'
-import { styled } from '@mui/styles'
+import { styled } from '@mui/material/styles'
 import {
     Box,
     Toolbar,
@@ -11,14 +11,14 @@ import {
 import { ChangeEvent } from 'react'
 
 
-const RootStyle = styled(Toolbar)(({ theme }: any) => ({
+const RootStyle = styled(Toolbar)(({ theme }) => ({
     height: 96,
     display: 'flex',
     justifyContent: 'space-between',
     padding: theme.spacing(0, 1, 0, 3),
 }))
 
-const SearchStyle = styled(OutlinedInput)(({ theme }: any) => ({
+const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
     width: 240,
     transition: theme.transitions.create(['box-shadow', 'width'], {
         easing: theme.transitions.easing.easeInOut,
@@ -41,7 +41,7 @@ interface TableListToolbarProps {
     onDownload?: () => void
 }
 
-function TableListToolbar(props: TableListToolbarProps): JSX.Element {
+export default function TableListToolbar(props: TableListToolbarProps): JSX.Element {
     const {
         filter,
         onFilter,
@@ -78,5 +78,3 @@ function TableListToolbar(props: TableListToolbarProps): JSX.Element {
         </RootStyle>
     )
 }
-
-export default TableListToolbar;

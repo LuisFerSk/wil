@@ -1,3 +1,6 @@
+import { EntityInterface } from "interfaces"
+import { filter } from "lodash"
+
 interface indexTabReturn {
     id: string
     'aria-controls': string
@@ -10,20 +13,18 @@ export function indexTab(index: number): indexTabReturn {
     }
 }
 
-export function isObject(value: any): boolean {
-    return typeof value === 'object'
-}
-
-export function isBoolean(value: any): boolean {
-    return typeof value === 'boolean'
-}
-
-export function isString(value: any): boolean {
-    return typeof value === 'string'
-}
-
 export function addInArray<T>(array: T[] | [], data: T): T[] {
     return [...array, data]
+}
+
+export function deleteInArrayData<T extends EntityInterface>(array: T[], id: number) {
+    return filter(array, row => row.id !== id)
+}
+
+export function updateDataInArray<T extends EntityInterface>(array: T[], id: number, newData: T) {
+    const data = deleteInArrayData(array, id)
+
+    return addInArray(data, newData)
 }
 
 type getDataLocalStorageReturn<T> = T | string

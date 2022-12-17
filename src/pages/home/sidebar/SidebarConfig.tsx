@@ -22,7 +22,7 @@ export const sidebarConfigUser: SidebarConfigInterface = [
     },
     {
         title: 'Equipos',
-        path: '/equipos',
+        path: '/equipment',
         icon: <DesktopWindowsIcon />,
     },
     {

@@ -19,24 +19,21 @@ export default function Navbar(props: NavbarProps): JSX.Element {
     const modalState = useFloat({ initialState: false })
 
     return (
-        <>
-            <RootStyle>
-                <ToolbarStyle>
-                    <MHidden width='lgUp'>
-                        <IconButton onClick={onOpenSidebar} sx={{ mr: 1, color: 'text.primary' }}>
-                            <Icon icon={menu2Fill} />
-                        </IconButton>
-                    </MHidden>
-                    <Box sx={{ flexGrow: 1 }} />
-                    <Stack direction='row' alignItems='center' spacing={{ xs: 0.5, sm: 1.5 }}>
-                        <AccountPopover openModal={modalState.open} />
-                    </Stack>
-
-                </ToolbarStyle>
-            </RootStyle>
+        <RootStyle>
+            <ToolbarStyle>
+                <MHidden width='lgUp'>
+                    <IconButton onClick={onOpenSidebar} sx={{ mr: 1, color: 'text.primary' }}>
+                        <Icon icon={menu2Fill} />
+                    </IconButton>
+                </MHidden>
+                <Box sx={{ flexGrow: 1 }} />
+                <Stack direction='row' alignItems='center' spacing={{ xs: 0.5, sm: 1.5 }}>
+                    <AccountPopover openModal={modalState.open} />
+                </Stack>
+            </ToolbarStyle>
             <Modal title={'Modificar Contraseña'} isOpen={modalState.isOpen} onClose={modalState.close}>
                 <></>
             </Modal>
-        </>
+        </RootStyle>
     )
 }

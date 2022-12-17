@@ -126,35 +126,25 @@ export interface ResultApiInterface<T> {
 }
 
 export interface EntityInterface {
-    id: string
-    create_time: string
-    update_time: null
+    id: number
+    created_at: string
+    updated_at: string
+    deleted_at: string | null
+
 }
 
-export interface EquipoProps {
-    sectorial: string,
-    subsector: string,
-    tipo: string,
-    referencia: string,
-    idEquipo: string,
-    numeroSerialCPU: string,
-    numeroSerialMonitor: string,
-    numeroSerialTeclado: string,
-    numeroSerialMouse: string,
-    direccionIP: string,
-    sistemaOperativo: string,
-    softwareInstalado: string,
-    tipoProcesador: string,
-    memoria: string,
-    discoDuro: string,
-    capacidad: string,
-    espacioUsado: string,
+export interface EquipmentProps {
+    type: string,
+    brand: string,
+    model: string,
+    serial: string,
+    monitor_serial: string,
+    license_plate: string,
+    area: string,
+    flat: string,
 }
 
-export interface EquipoInterface extends EntityInterface, EquipoProps {
-    id_sectorial: string,
-    id_subsector: string
-}
+export interface EquipmentInterface extends EntityInterface, EquipmentProps { }
 
 export type DataTableType<T> = T[] | [];
 
@@ -216,4 +206,10 @@ export interface ProviderProps {
     children: ReactNode
 }
 
-export type stateMessage = JSX.Element | null;
+export type StateMessage = JSX.Element | null;
+
+export interface HeadLabelInterface {
+    id: string
+    label?: string
+    alignRight?: boolean
+}

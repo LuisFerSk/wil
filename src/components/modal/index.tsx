@@ -1,8 +1,9 @@
 import { Icon } from '@iconify/react';
 import closeIcon from '@iconify/icons-mdi/close';
 import { Card, Modal as MaterialModal, IconButton, Grid, Typography } from '@mui/material'
+import useStylesModal from 'theme/useStylesModal';
 
-import useStyles from '../../theme/useStylesModal'
+
 
 interface ModalProps {
     isOpen: boolean
@@ -14,7 +15,7 @@ interface ModalProps {
 export default function Modal(props: ModalProps): JSX.Element {
     const { isOpen, onClose, title, children } = props
 
-    const classes = useStyles()
+    const classes = useStylesModal()
 
     return (
         <Grid container spacing={3}>

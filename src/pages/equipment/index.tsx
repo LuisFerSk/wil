@@ -1,25 +1,36 @@
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 import { Box, Card, Grid } from "@mui/material";
-import Accordion from "components/accordion";
-import { EquipoInterface } from 'interfaces';
+import { Accordion } from "components";
+import { EquipmentInterface } from 'interfaces';
 import { useContext, useEffect, useState } from 'react';
 import { authContext } from 'provider/Auth';
-import EquipmentTable from './tabla';
+import EquipmentTable from './table';
 import RegisterEquipment from './register';
+import { equipmentFindAll } from 'api/equipment';
 
 function Equipment(): JSX.Element {
-    const [equipos, setEquipos] = useState<EquipoInterface[] | []>([])
+    const [equipments, setEquipments] = useState<EquipmentInterface[] | []>([])
 
     const authsContext = useContext(authContext)
     const { token } = authsContext;
 
     const Accordions = [
         {
-            title: 'Agregar Equipo',
+            title: 'Agregar equipo',
             icon: <LibraryAddIcon color='primary' />,
-            content: <RegisterEquipment setData={setEquipos} />
+            content: <RegisterEquipment setData={setEquipments} />
         }
     ]
+
+    useEffect(() => {
+        if (token) {
+            equipmentFindAll(token).then((result) => {
+                if (result.status >= 200 || result.status < 300) {
+                    setEquipments(result.data.info)
+                }
+            })
+        }
+    }, [])
 
     return (
         <Grid container spacing={6}>
@@ -30,7 +41,7 @@ function Equipment(): JSX.Element {
             </Grid>
             <Grid item xs={12} md={12} sm={12} lg={12}>
                 <Box>
-                    <EquipmentTable data={equipos} setData={setEquipos} />
+                    <EquipmentTable data={equipments} setData={setEquipments} />
                 </Box>
             </Grid>
         </Grid>

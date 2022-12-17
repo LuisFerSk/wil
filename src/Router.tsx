@@ -2,13 +2,14 @@ import { Login, Home, Loader } from 'pages'
 import { Navigate, useRoutes } from 'react-router-dom'
 import { authContext } from 'provider/Auth'
 import { useContext } from 'react';
+import Equipment from 'pages/equipment';
 
-export default function Router() {
+export default function Router(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | null {
   const authsContext = useContext(authContext)
 
   const { user } = authsContext;
 
-  function noAutenticado() {
+  function noAutenticado(): JSX.Element | undefined {
     if (user === undefined) {
       return <Loader />
     }
@@ -20,7 +21,7 @@ export default function Router() {
     }
   }
 
-  function autenticado() {
+  function autenticado(): JSX.Element | undefined {
     if (user === undefined) {
       return <Loader />
     }
@@ -39,6 +40,12 @@ export default function Router() {
     {
       path: '/',
       element: autenticado(),
+      children: [
+        {
+          path: "/equipment",
+          element: <Equipment />
+        }
+      ]
     },
     {
       path: '/404',

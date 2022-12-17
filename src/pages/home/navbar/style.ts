@@ -1,5 +1,5 @@
 import { alpha, AppBar, Toolbar } from "@mui/material";
-import styled from "styled-components";
+import { styled } from '@mui/material/styles'
 
 const APPBAR_MOBILE = 64;
 
