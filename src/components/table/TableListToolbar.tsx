@@ -6,7 +6,6 @@ import {
     Toolbar,
     OutlinedInput,
     InputAdornment,
-    Button,
 } from '@mui/material'
 import { ChangeEvent } from 'react'
 
@@ -36,9 +35,6 @@ interface TableListToolbarProps {
     onFilter: (event: ChangeEvent<HTMLInputElement>) => void
     type?: string
     placeholder?: string
-    downloadText?: string
-    download?: boolean
-    onDownload?: () => void
 }
 
 export default function TableListToolbar(props: TableListToolbarProps): JSX.Element {
@@ -47,9 +43,6 @@ export default function TableListToolbar(props: TableListToolbarProps): JSX.Elem
         onFilter,
         type = 'text',
         placeholder = 'Buscar',
-        download = false,
-        onDownload = () => { },
-        downloadText = 'Descargar excel'
     } = props;
 
     return (
@@ -65,16 +58,6 @@ export default function TableListToolbar(props: TableListToolbarProps): JSX.Elem
                     </InputAdornment>
                 }
             />
-            {download && onDownload ?
-                <a onClick={() => onDownload()} target="_blank">
-                    <Button
-                        sx={{ position: 'absolute', right: 0 }}
-                    >
-                        {downloadText}
-                    </Button>
-                </a>
-                : null
-            }
         </RootStyle>
     )
 }

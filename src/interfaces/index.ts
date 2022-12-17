@@ -151,18 +151,11 @@ export type DataTableType<T> = T[] | [];
 export interface TablePropsInterface<T> {
     id?: string
     createTableCells: (row: T) => JSX.Element
-    headLabel: ({
-        id: string;
-        label?: string;
-        alignRight?: boolean;
-    })[]
+    headLabel: HeadLabelInterface[]
     data: DataTableType<T>
     selectBy: string
     searchBy: string
     placeholder?: string
-    downloadText?: string
-    download?: boolean
-    onDownload?: () => void
 }
 
 export interface TableDataInterface<T> {
@@ -209,7 +202,8 @@ export interface ProviderProps {
 export type StateMessage = JSX.Element | null;
 
 export interface HeadLabelInterface {
-    id: string
-    label?: string
-    alignRight?: boolean
+    id: string,
+    label: string,
+    alignRight?: boolean,
+    padding?: "checkbox" | "none" | "normal",
 }

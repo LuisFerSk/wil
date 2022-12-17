@@ -18,7 +18,7 @@ import { GetComparatorOrderType, TablePropsInterface } from 'interfaces'
 
 
 export default function Table<T>(props: TablePropsInterface<T>): JSX.Element {
-    const { headLabel, data, selectBy, createTableCells, searchBy, placeholder, download, downloadText, onDownload } = props
+    const { headLabel, data, selectBy, createTableCells, searchBy, placeholder } = props
 
     const [page, setPage] = useState<number>(0)
     const [filter, setFilter] = useState<string>('')
@@ -39,9 +39,6 @@ export default function Table<T>(props: TablePropsInterface<T>): JSX.Element {
             <TableListToolbar
                 filter={filter}
                 placeholder={placeholder}
-                download={download}
-                onDownload={onDownload}
-                downloadText={downloadText}
                 onFilter={(props: any) => {
                     const { target } = props
                     setFilter(target.value)

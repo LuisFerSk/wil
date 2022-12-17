@@ -1,14 +1,15 @@
 import { visuallyHidden } from '@mui/utils'
 import { Box, TableRow, TableCell, TableHead, TableSortLabel } from '@mui/material'
+import { GetComparatorOrderType, HeadLabelInterface } from 'interfaces'
 
-interface headLabelInterface {
-    id: string,
-    label: string,
-    alignRight?: boolean,
-    padding?: "checkbox" | "none" | "normal",
+interface TableListHeadProps {
+    order: GetComparatorOrderType
+    orderBy: string
+    headLabel: HeadLabelInterface[]
+    onRequestSort: (event: any, property: any) => void
 }
 
-const TableListHead = (props: any) => {
+export default function TableListHead(props: TableListHeadProps) {
     const { order, orderBy, headLabel, onRequestSort, } = props
     const createSortHandler = (property: any) => (event: any) => {
         onRequestSort(event, property)
@@ -21,7 +22,7 @@ const TableListHead = (props: any) => {
     return (
         <TableHead>
             <TableRow>
-                {headLabel.map((headCell: headLabelInterface) => (
+                {headLabel.map((headCell: HeadLabelInterface) => (
                     <TableCell padding={headCell.padding}
                         key={headCell.id}
                         align={headCell.alignRight ? 'right' : 'left'}
@@ -46,5 +47,3 @@ const TableListHead = (props: any) => {
         </TableHead>
     )
 }
-
-export default TableListHead;

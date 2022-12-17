@@ -18,7 +18,7 @@ const headLabel: HeadLabelInterface[] = [
     { id: 'type', label: 'Tipo', alignRight: false },
     { id: 'brand', label: 'Marca', alignRight: false },
     { id: 'model', label: 'Modelo', alignRight: false },
-    { id: '', }
+    { id: '', label: '' }
 ]
 
 export default function EquipmentTable(props: TableDataInterface<EquipmentInterface>): JSX.Element {

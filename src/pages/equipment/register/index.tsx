@@ -9,7 +9,7 @@ import { RegisterInterface } from "interfaces";
 import { authContext } from "provider/Auth";
 import { equipmentInitialValues, equipmentSchema } from "../schema";
 
-function RegisterEquipment<T>(props: RegisterInterface<T[] | []>): JSX.Element {
+export default function RegisterEquipment<T>(props: RegisterInterface<T[] | []>): JSX.Element {
     const { setData } = props;
 
     const _authContext = useContext(authContext)
@@ -56,36 +56,27 @@ function RegisterEquipment<T>(props: RegisterInterface<T[] | []>): JSX.Element {
                     <TextField {...getFieldFormikProps('type')} fullWidth label="Tipo de equipo" variant="outlined" />
                 </Grid>
                 <Grid item xs={6}>
-                    <TextField {...getFieldFormikProps('referencia')} fullWidth label="Referencia" variant="outlined" />
+                    <TextField {...getFieldFormikProps('brand')} fullWidth label="Marca" variant="outlined" />
+                </Grid>
+                <Grid item xs={6}>
+                    <TextField {...getFieldFormikProps('model')} fullWidth label="Modelo" variant="outlined" />
+                </Grid>
+                <Grid item xs={6}>
+                    <TextField {...getFieldFormikProps('serial')} fullWidth label="Serial" variant="outlined" />
+                </Grid>
+                <Grid item xs={6}>
+                    <TextField {...getFieldFormikProps('monitor_serial')} fullWidth label="Serial del monitor" variant="outlined" />
+                </Grid>
+                <Grid item xs={6}>
+                    <TextField {...getFieldFormikProps('license_plate')} fullWidth label="Placa" variant="outlined" />
+                </Grid>
+                <Grid item xs={6}>
+                    <TextField {...getFieldFormikProps('area')} fullWidth label="Area" variant="outlined" />
+                </Grid>
+                <Grid item xs={6}>
+                    <TextField {...getFieldFormikProps('flat')} fullWidth label="Piso" variant="outlined" />
                 </Grid>
                 <Grid item xs={12}>
-                    <TextField {...getFieldFormikProps('idEquipo')} fullWidth label="ID de equipo" variant="outlined" />
-                </Grid>
-                <Grid item xs={6}>
-                    <TextField {...getFieldFormikProps('numeroSerialCPU')} fullWidth label="Número serial del equipo" variant="outlined" />
-                </Grid>
-                <Grid item xs={6}>
-                    <TextField {...getFieldFormikProps('numeroSerialMonitor')} fullWidth label="Número serial del monitor" variant="outlined" />
-                </Grid>
-                <Grid item xs={6}>
-                    <TextField {...getFieldFormikProps('numeroSerialTeclado')} fullWidth label="Número serial del teclado" variant="outlined" />
-                </Grid>
-                <Grid item xs={6}>
-                    <TextField {...getFieldFormikProps('numeroSerialMouse')} fullWidth label="Número serial del mouse" variant="outlined" />
-                </Grid>
-                <Grid item xs={3}>
-                    <TextField {...getFieldFormikProps('direccionIP')} fullWidth label="Dirección IP" variant="outlined" />
-                </Grid>
-                <Grid item xs={3}>
-                    <TextField {...getFieldFormikProps('sistemaOperativo')} fullWidth label="Sistema operativo" variant="outlined" />
-                </Grid>
-                <Grid item xs={6}>
-                    <TextField {...getFieldFormikProps('tipoProcesador')} fullWidth label="Tipo Procesador" variant="outlined" />
-                </Grid>
-                <Grid item xs={6}>
-                    <TextField {...getFieldFormikProps('discoDuro')} fullWidth label="Disco Duro" variant="outlined" />
-                </Grid>
-                <Grid item xs={6}>
                     <Button type="submit" variant="contained">Guardar</Button>
                 </Grid>
                 <Grid item xs={12} textAlign='center'>
@@ -95,5 +86,3 @@ function RegisterEquipment<T>(props: RegisterInterface<T[] | []>): JSX.Element {
         </Form >
     )
 }
-
-export default RegisterEquipment;
