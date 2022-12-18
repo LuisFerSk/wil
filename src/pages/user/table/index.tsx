@@ -3,46 +3,42 @@ import trash2Outline from '@iconify/icons-eva/trash-2-outline'
 
 import { TableCell } from '@mui/material'
 import { FloatAlert, Modal, Table } from 'components'
-
-
 import { mappingMenuItem } from 'components/table/TableFunctions'
 import TableMoreMenu from 'components/table/TableMoreMenu'
 import { useFloat } from 'hooks'
-import { EquipmentInterface, HeadLabelInterface, TableDataInterface, TableOptionsInterface } from 'interfaces'
-import EquipmentDelete from '../delete'
-import EquipmentUpdate from '../update'
-
+import { HeadLabelInterface, TableDataInterface, TableOptionsInterface, UserInterface } from 'interfaces'
+import UserDelete from '../delete'
+import UserUpdate from '../update'
 
 const headLabel: HeadLabelInterface[] = [
-    { id: 'license_plate', label: 'Placa', alignRight: false },
-    { id: 'type', label: 'Tipo', alignRight: false },
-    { id: 'brand', label: 'Marca', alignRight: false },
-    { id: 'model', label: 'Modelo', alignRight: false },
+    { id: 'cc', label: 'Cédula', alignRight: false },
+    { id: 'name', label: 'Nombre', alignRight: false },
+    { id: 'phone', label: 'Teléfono', alignRight: false },
     { id: '', label: '' }
 ]
 
-export default function EquipmentTable(props: TableDataInterface<EquipmentInterface>): JSX.Element {
+export default function UserTable(props: TableDataInterface<UserInterface>): JSX.Element {
     const { data, setData } = props;
 
     const modalState = useFloat({ initialState: false })
 
     const alertState = useFloat({
         initialState: false,
-        initialContent: '¡Se ha eliminado correctamente el equipo!'
+        initialContent: '¡Se ha eliminado correctamente el funcionario!'
     })
 
 
-    function createTableCells(row: EquipmentInterface): JSX.Element {
-        const { license_plate, type, brand, model } = row;
+    function createTableCells(row: UserInterface): JSX.Element {
+        const { cc, name, phone } = row;
 
         const options: TableOptionsInterface[] = [
             {
                 label: 'Editar',
                 icon: editFill,
                 onClick: () => {
-                    modalState.setTitle('Actualizar Equipo')
+                    modalState.setTitle('Actualizar Usuario')
                     modalState.setContent(
-                        <EquipmentUpdate
+                        <UserUpdate
                             setData={setData}
                             initData={row}
                         />
@@ -54,9 +50,9 @@ export default function EquipmentTable(props: TableDataInterface<EquipmentInterf
                 label: 'Eliminar',
                 icon: trash2Outline,
                 onClick: () => {
-                    modalState.setTitle('Eliminar Equipo')
+                    modalState.setTitle('Eliminar Usuario')
                     modalState.setContent(
-                        <EquipmentDelete
+                        <UserDelete
                             data={row}
                             setData={setData}
                             closeModal={modalState.close}
@@ -71,10 +67,9 @@ export default function EquipmentTable(props: TableDataInterface<EquipmentInterf
 
         return (
             <>
-                <TableCell align='left'>{license_plate}</TableCell>
-                <TableCell align='left'>{type}</TableCell>
-                <TableCell align='left'>{brand}</TableCell>
-                <TableCell align='left'>{model}</TableCell>
+                <TableCell align='left'>{cc}</TableCell>
+                <TableCell align='left'>{name}</TableCell>
+                <TableCell align='left'>{phone}</TableCell>
                 <TableCell padding='checkbox'>
                     <TableMoreMenu>
                         {mappingMenuItem(options)}
@@ -90,9 +85,9 @@ export default function EquipmentTable(props: TableDataInterface<EquipmentInterf
                 createTableCells={createTableCells}
                 headLabel={headLabel}
                 data={data}
-                selectBy='license_plate'
-                searchBy='license_plate'
-                placeholder='Buscar por placa'
+                selectBy='cc'
+                searchBy='cc'
+                placeholder='Buscar por cédula'
             />
             <Modal title={modalState.title} isOpen={modalState.isOpen} onClose={modalState.close}>
                 <>

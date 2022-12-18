@@ -16,8 +16,8 @@ function getIcon(name: IconifyIcon) {
 
 export const sidebarConfigUser: SidebarConfigInterface = [
     {
-        title: 'Dashboard',
-        path: '/dashboard/app',
+        title: 'Home',
+        path: '/home',
         icon: getIcon(pieChart2Fill),
     },
     {
@@ -26,17 +26,17 @@ export const sidebarConfigUser: SidebarConfigInterface = [
         icon: <DesktopWindowsIcon />,
     },
     {
-        title: 'Periféricos',
-        path: '/dashboard/periferico',
-        icon: getIcon(tvUsb16Filled),
+        title: 'Usuarios',
+        path: '/user',
+        icon: getIcon(personFill),
     },
 ]
 
 export const sidebarConfigAdministrador: SidebarConfigInterface = [
     ...sidebarConfigUser,
     {
-        title: 'Usuarios',
-        path: '/dashboard/usuarios',
+        title: 'Soportes',
+        path: '/support',
         icon: getIcon(personFill),
     }
 ]

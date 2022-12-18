@@ -185,13 +185,13 @@ export interface UpdateInterface<T> {
 }
 
 
-export interface BasicUserInterface {
-    username: string,
+export interface UserProps {
+    name: string,
+    cc: string,
+    phone: string
 }
 
-export interface UsuarioInterface extends EntityInterface, BasicUserInterface {
-    password: string
-}
+export interface UserInterface extends EntityInterface, UserProps { }
 
 export type ColorThemeType = 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success'
 

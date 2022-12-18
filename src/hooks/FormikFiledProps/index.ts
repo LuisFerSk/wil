@@ -1,17 +1,17 @@
 import { FormikContextType } from 'formik'
 
 export function useFormikFiledProps({ touched, errors, getFieldProps }: FormikContextType<any>) {
-  const getFieldHelperText = (filedName: string) => {
+  function getFieldHelperText(filedName: string): string | undefined {
     if (touched[filedName] && errors[filedName]) {
       return String(errors[filedName])
     }
   }
 
-  const getFiledError = (fieldName: string) => {
+  function getFiledError(fieldName: string): boolean {
     return Boolean(fieldName in touched && fieldName in errors)
   }
 
-  const getFieldFormikProps = (filedName: string) => {
+  function getFieldFormikProps(filedName: string) {
     return {
       ...getFieldProps(filedName),
       helperText: getFieldHelperText(filedName),

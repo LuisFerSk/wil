@@ -3,13 +3,13 @@ import { Button, Grid, TextField } from "@mui/material";
 import { Form } from "components";
 import { useFormik } from "formik";
 import { useFormikFiledProps, useMessage } from "hooks";
-import { equipmentCreate } from "api/equipment";
 import { addInArray } from "utils";
 import { RegisterInterface } from "interfaces";
 import { authContext } from "provider/Auth";
-import { equipmentInitialValues, equipmentSchema } from "../schema";
+import { userInitialValues, userSchema } from "../schema";
+import { userCreate } from "api/user";
 
-export default function RegisterEquipment<T>(props: RegisterInterface<T[] | []>): JSX.Element {
+export default function UserRegister<T>(props: RegisterInterface<T[] | []>): JSX.Element {
     const { setData } = props;
 
     const _authContext = useContext(authContext)
@@ -18,8 +18,8 @@ export default function RegisterEquipment<T>(props: RegisterInterface<T[] | []>)
     const [message, setMessage, messageLoader] = useMessage()
 
     const formik = useFormik({
-        initialValues: equipmentInitialValues,
-        validationSchema: equipmentSchema,
+        initialValues: userInitialValues,
+        validationSchema: userSchema,
         onSubmit: (data, { resetForm }) => {
             messageLoader()
 
@@ -27,12 +27,12 @@ export default function RegisterEquipment<T>(props: RegisterInterface<T[] | []>)
                 return;
             }
 
-            equipmentCreate(token, data)
+            userCreate(token, data)
                 .then((response) => {
                     if (response.status >= 200 && response.status < 300) {
                         setData((old) => addInArray<T>(old, response.data.info))
                         resetForm()
-                        setMessage("success", 'Se ha guardado correctamente el equipo.')
+                        setMessage("success", 'Se ha guardado correctamente el usuario.')
                     }
                 })
                 .catch((error) => {
@@ -52,29 +52,14 @@ export default function RegisterEquipment<T>(props: RegisterInterface<T[] | []>)
     return (
         <Form formik={formik}>
             <Grid container spacing={3}>
-                <Grid item xs={6}>
-                    <TextField {...getFieldFormikProps('type')} fullWidth label="Tipo de equipo" variant="outlined" />
+                <Grid item xs={12}>
+                    <TextField {...getFieldFormikProps('name')} fullWidth label="Nombre" variant="outlined" />
                 </Grid>
                 <Grid item xs={6}>
-                    <TextField {...getFieldFormikProps('brand')} fullWidth label="Marca" variant="outlined" />
+                    <TextField {...getFieldFormikProps('cc')} fullWidth type="number" label="Cédula" variant="outlined" />
                 </Grid>
                 <Grid item xs={6}>
-                    <TextField {...getFieldFormikProps('model')} fullWidth label="Modelo" variant="outlined" />
-                </Grid>
-                <Grid item xs={6}>
-                    <TextField {...getFieldFormikProps('serial')} fullWidth label="Serial" variant="outlined" />
-                </Grid>
-                <Grid item xs={6}>
-                    <TextField {...getFieldFormikProps('monitor_serial')} fullWidth label="Serial del monitor" variant="outlined" />
-                </Grid>
-                <Grid item xs={6}>
-                    <TextField {...getFieldFormikProps('license_plate')} fullWidth label="Placa" variant="outlined" />
-                </Grid>
-                <Grid item xs={6}>
-                    <TextField {...getFieldFormikProps('area')} fullWidth label="Area" variant="outlined" />
-                </Grid>
-                <Grid item xs={6}>
-                    <TextField {...getFieldFormikProps('flat')} fullWidth label="Piso" type="number" variant="outlined" />
+                    <TextField {...getFieldFormikProps('phone')} fullWidth type="number" label="Teléfono" variant="outlined" />
                 </Grid>
                 <Grid item xs={12}>
                     <Button type="submit" variant="contained">Guardar</Button>

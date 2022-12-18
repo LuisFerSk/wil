@@ -1,35 +1,37 @@
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 import { Box, Card, Grid } from "@mui/material";
 import { Accordion } from "components";
-import { EquipmentInterface } from 'interfaces';
+import { UserInterface } from 'interfaces';
 import { useContext, useEffect, useState } from 'react';
 import { authContext } from 'provider/Auth';
-import EquipmentTable from './table';
-import RegisterEquipment from './register';
-import { equipmentFindAll } from 'api/equipment';
+import UserTable from './table';
+import UserRegister from './register';
+import { userFindAll } from 'api/user';
 
-export default function Equipment(): JSX.Element {
-    const [equipments, setEquipments] = useState<EquipmentInterface[] | []>([])
+export default function User(): JSX.Element {
+    const [users, setUsers] = useState<UserInterface[] | []>([])
 
     const _authContext = useContext(authContext)
     const { token } = _authContext;
 
     const Accordions = [
         {
-            title: 'Agregar equipo',
+            title: 'Agregar usuario',
             icon: <LibraryAddIcon color='primary' />,
-            content: <RegisterEquipment setData={setEquipments} />
+            content: <UserRegister setData={setUsers} />
         }
     ]
 
     useEffect(() => {
-        if (token) {
-            equipmentFindAll(token).then((result) => {
-                if (result.status >= 200 || result.status < 300) {
-                    setEquipments(result.data.info)
-                }
-            })
+        if (!token) {
+            return;
         }
+
+        userFindAll(token).then((result) => {
+            if (result.status >= 200 || result.status < 300) {
+                setUsers(result.data.info)
+            }
+        })
     }, [])
 
     return (
@@ -41,7 +43,7 @@ export default function Equipment(): JSX.Element {
             </Grid>
             <Grid item xs={12} md={12} sm={12} lg={12}>
                 <Box>
-                    <EquipmentTable data={equipments} setData={setEquipments} />
+                    <UserTable data={users} setData={setUsers} />
                 </Box>
             </Grid>
         </Grid>

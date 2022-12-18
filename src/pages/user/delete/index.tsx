@@ -1,23 +1,23 @@
 import { deleteInArrayData } from 'utils'
-import { DataTableType, EquipmentInterface } from 'interfaces';
+import { DataTableType, UserInterface } from 'interfaces';
 import { Dispatch, SetStateAction, useContext } from 'react';
 import { Delete } from 'components';
 import { authContext } from 'provider/Auth';
-import { equipmentDestroy } from 'api/equipment';
 import { useMessage } from 'hooks';
+import { userDestroy } from 'api/user';
 
-interface DeleteEquipmentProps {
-    data: EquipmentInterface
-    setData: Dispatch<SetStateAction<DataTableType<EquipmentInterface>>>
+interface DeleteUserProps {
+    data: UserInterface
+    setData: Dispatch<SetStateAction<DataTableType<UserInterface>>>
     closeModal: Function
     openAlert: Function
 }
 
 
-export default function EquipmentDelete(props: DeleteEquipmentProps): JSX.Element {
+export default function UserDelete(props: DeleteUserProps): JSX.Element {
     const { data, setData, closeModal, openAlert } = props;
 
-    const { id, license_plate } = data;
+    const { id, cc } = data;
 
     const _authContext = useContext(authContext)
     const { token } = _authContext;
@@ -31,7 +31,7 @@ export default function EquipmentDelete(props: DeleteEquipmentProps): JSX.Elemen
             return
         }
 
-        equipmentDestroy(token, id)
+        userDestroy(token, id)
             .then(response => {
                 if (response.status >= 200 && response.status < 300) {
                     setData(old => deleteInArrayData(old, id))
@@ -49,13 +49,13 @@ export default function EquipmentDelete(props: DeleteEquipmentProps): JSX.Elemen
 
     return (
         <Delete
-            value={license_plate}
+            value={cc}
             onSubmitFormik={onSubmit}
             label='Placa'
-            messageError={`Escriba la placa del equipo: ${license_plate}`}
+            messageError={`Escriba la cédula del usuario: ${cc}`}
             message={message}
         >
-            Esta seguro de desea eliminar el equipo con placa: <strong>{license_plate}</strong> si es así escriba la placa correspondiente a continuación.
+            Esta seguro de desea eliminar el usuario con cédula: <strong>{cc}</strong> si es así escriba la cédula correspondiente a continuación.
 
         </Delete>
     )

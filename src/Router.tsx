@@ -1,8 +1,7 @@
-import { Login, Home, Loader } from 'pages'
+import { Login, Home, Loader, User, Equipment } from 'pages'
 import { Navigate, useRoutes } from 'react-router-dom'
 import { authContext } from 'provider/Auth'
 import { useContext } from 'react';
-import Equipment from 'pages/equipment';
 
 export default function Router(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | null {
   const authsContext = useContext(authContext)
@@ -42,8 +41,20 @@ export default function Router(): React.ReactElement<any, string | React.JSXElem
       element: autenticado(),
       children: [
         {
+          path: "/",
+          element: <Navigate to='/home' replace />
+        },
+        {
           path: "/equipment",
           element: <Equipment />
+        },
+        {
+          path: "/user",
+          element: <User />
+        },
+        {
+          path: "/home",
+          element: <>Home</>
         }
       ]
     },
