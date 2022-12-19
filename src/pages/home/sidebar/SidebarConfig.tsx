@@ -1,9 +1,8 @@
 import { Icon, IconifyIcon } from '@iconify/react'
 import personFill from '@iconify/icons-eva/person-fill'
-import pieChart2Fill from '@iconify/icons-eva/pie-chart-2-fill'
-import tvUsb16Filled from '@iconify/icons-fluent/tv-usb-16-filled'
-
-import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
+import homeIcon from '@iconify/icons-material-symbols/home';
+import personSupport24Filled from '@iconify/icons-fluent/person-support-24-filled';
+import scheduledMaintenance from '@iconify/icons-mdi/scheduled-maintenance';
 import DesktopWindowsIcon from '@mui/icons-material/DesktopWindows';
 
 import { SidebarConfigInterface } from 'interfaces'
@@ -18,7 +17,7 @@ export const sidebarConfigUser: SidebarConfigInterface = [
     {
         title: 'Home',
         path: '/home',
-        icon: getIcon(pieChart2Fill),
+        icon: getIcon(homeIcon),
     },
     {
         title: 'Equipos',
@@ -30,6 +29,11 @@ export const sidebarConfigUser: SidebarConfigInterface = [
         path: '/user',
         icon: getIcon(personFill),
     },
+    {
+        title: 'Mantenimientos',
+        path: '/maintenance',
+        icon: getIcon(scheduledMaintenance),
+    },
 ]
 
 export const sidebarConfigAdministrador: SidebarConfigInterface = [
@@ -37,6 +41,6 @@ export const sidebarConfigAdministrador: SidebarConfigInterface = [
     {
         title: 'Soportes',
         path: '/support',
-        icon: getIcon(personFill),
+        icon: getIcon(personSupport24Filled),
     }
 ]

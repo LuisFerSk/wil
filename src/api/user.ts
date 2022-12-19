@@ -1,14 +1,14 @@
 import { postToken } from "api";
 import axios, { AxiosResponse } from "axios";
-import { UserProps } from "interfaces";
+import { IdType, UserProps } from "interfaces";
 
-const userBaseUrl: string = `${import.meta.env.VITE_BACKEND_URL}/equipment_user`
+const userBaseUrl: string = `${import.meta.env.VITE_BACKEND_URL}/equipment-user`
 
 export function userFindAll(token: string): Promise<AxiosResponse<any, any>> {
     return axios.get(`${userBaseUrl}/find-all`, postToken(token))
 }
 
-export function userDestroy(token: string, id: number): Promise<AxiosResponse<any, any>> {
+export function userDestroy(token: string, id: IdType): Promise<AxiosResponse<any, any>> {
     const config = {
         data: { id }
     }

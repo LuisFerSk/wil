@@ -1,12 +1,11 @@
-import { Login, Home, Loader, User, Equipment } from 'pages'
+import { Login, Home, Loader, User, Equipment, Maintenance } from 'pages'
 import { Navigate, useRoutes } from 'react-router-dom'
 import { authContext } from 'provider/Auth'
 import { useContext } from 'react';
 
 export default function Router(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | null {
-  const authsContext = useContext(authContext)
-
-  const { user } = authsContext;
+  const _authContext = useContext(authContext)
+  const { user } = _authContext;
 
   function noAutenticado(): JSX.Element | undefined {
     if (user === undefined) {
@@ -51,6 +50,10 @@ export default function Router(): React.ReactElement<any, string | React.JSXElem
         {
           path: "/user",
           element: <User />
+        },
+        {
+          path: "/maintenance",
+          element: <Maintenance />
         },
         {
           path: "/home",

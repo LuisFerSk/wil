@@ -2,14 +2,14 @@ import { Button, Grid, TextField } from "@mui/material";
 import { Form } from "components";
 import { useFormik } from "formik";
 import { useFormikFiledProps, useMessage } from "hooks";
-import { userSchema } from "../schema";
+import { maintenanceSchema } from "../schema";
 import { updateDataInArray } from "utils";
-import { UpdateInterface, UserInterface } from "interfaces";
+import { UpdateInterface, MaintenanceInterface } from "interfaces";
 import { useContext } from "react";
 import { authContext } from "provider/Auth";
-import { userUpdate } from "api/user";
+import { maintenanceUpdate } from "api/maintenance";
 
-export default function UserUpdate(props: UpdateInterface<UserInterface>): JSX.Element {
+export default function MaintenanceUpdate(props: UpdateInterface<MaintenanceInterface>): JSX.Element {
     const { initData, setData } = props;
 
     const _authContext = useContext(authContext)
@@ -20,20 +20,21 @@ export default function UserUpdate(props: UpdateInterface<UserInterface>): JSX.E
 
     const formik = useFormik({
         initialValues: initData,
-        validationSchema: userSchema,
+        validationSchema: maintenanceSchema,
         onSubmit: (data) => {
             messageLoader()
 
-            const { id } = data;
-
             if (!token) {
+                resetMessage()
                 return;
             }
 
-            userUpdate(token, data)
+            const { id } = data;
+
+            maintenanceUpdate(token, data)
                 .then((response) => {
                     if (response.status === 200) {
-                        setData((old) => updateDataInArray<UserInterface>(old, id, response.data.info))
+                        setData((old) => updateDataInArray<MaintenanceInterface>(old, id, response.data.info))
                         setMessage("success", 'Se ha actualizado correctamente el usuario.')
                     }
                 })
@@ -49,7 +50,7 @@ export default function UserUpdate(props: UpdateInterface<UserInterface>): JSX.E
         <Form formik={formik}>
             <Grid container spacing={3}>
                 <Grid item xs={12}>
-                    <TextField {...getFieldFormikProps('name')} fullWidth label="Tipo de equipo" variant="outlined" />
+                    <TextField {...getFieldFormikProps('nme')} fullWidth label="Tipo de equipo" variant="outlined" />
                 </Grid>
                 <Grid item xs={6}>
                     <TextField {...getFieldFormikProps('cc')} fullWidth type="number" label="Marca" variant="outlined" />

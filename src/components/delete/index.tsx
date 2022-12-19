@@ -3,10 +3,10 @@ import { useFormik, Form, FormikProvider } from 'formik'
 import { Grid, TextField, Button } from '@mui/material'
 
 import DeleteIcon from '@mui/icons-material/Delete'
-import { StateMessage } from 'interfaces'
+import { IdType, StateMessage } from 'interfaces'
 
 interface DeleteProps {
-    value: string
+    value: IdType
     messageError: string
     label: string
     onSubmitFormik: Function
@@ -21,7 +21,7 @@ export default function Delete(props: DeleteProps): JSX.Element {
         initialValues: { value: '' },
         onSubmit: () => onSubmitFormik(),
         validationSchema: Yup.object().shape({
-            value: Yup.string().test('len', messageError, confirmacion => confirmacion === value)
+            value: Yup.string().test('len', messageError, confirm => confirm === value)
         }),
 
     })

@@ -440,10 +440,24 @@
   dependencies:
     "@iconify/types" "*"
 
+"@iconify/icons-material-symbols@^1.2.25":
+  version "1.2.25"
+  resolved "https://registry.yarnpkg.com/@iconify/icons-material-symbols/-/icons-material-symbols-1.2.25.tgz#4a75ecbdd443f9c941c0da4f643ddbeb9a02d83c"
+  integrity sha512-Sbr0058ROI94VmF8pi73x8DYABi5s3ttq9ugl4yP041X2oxr9H79VrqbT0rpN04ssYNAUQO7gw5VdCit4C71Jw==
+  dependencies:
+    "@iconify/types" "*"
+
 "@iconify/icons-mdi@1.2.34":
   version "1.2.34"
   resolved "https://registry.yarnpkg.com/@iconify/icons-mdi/-/icons-mdi-1.2.34.tgz#68f4199751db199aeb06ea58ee887a7936490cfe"
   integrity sha512-QlyBTw+v8IquajToxV6MJCPlD6FPS2gge1Z6j8sja6xTOGt1+0wtSrmXsvmi/MIN/PGiJxOX4Bivpxe7PKHtQg==
+  dependencies:
+    "@iconify/types" "*"
+
+"@iconify/icons-pajamas@^1.2.8":
+  version "1.2.8"
+  resolved "https://registry.yarnpkg.com/@iconify/icons-pajamas/-/icons-pajamas-1.2.8.tgz#96d8abf733f7b44cebf2ad694dd6c30ab0f6dfa5"
+  integrity sha512-lWSpVKr4yGfRLG8XKCY12j6GwikXAJGgqgWAkWWbbSqi/i2TKOo95nlFjyxND7GoF+SmOo9i3hNmTuBToh3dww==
   dependencies:
     "@iconify/types" "*"
 

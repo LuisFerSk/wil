@@ -125,12 +125,16 @@ export interface ResultApiInterface<T> {
     data?: T
 }
 
-export interface EntityInterface {
-    id: number
+export interface DataBaseProps {
     created_at: string
     updated_at: string
     deleted_at: string | null
+}
 
+export type IdType = number | string;
+
+export interface EntityInterface extends DataBaseProps {
+    id: IdType
 }
 
 export interface EquipmentProps {
@@ -206,4 +210,46 @@ export interface HeadLabelInterface {
     label: string,
     alignRight?: boolean,
     padding?: "checkbox" | "none" | "normal",
+}
+
+export interface MaintenanceProps {
+    equipment_user_id: number
+    equipment_id: number
+    date: string
+    workstation: string
+    ignition_station: boolean
+    operating_system_boot: boolean
+    HDD: boolean
+    CD_rom_DVD: boolean
+    display: boolean
+    mouse: boolean
+    keyboard: boolean
+    remove_indoor_dust: boolean
+    check_internal_connections: boolean
+    clean_keyboard: boolean
+    clean_monitor: boolean
+    clean_mouse: boolean
+    connect_power_peripheral_cables: boolean
+    close_PC_clean_case: boolean
+    end_ignition_station: boolean
+    end_operating_system_boot: boolean
+    end_HDD: boolean
+    end_CD_rom_DVD: boolean
+    end_display: boolean
+    end_mouse: boolean
+    end_keyboard: boolean
+    error_description: string
+    check_anti_virus: boolean
+    deletion_temporary_cookies: boolean
+    disk_defragmentation: boolean
+    equipment_delivery: boolean
+    Q1: string
+    Q2: string
+    Q3: string
+    observations: string
+}
+
+export interface MaintenanceInterface extends EntityInterface, MaintenanceProps {
+    equipment: EquipmentInterface
+    equipment_user: UserInterface
 }

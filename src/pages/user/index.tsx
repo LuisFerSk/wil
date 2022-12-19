@@ -27,11 +27,12 @@ export default function User(): JSX.Element {
             return;
         }
 
-        userFindAll(token).then((result) => {
-            if (result.status >= 200 || result.status < 300) {
-                setUsers(result.data.info)
-            }
-        })
+        userFindAll(token)
+            .then((result) => {
+                if (result.status >= 200 || result.status < 300) {
+                    setUsers(result.data.info)
+                }
+            })
     }, [])
 
     return (

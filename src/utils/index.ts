@@ -1,4 +1,4 @@
-import { EntityInterface } from "interfaces"
+import { EntityInterface, IdType } from "interfaces"
 import { filter } from "lodash"
 
 interface indexTabReturn {
@@ -17,11 +17,11 @@ export function addInArray<T>(array: T[] | [], data: T): T[] {
     return [...array, data]
 }
 
-export function deleteInArrayData<T extends EntityInterface>(array: T[], id: number) {
+export function deleteInArrayData<T extends EntityInterface>(array: T[], id: IdType) {
     return filter(array, row => row.id !== id)
 }
 
-export function updateDataInArray<T extends EntityInterface>(array: T[], id: number, newData: T) {
+export function updateDataInArray<T extends EntityInterface>(array: T[], id: IdType, newData: T) {
     const data = deleteInArrayData(array, id)
 
     return addInArray(data, newData)
@@ -52,7 +52,7 @@ export function setDataLocalStorage(key: string, data: any): boolean {
     }
 }
 
-export function serializarToken(token: string): string {
+export function serializeToken(token: string): string {
     return token.replace(/["']/g, '')
 }
 

@@ -1,10 +1,11 @@
 import { verifyToken } from 'api/auth'
+import { userFindAll } from 'api/user'
 import { useLocalStorage } from 'hooks'
-import { ProviderProps } from 'interfaces'
+import { ProviderProps, UserInterface } from 'interfaces'
 import { useState, useEffect } from 'react'
 
 import { createContext } from 'react'
-import { serializarToken } from 'utils'
+import { serializeToken } from 'utils'
 
 const initToken = ''
 
@@ -25,6 +26,7 @@ const initialStateAuthState = {
 
 export const authContext = createContext<AuthContextProps>(initialStateAuthState)
 
+
 interface AuthContextProps {
     user: string | undefined | null
     token: string | undefined
@@ -39,7 +41,7 @@ export default function AuthState(props: ProviderProps): JSX.Element {
 
     const [token, setToken] = useLocalStorage('token', initToken)
 
-    const [tokenSerializado, setTokenSerializado] = useState(token)
+    const [serializedToken, setSerializedToken] = useState(token)
 
     function logout(): void {
         setToken(initToken)
@@ -52,11 +54,11 @@ export default function AuthState(props: ProviderProps): JSX.Element {
 
     useEffect(() => {
         if (typeof token === 'string' && token.length > 0) {
-            const _tokenSerializado = serializarToken(token)
+            const _serializedToken = serializeToken(token)
 
-            setTokenSerializado(_tokenSerializado)
+            setSerializedToken(_serializedToken)
 
-            verifyToken(_tokenSerializado)
+            verifyToken(_serializedToken)
                 .then(({ data }) => {
                     setUser(data.info.username)
                 })
@@ -73,7 +75,7 @@ export default function AuthState(props: ProviderProps): JSX.Element {
         <authContext.Provider
             value={{
                 user,
-                token: tokenSerializado,
+                token: serializedToken,
                 login,
                 logout,
             }}

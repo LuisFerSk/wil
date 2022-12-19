@@ -1,6 +1,6 @@
 import { postToken } from "api";
 import axios, { AxiosResponse } from "axios";
-import { EquipmentProps } from "interfaces";
+import { EquipmentProps, IdType } from "interfaces";
 
 const equipmentBaseUrl: string = `${import.meta.env.VITE_BACKEND_URL}/equipment`
 
@@ -8,7 +8,7 @@ export function equipmentFindAll(token: string): Promise<AxiosResponse<any, any>
     return axios.get(`${equipmentBaseUrl}/find-all`, postToken(token))
 }
 
-export function equipmentDestroy(token: string, id: number): Promise<AxiosResponse<any, any>> {
+export function equipmentDestroy(token: string, id: IdType): Promise<AxiosResponse<any, any>> {
     const config = {
         data: { id }
     }
