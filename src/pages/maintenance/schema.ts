@@ -1,3 +1,4 @@
+import { MaintenanceProps } from 'interfaces'
 import { number, object, string, date, boolean } from 'yup'
 
 export const maintenanceSchema = object().shape({
@@ -5,7 +6,8 @@ export const maintenanceSchema = object().shape({
         .required('El usuario es requerido.'),
     equipment_id: number()
         .required('El equipo es requerido.'),
-    date: date(),
+    date: date()
+        .required('La fecha del mantenimiento es requerida.'),
     workstation: string(),
     ignition_station: boolean(),
     operating_system_boot: boolean(),
@@ -33,12 +35,13 @@ export const maintenanceSchema = object().shape({
     deletion_temporary_cookies: boolean(),
     disk_defragmentation: boolean(),
     equipment_delivery: boolean(),
+    end_error_description: string(),
     Q1: string(),
     Q2: string(),
     Q3: string(),
     observations: string(),
 })
-export const maintenanceInitialValues = {
+export const maintenanceInitialValues: MaintenanceProps = {
     equipment_user_id: 0,
     equipment_id: 0,
     date: '',
@@ -69,6 +72,7 @@ export const maintenanceInitialValues = {
     deletion_temporary_cookies: false,
     disk_defragmentation: false,
     equipment_delivery: false,
+    end_error_description: '',
     Q1: '',
     Q2: '',
     Q3: '',

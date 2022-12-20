@@ -243,6 +243,7 @@ export interface MaintenanceProps {
     deletion_temporary_cookies: boolean
     disk_defragmentation: boolean
     equipment_delivery: boolean
+    end_error_description: string
     Q1: string
     Q2: string
     Q3: string

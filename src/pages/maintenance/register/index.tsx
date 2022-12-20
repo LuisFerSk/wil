@@ -1,5 +1,5 @@
 import { useContext, useId } from "react";
-import { Button, Checkbox, FormControlLabel, FormGroup, Grid, MenuItem, TextField } from "@mui/material";
+import { Button, Checkbox, FormControlLabel, FormGroup, FormLabel, Grid, MenuItem, Radio, RadioGroup, TextField, Typography } from "@mui/material";
 import { Form, Select } from "components";
 import { useFormik } from "formik";
 import { useFormikFiledProps, useMessage } from "hooks";
@@ -13,12 +13,13 @@ import { ConstantsInterface } from "../"
 interface UserRegisterProps<T> extends RegisterInterface<T[] | []>, ConstantsInterface { }
 
 export default function MaintenanceRegister<T>(props: UserRegisterProps<T>): JSX.Element {
-    const { setData, users } = props;
+    const { setData, users, equipments } = props;
 
     const _authContext = useContext(authContext)
     const { token } = _authContext;
 
     const uuidUsuario = useId()
+    const uuidEquipment = useId()
 
     const [message, setMessage, messageLoader, resetMensaje] = useMessage()
 
@@ -32,6 +33,7 @@ export default function MaintenanceRegister<T>(props: UserRegisterProps<T>): JSX
                 resetMensaje()
                 return;
             }
+
 
             maintenanceCreate(token, data)
                 .then((response) => {
@@ -59,6 +61,11 @@ export default function MaintenanceRegister<T>(props: UserRegisterProps<T>): JSX
         <Form formik={formik}>
             <Grid container spacing={3}>
                 <Grid item xs={12}>
+                    <Typography variant="subtitle2" >
+                        1. Actividades iniciales.
+                    </Typography>
+                </Grid>
+                <Grid item xs={12} sm={6}>
                     <Select
                         {...getFieldFormikProps('equipment_user_id')}
                         fullWidth
@@ -72,7 +79,21 @@ export default function MaintenanceRegister<T>(props: UserRegisterProps<T>): JSX
                         )}
                     </Select>
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={12} sm={6}>
+                    <Select
+                        {...getFieldFormikProps('equipment_id')}
+                        fullWidth
+                        label="Equipo"
+                        variant="outlined"
+                    >
+                        {equipments.map((equipment, key) =>
+                            <MenuItem key={`${uuidEquipment}-${key}`} value={equipment.id}>
+                                {`${equipment.type} - ${equipment.brand} ${equipment.model} - placa: ${equipment.license_plate}`}
+                            </MenuItem>
+                        )}
+                    </Select>
+                </Grid>
+                <Grid item xs={12} sm={3}>
                     <TextField
                         {...getFieldFormikProps('date')}
                         fullWidth
@@ -84,30 +105,153 @@ export default function MaintenanceRegister<T>(props: UserRegisterProps<T>): JSX
                         }}
                     />
                 </Grid>
-                <Grid item xs={9}>
+                <Grid item xs={12} sm={9}>
                     <TextField {...getFieldFormikProps('workstation')} fullWidth label="Estación de trabajo" variant="outlined" />
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={12}>
+                    <Typography variant="subtitle2" >
+                        2. Verificación de funcionamiento.
+                    </Typography>
+                </Grid>
+                <Grid item xs={12} sm={4}>
                     <FormGroup>
-                        <FormControlLabel control={<Checkbox />} label="Encendido estación" />
-                        <FormControlLabel control={<Checkbox />} label="Arranque del SO" />
-                        <FormControlLabel control={<Checkbox />} label="Disco duro" />
-                        <FormControlLabel control={<Checkbox />} label="CD Rom y/o DVD" />
-                        <FormControlLabel control={<Checkbox />} label="Monitor" />
-                        <FormControlLabel control={<Checkbox />} label="Mouse" />
-                        <FormControlLabel control={<Checkbox />} label="Teclado" />
+                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('ignition_station')} />} label="Encendido estación" />
+                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('operating_system_boot')} />} label="Arranque del SO" />
+                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('HDD')} />} label="Disco duro" />
+                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('CD_rom_DVD')} />} label="CD Rom y/o DVD" />
+                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('display')} />} label="Monitor" />
+                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('mouse')} />} label="Mouse" />
+                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('keyboard')} />} label="Teclado" />
                     </FormGroup>
                 </Grid>
-                <Grid item xs={8}>
+                <Grid item xs={12} sm={8}>
                     <TextField
                         {...getFieldFormikProps('error_description')}
                         fullWidth
                         label="Descripción de error encontrado o reportado"
                         variant="outlined"
                         multiline
+                        rows={11}
+                    />
+                </Grid>
+                <Grid item xs={12}>
+                    <Typography variant="subtitle2" >
+                        3. Limpieza física.
+                    </Typography>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                    <FormGroup>
+                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('remove_indoor_dust')} />} label="Remover polvo interno sin desconectar tarjetas" />
+                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('check_internal_connections')} />} label="Verificar conexiones internas" />
+                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('connect_power_peripheral_cables')} />} label="Conectar cables de potencia y periféricos" />
+                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('close_PC_clean_case')} />} label="Cerrar CPU y limpiar carcaza" />
+                    </FormGroup>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                    <FormGroup>
+                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('clean_keyboard')} />} label="Limpiar teclado" />
+                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('clean_monitor')} />} label="Limpiar monitor" />
+                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('clean_mouse ')} />} label="Limpiar mouse (esfera y rodillo)" />
+                    </FormGroup>
+                </Grid>
+                <Grid item xs={12}>
+                    <Typography variant="subtitle2" >
+                        4. Verificación final de funcionamiento.
+                    </Typography>
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                    <FormGroup>
+                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('end_ignition_station')} />} label="Encendido estación" />
+                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('end_operating_system_boot')} />} label="Arranque del SO" />
+                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('end_HDD')} />} label="Disco duro" />
+                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('end_CD_rom_DVD')} />} label="CD Rom y/o DVD" />
+                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('end_display')} />} label="Monitor" />
+                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('end_mouse')} />} label="Mouse" />
+                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('end_keyboard')} />} label="Teclado" />
+                    </FormGroup>
+                </Grid>
+                <Grid item xs={12} sm={8}>
+                    <TextField
+                        {...getFieldFormikProps('end_error_description')}
+                        fullWidth
+                        label="Descripción de error encontrado o reportado"
+                        variant="outlined"
+                        multiline
+                        rows={11}
+                    />
+                </Grid>
+                <Grid item xs={12}>
+                    <Typography variant="subtitle2" >
+                        5. mantenimiento de software.
+                    </Typography>
+                </Grid>
+                <Grid item xs={12}>
+                    <FormGroup>
+                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('check_anti_virus')} />} label="Verificación antivirus" />
+                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('deletion_temporary_cookies')} />} label="Eliminación de temporales y cookies" />
+                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('disk_defragmentation')} />} label="Desfragmentar disco duro" />
+                    </FormGroup>
+                </Grid>
+                <Grid item xs={12}>
+                    <Typography variant="subtitle2" >
+                        6. Actividades finales.
+                    </Typography>
+                </Grid>
+                <Grid item xs={12}>
+                    <FormGroup>
+                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('equipment_delivery')} />} label="Entrega del equipo al usuario" />
+                    </FormGroup>
+                </Grid>
+                <Grid item xs={12}>
+                    <Typography variant="subtitle2" >
+                        7. Encuesta.
+                    </Typography>
+                </Grid>
+                <Grid item xs={12}>
+                    <Typography>
+                        7.1. ¿Cual es el nivel de satisfacción con el servicio recibido?
+                    </Typography>
+                    <FormGroup>
+                        <RadioGroup {...getFieldFormikProps('Q1')} row>
+                            <FormControlLabel value="buena" control={<Radio />} label="Buena" />
+                            <FormControlLabel value="regular" control={<Radio />} label="Regular" />
+                            <FormControlLabel value="malo" control={<Radio />} label="Malo" />
+                        </RadioGroup>
+                    </FormGroup>
+                </Grid>
+                <Grid item xs={12}>
+                    <Typography>
+                        7.2. ¿Como califica la atención brindada por el soporte?
+                    </Typography>
+                    <FormGroup>
+                        <RadioGroup {...getFieldFormikProps('Q2')} row>
+                            <FormControlLabel value="buena" control={<Radio />} label="Buena" />
+                            <FormControlLabel value="regular" control={<Radio />} label="Regular" />
+                            <FormControlLabel value="malo" control={<Radio />} label="Malo" />
+                        </RadioGroup>
+                    </FormGroup>
+                </Grid>
+                <Grid item xs={12}>
+                    <Typography>
+                        7.3. ¿Cual es su percepción sobre la capacitación del personal que realizo las actividades de mantenimiento?
+                    </Typography>
+                    <FormGroup>
+                        <RadioGroup {...getFieldFormikProps('Q3')} row>
+                            <FormControlLabel value="buena" control={<Radio />} label="Buena" />
+                            <FormControlLabel value="regular" control={<Radio />} label="Regular" />
+                            <FormControlLabel value="malo" control={<Radio />} label="Malo" />
+                        </RadioGroup>
+                    </FormGroup>
+                </Grid>
+                <Grid item xs={12} sm={12}>
+                    <TextField
+                        {...getFieldFormikProps('observations')}
+                        fullWidth
+                        label="Observaciones"
+                        variant="outlined"
+                        multiline
                         rows={4}
                     />
-
                 </Grid>
                 <Grid item xs={12}>
                     <Button type="submit" variant="contained">Guardar</Button>
