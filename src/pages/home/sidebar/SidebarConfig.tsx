@@ -13,7 +13,7 @@ function getIcon(name: IconifyIcon) {
     )
 }
 
-export const sidebarConfigUser: SidebarConfigInterface = [
+export const sidebarConfigSupport: SidebarConfigInterface = [
     {
         title: 'Home',
         path: '/home',
@@ -36,8 +36,8 @@ export const sidebarConfigUser: SidebarConfigInterface = [
     },
 ]
 
-export const sidebarConfigAdministrador: SidebarConfigInterface = [
-    ...sidebarConfigUser,
+export const sidebarConfigAdministrator: SidebarConfigInterface = [
+    ...sidebarConfigSupport,
     {
         title: 'Soportes',
         path: '/support',

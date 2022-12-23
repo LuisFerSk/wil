@@ -254,3 +254,12 @@ export interface MaintenanceInterface extends EntityInterface, MaintenanceProps 
     equipment: EquipmentInterface
     equipment_user: UserInterface
 }
+
+export interface SupportInterface extends EntityInterface {
+    username: string
+}
+
+export interface SupportProps {
+    username: string
+    password: string
+}

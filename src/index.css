@@ -22,14 +22,14 @@
     --grayHover: #f5f5f6;
 
     --primary: var(--tertiaryColor);
-    --primaryHover: #5589c4;
+    --primaryHover: #0095d9;
     --hover: #e9e8eb;
     --active: #404453;
     --success: rgb(80, 139, 78);
     --successHover: rgba(80, 139, 78, 0.7);
     --warning: #ddce00;
     --alert: #d63333;
-    --info: #0092cc;
+    --info: #0095d9;
 
     --borderRadiusGeneral: 0.8rem;
     --borderRadius: 0.25rem;

@@ -1,5 +1,5 @@
 import { useContext, useId } from "react";
-import { Button, Checkbox, FormControlLabel, FormGroup, FormLabel, Grid, MenuItem, Radio, RadioGroup, TextField, Typography } from "@mui/material";
+import { Box, Button, Checkbox, FormControlLabel, FormGroup, Grid, MenuItem, Radio, RadioGroup, TextField, Typography } from "@mui/material";
 import { Form, Select } from "components";
 import { useFormik } from "formik";
 import { useFormikFiledProps, useMessage } from "hooks";
@@ -9,10 +9,13 @@ import { authContext } from "provider/Auth";
 import { maintenanceInitialValues, maintenanceSchema } from "../schema";
 import { maintenanceCreate } from "api/maintenance";
 import { ConstantsInterface } from "../"
+import SignatureCanvas from 'react-signature-canvas'
+import styles from './style.module.css'
+import ReactSignatureCanvas from "react-signature-canvas";
 
-interface UserRegisterProps<T> extends RegisterInterface<T[] | []>, ConstantsInterface { }
+interface MaintenanceRegisterProps<T> extends RegisterInterface<T[] | []>, ConstantsInterface { }
 
-export default function MaintenanceRegister<T>(props: UserRegisterProps<T>): JSX.Element {
+export default function MaintenanceRegister<T>(props: MaintenanceRegisterProps<T>): JSX.Element {
     const { setData, users, equipments } = props;
 
     const _authContext = useContext(authContext)
@@ -23,19 +26,29 @@ export default function MaintenanceRegister<T>(props: UserRegisterProps<T>): JSX
 
     const [message, setMessage, messageLoader, resetMensaje] = useMessage()
 
+    let sigPad: ReactSignatureCanvas | null = null;
+
+    function clear() {
+        sigPad?.clear()
+    }
+
     const formik = useFormik({
         initialValues: maintenanceInitialValues,
         validationSchema: maintenanceSchema,
         onSubmit: (data, { resetForm }) => {
             messageLoader()
 
-            if (!token) {
+            if (!token || !sigPad) {
                 resetMensaje()
                 return;
             }
 
+            const dataToCreate = {
+                ...data,
+                signature: sigPad.getTrimmedCanvas().toDataURL('image/png')
+            }
 
-            maintenanceCreate(token, data)
+            maintenanceCreate(token, dataToCreate)
                 .then((response) => {
                     if (response.status >= 200 && response.status < 300) {
                         setData((old) => addInArray<T>(old, response.data.info))
@@ -243,7 +256,7 @@ export default function MaintenanceRegister<T>(props: UserRegisterProps<T>): JSX
                         </RadioGroup>
                     </FormGroup>
                 </Grid>
-                <Grid item xs={12} sm={12}>
+                <Grid item xs={12}>
                     <TextField
                         {...getFieldFormikProps('observations')}
                         fullWidth
@@ -252,6 +265,18 @@ export default function MaintenanceRegister<T>(props: UserRegisterProps<T>): JSX
                         multiline
                         rows={4}
                     />
+                </Grid>
+                <Grid item xs={12}>
+                    <Button onClick={() => clear()}>Limpiar firma</Button>
+                    <Box sx={{ borderBottom: 1 }}>
+                        <SignatureCanvas
+                            canvasProps={{ className: styles.sigPad }}
+                            ref={(ref) => { sigPad = ref }}
+                        />
+                    </Box>
+                    <Typography>
+                        Firma del usuario
+                    </Typography>
                 </Grid>
                 <Grid item xs={12}>
                     <Button type="submit" variant="contained">Guardar</Button>

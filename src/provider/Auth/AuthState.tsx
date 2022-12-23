@@ -1,18 +1,21 @@
 import { verifyToken } from 'api/auth'
-import { userFindAll } from 'api/user'
 import { useLocalStorage } from 'hooks'
-import { ProviderProps, UserInterface } from 'interfaces'
+import { ProviderProps } from 'interfaces'
 import { useState, useEffect } from 'react'
-
 import { createContext } from 'react'
 import { serializeToken } from 'utils'
 
 const initToken = ''
 
+interface UserApiInterface {
+    username: string
+    role: string
+}
+
 interface loginProps {
     status: string,
     message: string
-    username: string
+    info: UserApiInterface
     token: string
 }
 
@@ -24,20 +27,19 @@ const initialStateAuthState = {
     getUser: () => { return undefined },
 }
 
-export const authContext = createContext<AuthContextProps>(initialStateAuthState)
-
-
 interface AuthContextProps {
-    user: string | undefined | null
+    user: UserApiInterface | undefined | null
     token: string | undefined
     login: (data: loginProps) => void
     logout: () => void
 }
 
+export const authContext = createContext<AuthContextProps>(initialStateAuthState)
+
 export default function AuthState(props: ProviderProps): JSX.Element {
     const { children } = props;
 
-    const [user, setUser] = useState<string | undefined | null>()
+    const [user, setUser] = useState<UserApiInterface | undefined | null>()
 
     const [token, setToken] = useLocalStorage('token', initToken)
 
@@ -49,7 +51,6 @@ export default function AuthState(props: ProviderProps): JSX.Element {
 
     function login(data: loginProps): void {
         setToken(data.token)
-        setUser(data.username)
     }
 
     useEffect(() => {
@@ -60,7 +61,7 @@ export default function AuthState(props: ProviderProps): JSX.Element {
 
             verifyToken(_serializedToken)
                 .then(({ data }) => {
-                    setUser(data.info.username)
+                    setUser(data.info)
                 })
                 .catch(error => {
                     console.log(error)

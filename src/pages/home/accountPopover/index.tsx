@@ -52,7 +52,7 @@ export default function AccountPopover(props: AccountPopoverProps): JSX.Element 
             >
                 <Grid container justifyContent="flex-end" maxHeight={60}>
                     <Typography variant='subtitle1' noWrap>
-                        {user}
+                        {user?.username}
                     </Typography>
                     <ExpandMoreIcon />
                 </Grid>

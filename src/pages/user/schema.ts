@@ -30,19 +30,27 @@ export const userSchema = object().shape({
             if (value !== undefined) {
                 return /^[0-9]+$/.test(value)
             }
-            return false
+            return true;
         })
         .test('len', 'El número de teléfono debe tener entre 7 a 10 dígitos.', value => {
             if (value !== undefined) {
                 const valueLength = value.replace(/\s+/g, '').length;
                 return valueLength >= 7 && valueLength <= 10
             }
+            return true;
+        }),
+    city: string()
+        .test('len', 'La ciudad de usuario debe tener entre 5 a 50 caracteres.', value => {
+            if (value !== undefined) {
+                const valueLength = value.replace(/\s+/g, '').length;
+                return valueLength >= 5 && valueLength <= 50
+            }
             return false;
         })
-        .required('El número de teléfono es requerido.'),
 })
 export const userInitialValues = {
     name: '',
     cc: '',
     phone: '',
+    city: '',
 }

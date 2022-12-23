@@ -1,7 +1,8 @@
-import { Login, Home, Loader, User, Equipment, Maintenance } from 'pages'
+import { Login, Home, Loader, User, Equipment, Maintenance, NotFound, Support } from 'pages'
 import { Navigate, useRoutes } from 'react-router-dom'
 import { authContext } from 'provider/Auth'
 import { useContext } from 'react';
+import { roles } from 'constants';
 
 export default function Router(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | null {
   const _authContext = useContext(authContext)
@@ -49,11 +50,15 @@ export default function Router(): React.ReactElement<any, string | React.JSXElem
         },
         {
           path: "/user",
-          element: <User />
+          element: <User />,
         },
         {
           path: "/maintenance",
           element: <Maintenance />
+        },
+        {
+          path: "/support",
+          element: user?.role === roles.administrator ? <Support /> : <Navigate to='/404' replace />
         },
         {
           path: "/home",
@@ -63,7 +68,7 @@ export default function Router(): React.ReactElement<any, string | React.JSXElem
     },
     {
       path: '/404',
-      element: <>not found</>,
+      element: <NotFound />,
     },
     {
       path: '*',

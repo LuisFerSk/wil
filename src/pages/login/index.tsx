@@ -7,10 +7,8 @@ import { login } from 'api/auth'
 import { useContext } from 'react'
 import { authContext } from 'provider/Auth'
 
-
-
-function Login(): JSX.Element {
-	const authsContext = useContext(authContext)
+export default function Login(): JSX.Element {
+	const _authContext = useContext(authContext)
 
 	const [mensaje, setMensaje, mensajeLoader] = useMessage()
 
@@ -21,8 +19,8 @@ function Login(): JSX.Element {
 			mensajeLoader()
 			login(data)
 				.then((result) => {
-					if (result.status === 200) {
-						authsContext.login(result.data)
+					if (result.status >= 200 && result.status < 300) {
+						_authContext.login(result.data)
 					}
 				})
 				.catch((err) => {
@@ -93,5 +91,3 @@ function Login(): JSX.Element {
 		</Form >
 	)
 }
-
-export default Login

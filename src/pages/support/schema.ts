@@ -1,6 +1,6 @@
 import { object, string } from 'yup'
 
-export const userSchema = object().shape({
+export const supportSchema = object().shape({
     username: string()
     .test('len', 'El nombre de usuario debe tener de 5 a 50 caracteres.', value => {
         if (value !== undefined) {
@@ -21,7 +21,7 @@ export const userSchema = object().shape({
     .required('Password es requerido.'),
 })
 
-export const userInitialValues = {
+export const supportInitialValues = {
     username: '',
     password: ''
 }

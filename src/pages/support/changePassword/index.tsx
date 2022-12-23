@@ -1,29 +1,35 @@
 import { Button, Grid } from "@mui/material";
-import { changePassword } from "api/usuario";
+import { changePassword } from "api/support";
 import { Form, TextFieldPassword } from "components";
 import { useFormik } from "formik";
 import { useFormikFiledProps, useMessage } from "hooks";
+import { IdType } from "interfaces";
 import { authContext } from "provider/Auth";
 import { useContext } from "react";
 import { changePasswordInitialValues, changePasswordSchema } from "./schema";
 
 interface ChangePassordProps {
-    id: string
+    id: IdType
 }
 
-function ChangePassword(props: ChangePassordProps) {
+export default function ChangePassword(props: ChangePassordProps) {
     const { id } = props;
 
-    const [mensaje, setMensaje, mensajeLoader] = useMessage()
+    const [message, setMessage, messageLoader, resetMessage] = useMessage()
 
-    const authsContext = useContext(authContext)
-    const { token } = authsContext;
+    const _authContext = useContext(authContext)
+    const { token } = _authContext;
 
     const formik = useFormik({
         initialValues: changePasswordInitialValues,
         validationSchema: changePasswordSchema,
         onSubmit: (data, { resetForm }) => {
-            mensajeLoader()
+            messageLoader()
+
+            if (!token) {
+                resetMessage()
+                return;
+            }
 
             const propsChangePassword = {
                 id,
@@ -33,17 +39,17 @@ function ChangePassword(props: ChangePassordProps) {
 
             changePassword(propsChangePassword)
                 .then((response) => {
-                    if (response.status === 200) {
-                        setMensaje("success", 'Se ha cambiado la contraseña exitosamente.')
+                    if (response.status >= 200 && response.status < 300) {
+                        setMessage("success", 'Se ha cambiado la contraseña exitosamente.')
                     }
                 })
                 .catch(error => {
                     const { response } = error;
                     if (response) {
-                        setMensaje('error', response.data.message)
+                        setMessage('error', response.data.message)
                         return;
                     }
-                    setMensaje('error', "Ha sucedió un error al realizar la operación")
+                    setMessage('error', "Ha sucedió un error al realizar la operación")
                     console.log(error)
                 })
         },
@@ -72,11 +78,9 @@ function ChangePassword(props: ChangePassordProps) {
                     <Button type="submit" variant="contained">Guardar</Button>
                 </Grid>
                 <Grid item xs={12}>
-                    {mensaje}
+                    {message}
                 </Grid>
             </Grid>
         </Form >
     )
 }
-
-export default ChangePassword;
