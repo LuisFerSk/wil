@@ -38,7 +38,7 @@ export default function MaintenanceRegister<T>(props: MaintenanceRegisterProps<T
         onSubmit: (data, { resetForm }) => {
             messageLoader()
 
-            if (!token || !sigPad) {
+            if (!sigPad) {
                 resetMensaje()
                 return;
             }
@@ -50,11 +50,9 @@ export default function MaintenanceRegister<T>(props: MaintenanceRegisterProps<T
 
             maintenanceCreate(token, dataToCreate)
                 .then((response) => {
-                    if (response.status >= 200 && response.status < 300) {
-                        setData((old) => addInArray<T>(old, response.data.info))
-                        resetForm()
-                        setMessage("success", 'Se ha guardado correctamente el mantenimiento.')
-                    }
+                    setData((old) => addInArray<T>(old, response.data.info))
+                    resetForm()
+                    setMessage("success", 'Se ha guardado correctamente el mantenimiento.')
                 })
                 .catch((error) => {
                     const { response } = error;
@@ -79,32 +77,55 @@ export default function MaintenanceRegister<T>(props: MaintenanceRegisterProps<T
                     </Typography>
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                    <Select
-                        {...getFieldFormikProps('equipment_user_id')}
-                        fullWidth
-                        label="Usuario"
-                        variant="outlined"
-                    >
-                        {users.map((user, key) =>
-                            <MenuItem key={`${uuidUsuario}-${key}`} value={user.id}>
-                                {user.name}
-                            </MenuItem>
-                        )}
-                    </Select>
+                    {users.length < 1 ? (
+                        <TextField
+                            fullWidth
+                            label="Usuario"
+                            variant="outlined"
+                            disabled
+                            helperText="Debe haber usuarios registrador para poder realizar un mantenimiento"
+                            error={true}
+                        />
+                    ) : (
+                        <Select
+                            {...getFieldFormikProps('equipment_user_id')}
+                            fullWidth
+                            label="Usuario"
+                            variant="outlined"
+                        >
+                            {users.map((user, key) =>
+                                <MenuItem key={`${uuidUsuario}-${key}`} value={user.id}>
+                                    {user.name}
+                                </MenuItem>
+                            )}
+                        </Select>
+                    )}
+
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                    <Select
-                        {...getFieldFormikProps('equipment_id')}
-                        fullWidth
-                        label="Equipo"
-                        variant="outlined"
-                    >
-                        {equipments.map((equipment, key) =>
-                            <MenuItem key={`${uuidEquipment}-${key}`} value={equipment.id}>
-                                {`${equipment.type} - ${equipment.brand} ${equipment.model} - placa: ${equipment.license_plate}`}
-                            </MenuItem>
-                        )}
-                    </Select>
+                    {equipments.length < 1 ? (
+                        <TextField
+                            fullWidth
+                            label="Equipo"
+                            variant="outlined"
+                            disabled
+                            helperText="Debe haber equipos registrador para poder realizar un mantenimiento"
+                            error={true}
+                        />
+                    ) : (
+                        <Select
+                            {...getFieldFormikProps('equipment_id')}
+                            fullWidth
+                            label="Equipo"
+                            variant="outlined"
+                        >
+                            {equipments.map((equipment, key) =>
+                                <MenuItem key={`${uuidEquipment}-${key}`} value={equipment.id}>
+                                    {`${equipment.type} - ${equipment.brand} ${equipment.model} - placa: ${equipment.license_plate}`}
+                                </MenuItem>
+                            )}
+                        </Select>
+                    )}
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <TextField

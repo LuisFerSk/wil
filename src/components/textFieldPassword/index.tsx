@@ -2,16 +2,16 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { IconButton, InputAdornment, TextField, TextFieldProps } from "@mui/material";
 import { useState } from "react";
 
-function TextFieldPassword(props: TextFieldProps) {
-    const [showPassword, setShowPassword] = useState(false);
+export default function TextFieldPassword(props: TextFieldProps) {
+    const [showPassword, setShowPassword] = useState<boolean>(false);
 
     const handleClickShowPassword = () => {
-        setShowPassword(!showPassword);
-    };
+        setShowPassword(!showPassword)
+    }
 
     const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
-        event.preventDefault();
-    };
+        event.preventDefault()
+    }
 
     return (
         <TextField
@@ -34,5 +34,3 @@ function TextFieldPassword(props: TextFieldProps) {
         />
     )
 }
-
-export default TextFieldPassword;

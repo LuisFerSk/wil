@@ -20,7 +20,7 @@ export default function Accordion(props: AccordionProps): JSX.Element {
     const { accordions, indexOpen = -1 } = props
 
     const classes = useStyles()
-    const [expanded, setExpanded] = useState(indexOpen >= 0 ? indexOpen : false)
+    const [expanded, setExpanded] = useState<number | boolean>(indexOpen >= 0 ? indexOpen : false)
 
     const handleChange = (panel: number) => (event: SyntheticEvent<Element, Event>, isExpanded: boolean) => {
         setExpanded(isExpanded ? panel : false)

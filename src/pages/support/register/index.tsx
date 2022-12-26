@@ -23,9 +23,7 @@ export default function SupportRegister<T>(props: RegisterInterface<T[] | []>): 
         onSubmit: (data, { resetForm }) => {
             messageLoader()
 
-            if (!token) {
-                return;
-            }
+            
 
             supportCreate(token, data)
                 .then((response) => {

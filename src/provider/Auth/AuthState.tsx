@@ -29,7 +29,7 @@ const initialStateAuthState = {
 
 interface AuthContextProps {
     user: UserApiInterface | undefined | null
-    token: string | undefined
+    token: string
     login: (data: loginProps) => void
     logout: () => void
 }
@@ -43,7 +43,7 @@ export default function AuthState(props: ProviderProps): JSX.Element {
 
     const [token, setToken] = useLocalStorage('token', initToken)
 
-    const [serializedToken, setSerializedToken] = useState(token)
+    const [serializedToken, setSerializedToken] = useState<string>(token)
 
     function logout(): void {
         setToken(initToken)

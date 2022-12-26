@@ -10,12 +10,8 @@ export function useGetQueryApi<T>(get: Promise<AxiosResponse<any, any>>, initSta
     const [state, setState] = useState<T>(initState)
 
     useEffect(() => {
-        get.then((result) => {
-            setState(
-                result.status === 200
-                    ? result.data
-                    : state
-            )
+        get.then((response) => {
+            setState(response.data.info)
         })
     }, [])
 

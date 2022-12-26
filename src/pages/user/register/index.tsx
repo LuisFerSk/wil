@@ -23,9 +23,7 @@ export default function UserRegister<T>(props: RegisterInterface<T[] | []>): JSX
         onSubmit: (data, { resetForm }) => {
             messageLoader()
 
-            if (!token) {
-                return;
-            }
+            
 
             userCreate(token, data)
                 .then((response) => {

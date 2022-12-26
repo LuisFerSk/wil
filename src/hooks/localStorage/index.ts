@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { getDataLocalStorage, setDataLocalStorage } from 'utils'
 
 type useLocalStorageReturn = [
-  string | undefined,
+  string,
   (value: any) => void,
   (key: string) => void
 ]

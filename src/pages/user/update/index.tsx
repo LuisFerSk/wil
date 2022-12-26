@@ -26,9 +26,7 @@ export default function UserUpdate(props: UpdateInterface<UserInterface>): JSX.E
 
             const { id } = data;
 
-            if (!token) {
-                return;
-            }
+            
 
             userUpdate(token, data)
                 .then((response) => {

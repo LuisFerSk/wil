@@ -5,9 +5,11 @@ import { useFormik } from "formik";
 import { useFormikFiledProps, useMessage } from "hooks";
 import { equipmentCreate } from "api/equipment";
 import { addInArray } from "utils";
-import { RegisterInterface } from "interfaces";
+import { BrandInterface, RegisterInterface } from "interfaces";
 import { authContext } from "provider/Auth";
 import { equipmentInitialValues, equipmentSchema } from "../schema";
+import { brandFindAll } from "api/brand";
+import { useGetQueryApi } from "hooks/getQueryApi";
 
 export default function RegisterEquipment<T>(props: RegisterInterface<T[] | []>): JSX.Element {
     const { setData } = props;
@@ -17,23 +19,19 @@ export default function RegisterEquipment<T>(props: RegisterInterface<T[] | []>)
 
     const [message, setMessage, messageLoader] = useMessage()
 
+    const [brands, setBrands] = useGetQueryApi<BrandInterface[]>(brandFindAll(token), [])
+
     const formik = useFormik({
         initialValues: equipmentInitialValues,
         validationSchema: equipmentSchema,
         onSubmit: (data, { resetForm }) => {
             messageLoader()
 
-            if (!token) {
-                return;
-            }
-
             equipmentCreate(token, data)
                 .then((response) => {
-                    if (response.status >= 200 && response.status < 300) {
-                        setData((old) => addInArray<T>(old, response.data.info))
-                        resetForm()
-                        setMessage("success", 'Se ha guardado correctamente el equipo.')
-                    }
+                    setData((old) => addInArray<T>(old, response.data.info))
+                    resetForm()
+                    setMessage("success", 'Se ha guardado correctamente el equipo.')
                 })
                 .catch((error) => {
                     const { response } = error;

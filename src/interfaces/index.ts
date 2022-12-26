@@ -263,3 +263,7 @@ export interface SupportProps {
     username: string
     password: string
 }
+
+export interface BrandInterface extends EntityInterface {
+    name: string
+}

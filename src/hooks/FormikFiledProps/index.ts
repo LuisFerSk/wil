@@ -1,6 +1,10 @@
-import { FormikContextType } from 'formik'
+import { FieldInputProps, FormikContextType } from 'formik'
 
-export function useFormikFiledProps({ touched, errors, getFieldProps }: FormikContextType<any>) {
+export type UseFormikFiledPropsReturn = ((fieldName: string) => FieldInputProps<any>)[]
+
+export function useFormikFiledProps(props: FormikContextType<any>): UseFormikFiledPropsReturn {
+  const { touched, errors, getFieldProps } = props;
+
   function getFieldHelperText(filedName: string): string | undefined {
     if (touched[filedName] && errors[filedName]) {
       return String(errors[filedName])
