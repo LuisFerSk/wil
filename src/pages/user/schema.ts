@@ -39,18 +39,9 @@ export const userSchema = object().shape({
             }
             return true;
         }),
-    city: string()
-        .test('len', 'La ciudad de usuario debe tener entre 5 a 50 caracteres.', value => {
-            if (value !== undefined) {
-                const valueLength = value.replace(/\s+/g, '').length;
-                return valueLength >= 5 && valueLength <= 50
-            }
-            return false;
-        })
 })
 export const userInitialValues = {
     name: '',
     cc: '',
     phone: '',
-    city: '',
 }

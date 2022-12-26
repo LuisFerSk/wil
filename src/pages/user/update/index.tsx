@@ -33,7 +33,7 @@ export default function UserUpdate(props: UpdateInterface<UserInterface>): JSX.E
             userUpdate(token, data)
                 .then((response) => {
                     if (response.status === 200) {
-                        setData((old) => updateDataInArray<UserInterface>(old, id, response.data.info))
+                        setData((old) => updateDataInArray<UserInterface>(old, id, data))
                         setMessage("success", 'Se ha actualizado correctamente el usuario.')
                     }
                 })

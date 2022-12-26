@@ -32,8 +32,8 @@ export default function EquipmentUpdate(props: UpdateInterface<EquipmentInterfac
 
             equipmentUpdate(token, data)
                 .then((response) => {
-                    if (response.status === 200) {
-                        setData((old) => updateDataInArray<EquipmentInterface>(old, id, response.data.info))
+                    if (response.status >= 200 && response.status < 300) {
+                        setData((old) => updateDataInArray<EquipmentInterface>(old, id, data))
                         setMessage("success", 'Se ha actualizado correctamente el equipo.')
                     }
                 })

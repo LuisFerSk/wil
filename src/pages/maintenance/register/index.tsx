@@ -106,6 +106,22 @@ export default function MaintenanceRegister<T>(props: MaintenanceRegisterProps<T
                         )}
                     </Select>
                 </Grid>
+                <Grid item xs={12} sm={6}>
+                    <TextField
+                        {...getFieldFormikProps('city')}
+                        fullWidth
+                        label="Ciudad"
+                        variant="outlined"
+                    />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                    <TextField
+                        {...getFieldFormikProps('campus')}
+                        fullWidth
+                        label="Sede"
+                        variant="outlined"
+                    />
+                </Grid>
                 <Grid item xs={12} sm={3}>
                     <TextField
                         {...getFieldFormikProps('date')}

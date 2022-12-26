@@ -7,7 +7,6 @@ import TableMoreMenu from 'components/table/TableMoreMenu'
 import { useFloat } from 'hooks'
 import { HeadLabelInterface, TableDataInterface, TableOptionsInterface, MaintenanceInterface } from 'interfaces'
 import MaintenanceDelete from '../delete'
-import MaintenanceUpdate from '../update'
 
 const headLabel: HeadLabelInterface[] = [
     { id: 'id', label: 'Id', alignRight: false },
@@ -31,20 +30,6 @@ export default function MaintenanceTable(props: TableDataInterface<MaintenanceIn
         const { id, equipment_user, equipment } = row;
 
         const options: TableOptionsInterface[] = [
-            {
-                label: 'Editar',
-                icon: editFill,
-                onClick: () => {
-                    modalState.setTitle('Actualizar Usuario')
-                    modalState.setContent(
-                        <MaintenanceUpdate
-                            setData={setData}
-                            initData={row}
-                        />
-                    )
-                    modalState.open()
-                }
-            },
             {
                 label: 'Eliminar',
                 icon: trash2Outline,
