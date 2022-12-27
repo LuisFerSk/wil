@@ -217,6 +217,8 @@ export interface MaintenanceProps {
     equipment_id: number
     date: string
     workstation: string
+    city: string
+    campus: string
     ignition_station: boolean
     operating_system_boot: boolean
     HDD: boolean

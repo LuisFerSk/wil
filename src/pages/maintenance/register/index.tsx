@@ -1,9 +1,9 @@
 import { useContext, useId } from "react";
-import { Box, Button, Checkbox, FormControlLabel, FormGroup, Grid, MenuItem, Radio, RadioGroup, TextField, Typography } from "@mui/material";
+import { Box, Button, Checkbox, FormControlLabel, FormGroup, Grid, MenuItem, Radio, RadioGroup, Stack, TextField, Typography, useTheme } from "@mui/material";
 import { AsyncSelect, Form, Select } from "components";
 import { useFormik } from "formik";
 import { useFormikFiledProps, useMessage } from "hooks";
-import { addInArray } from "utils";
+import { addInArray, formatDateApi } from "utils";
 import { RegisterInterface } from "interfaces";
 import { authContext } from "provider/Auth";
 import { maintenanceInitialValues, maintenanceSchema } from "../schema";
@@ -24,6 +24,8 @@ export default function MaintenanceRegister<T>(props: MaintenanceRegisterProps<T
     const uuidEquipment = useId()
     const uuidUser = useId()
 
+    const theme = useTheme()
+
     const [message, setMessage, messageLoader, resetMensaje] = useMessage()
 
     let sigPad: ReactSignatureCanvas | null = null;
@@ -43,15 +45,19 @@ export default function MaintenanceRegister<T>(props: MaintenanceRegisterProps<T
                 return;
             }
 
+            const { date } = data;
+
             const dataToCreate = {
                 ...data,
-                signature: sigPad.getTrimmedCanvas().toDataURL('image/png')
+                signature: sigPad.getTrimmedCanvas().toDataURL('image/png'),
+                date: formatDateApi(date)
             }
 
             maintenanceCreate(token, dataToCreate)
                 .then((response) => {
                     setData((old) => addInArray<T>(old, response.data.info))
                     resetForm()
+                    clear()
                     setMessage("success", 'Se ha guardado correctamente el mantenimiento.')
                 })
                 .catch((error) => {
@@ -291,8 +297,11 @@ export default function MaintenanceRegister<T>(props: MaintenanceRegisterProps<T
                     />
                 </Grid>
                 <Grid item xs={12}>
-                    <Button onClick={() => clear()}>Limpiar firma</Button>
-                    <Box sx={{ borderBottom: 1 }}>
+                    <Box sx={{
+                        borderBottom: 1,
+                        backgroundColor: theme.palette.grey[100],
+                        borderRadius: '7px 7px 0px 0px'
+                    }} >
                         <SignatureCanvas
                             canvasProps={{ className: styles.sigPad }}
                             ref={(ref) => { sigPad = ref }}
@@ -302,8 +311,11 @@ export default function MaintenanceRegister<T>(props: MaintenanceRegisterProps<T
                         Firma del usuario
                     </Typography>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={6}>
                     <Button type="submit" variant="contained">Guardar</Button>
+                </Grid>
+                <Grid item xs={6} container justifyContent="flex-end">
+                    <Button variant='outlined' onClick={() => clear()}>Limpiar firma</Button>
                 </Grid>
                 <Grid item xs={12} textAlign='center'>
                     {message}

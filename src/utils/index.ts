@@ -56,3 +56,11 @@ export function serializeToken(token: string): string {
     return token.replace(/["']/g, '')
 }
 
+export function formatDateApi(date: string): string {
+    const dateFormat = new Date(date)
+
+    dateFormat.setDate(dateFormat.getDate() + 1)
+    dateFormat.setHours(0, 0, 0, 0)
+
+    return dateFormat.toLocaleDateString()
+}

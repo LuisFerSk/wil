@@ -8,6 +8,10 @@ export const maintenanceSchema = object().shape({
         .required('El equipo es requerido.'),
     date: date()
         .required('La fecha del mantenimiento es requerida.'),
+    city: string()
+        .required('La ciudad es requerida.'),
+    campus: string()
+        .required('La sede es requerida.'),
     workstation: string(),
     ignition_station: boolean(),
     operating_system_boot: boolean(),
@@ -46,6 +50,8 @@ export const maintenanceInitialValues: MaintenanceProps = {
     equipment_id: 0,
     date: '',
     workstation: '',
+    city: '',
+    campus: '',
     ignition_station: false,
     operating_system_boot: false,
     HDD: false,

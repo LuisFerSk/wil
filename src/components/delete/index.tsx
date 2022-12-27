@@ -21,7 +21,7 @@ export default function Delete(props: DeleteProps): JSX.Element {
         initialValues: { value: '' },
         onSubmit: () => onSubmitFormik(),
         validationSchema: Yup.object().shape({
-            value: Yup.string().test('len', messageError, confirm => confirm === value)
+            value: Yup.string().test('len', messageError, confirm => confirm !== value)
         }),
 
     })
