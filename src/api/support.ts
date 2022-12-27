@@ -2,7 +2,7 @@ import { postToken } from "api";
 import axios, { AxiosResponse } from "axios";
 import { IdType, SupportProps } from "interfaces";
 
-const userBaseUrl: string = `${import.meta.env.VITE_BACKEND_URL}/signup`
+const userBaseUrl: string = `${import.meta.env.VITE_BACKEND_URL}/support`
 
 export function supportFindAll(token: string): Promise<AxiosResponse<any, any>> {
     return axios.get(`${userBaseUrl}/find-all`, postToken(token))

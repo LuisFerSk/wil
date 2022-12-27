@@ -11,13 +11,13 @@ import { userFindAll } from 'api/user';
 import { equipmentFindAll } from 'api/equipment';
 
 export interface ConstantsInterface {
-    users: UserInterface[] | []
-    equipments: EquipmentInterface[] | []
+    users: UserInterface[] | undefined
+    equipments: EquipmentInterface[] | undefined
 }
 
 const initConstants: ConstantsInterface = {
-    users: [],
-    equipments: []
+    users: undefined,
+    equipments: undefined
 }
 
 export default function Maintenance(): JSX.Element {
@@ -36,32 +36,22 @@ export default function Maintenance(): JSX.Element {
     ]
 
     useEffect(() => {
-        if (!token) {
-            return;
-        }
-
         maintenanceFindAll(token).then((result) => {
-            if (result.status >= 200 || result.status < 300) {
-                setMaintenances(result.data.info)
-            }
+            setMaintenances(result.data.info)
         })
 
         userFindAll(token).then((result) => {
-            if (result.status >= 200 || result.status < 300) {
-                setConstants(old => ({
-                    ...old,
-                    users: result.data.info
-                }))
-            }
+            setConstants(old => ({
+                ...old,
+                users: result.data.info
+            }))
         })
 
         equipmentFindAll(token).then((result) => {
-            if (result.status >= 200 || result.status < 300) {
-                setConstants(old => ({
-                    ...old,
-                    equipments: result.data.info
-                }))
-            }
+            setConstants(old => ({
+                ...old,
+                equipments: result.data.info
+            }))
         })
     }, [])
 

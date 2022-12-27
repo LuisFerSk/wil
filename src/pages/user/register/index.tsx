@@ -23,15 +23,11 @@ export default function UserRegister<T>(props: RegisterInterface<T[] | []>): JSX
         onSubmit: (data, { resetForm }) => {
             messageLoader()
 
-            
-
             userCreate(token, data)
                 .then((response) => {
-                    if (response.status >= 200 && response.status < 300) {
-                        setData((old) => addInArray<T>(old, response.data.info))
-                        resetForm()
-                        setMessage("success", 'Se ha guardado correctamente el usuario.')
-                    }
+                    setData((old) => addInArray<T>(old, response.data.info))
+                    resetForm()
+                    setMessage("success", 'Se ha guardado correctamente el usuario.')
                 })
                 .catch((error) => {
                     const { response } = error;

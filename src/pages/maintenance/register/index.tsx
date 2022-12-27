@@ -1,6 +1,6 @@
 import { useContext, useId } from "react";
 import { Box, Button, Checkbox, FormControlLabel, FormGroup, Grid, MenuItem, Radio, RadioGroup, TextField, Typography } from "@mui/material";
-import { Form, Select } from "components";
+import { AsyncSelect, Form, Select } from "components";
 import { useFormik } from "formik";
 import { useFormikFiledProps, useMessage } from "hooks";
 import { addInArray } from "utils";
@@ -21,8 +21,8 @@ export default function MaintenanceRegister<T>(props: MaintenanceRegisterProps<T
     const _authContext = useContext(authContext)
     const { token } = _authContext;
 
-    const uuidUsuario = useId()
     const uuidEquipment = useId()
+    const uuidUser = useId()
 
     const [message, setMessage, messageLoader, resetMensaje] = useMessage()
 
@@ -77,55 +77,42 @@ export default function MaintenanceRegister<T>(props: MaintenanceRegisterProps<T
                     </Typography>
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                    {users.length < 1 ? (
-                        <TextField
-                            fullWidth
-                            label="Usuario"
-                            variant="outlined"
-                            disabled
-                            helperText="Debe haber usuarios registrador para poder realizar un mantenimiento"
-                            error={true}
-                        />
-                    ) : (
-                        <Select
-                            {...getFieldFormikProps('equipment_user_id')}
-                            fullWidth
-                            label="Usuario"
-                            variant="outlined"
-                        >
-                            {users.map((user, key) =>
-                                <MenuItem key={`${uuidUsuario}-${key}`} value={user.id}>
-                                    {user.name}
-                                </MenuItem>
-                            )}
-                        </Select>
-                    )}
-
+                    <AsyncSelect
+                        data={users}
+                        textLoading='Cargando usuarios...'
+                        textNotData='Se debe registrar al menos un usuario para poder realizar un mantenimiento'
+                        fieldProps={{
+                            ...getFieldFormikProps('equipment_user_id'),
+                            fullWidth: true,
+                            label: 'Usuario',
+                            variant: 'outlined',
+                        }}
+                    >
+                        {users?.map((user, key) =>
+                            <MenuItem key={`${uuidUser}-${key}`} value={user.id}>
+                                {user.name}
+                            </MenuItem>
+                        )}
+                    </AsyncSelect>
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                    {equipments.length < 1 ? (
-                        <TextField
-                            fullWidth
-                            label="Equipo"
-                            variant="outlined"
-                            disabled
-                            helperText="Debe haber equipos registrador para poder realizar un mantenimiento"
-                            error={true}
-                        />
-                    ) : (
-                        <Select
-                            {...getFieldFormikProps('equipment_id')}
-                            fullWidth
-                            label="Equipo"
-                            variant="outlined"
-                        >
-                            {equipments.map((equipment, key) =>
-                                <MenuItem key={`${uuidEquipment}-${key}`} value={equipment.id}>
-                                    {`${equipment.type} - ${equipment.brand} ${equipment.model} - placa: ${equipment.license_plate}`}
-                                </MenuItem>
-                            )}
-                        </Select>
-                    )}
+                    <AsyncSelect
+                        data={equipments}
+                        textLoading='Cargando equipos...'
+                        textNotData='Se debe registrar al menos un equipo para poder realizar un mantenimiento'
+                        fieldProps={{
+                            ...getFieldFormikProps('equipment_id'),
+                            fullWidth: true,
+                            variant: 'outlined',
+                            label: 'Equipo',
+                        }}
+                    >
+                        {equipments?.map((equipment, key) =>
+                            <MenuItem key={`${uuidEquipment}-${key}`} value={equipment.id}>
+                                {`${equipment.type} - ${equipment.brand} ${equipment.model} - placa: ${equipment.license_plate}`}
+                            </MenuItem>
+                        )}
+                    </AsyncSelect>
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <TextField

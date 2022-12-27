@@ -23,14 +23,8 @@ export default function Support(): JSX.Element {
     ]
 
     useEffect(() => {
-        if (!token) {
-            return;
-        }
-
         supportFindAll(token).then((result) => {
-            if (result.status >= 200 || result.status < 300) {
-                setSupport(result.data.info)
-            }
+            setSupport(result.data.info)
         })
     }, [])
 

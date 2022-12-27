@@ -19,9 +19,7 @@ export default function Login(): JSX.Element {
 			mensajeLoader()
 			login(data)
 				.then((result) => {
-					if (result.status >= 200 && result.status < 300) {
-						_authContext.login(result.data)
-					}
+					_authContext.login(result.data)
 				})
 				.catch((err) => {
 					setMensaje('error', err.response.data)

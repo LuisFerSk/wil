@@ -26,14 +26,10 @@ export default function UserUpdate(props: UpdateInterface<UserInterface>): JSX.E
 
             const { id } = data;
 
-            
-
             userUpdate(token, data)
                 .then((response) => {
-                    if (response.status === 200) {
-                        setData((old) => updateDataInArray<UserInterface>(old, id, data))
-                        setMessage("success", 'Se ha actualizado correctamente el usuario.')
-                    }
+                    setData((old) => updateDataInArray<UserInterface>(old, id, data))
+                    setMessage("success", 'Se ha actualizado correctamente el usuario.')
                 })
                 .catch(({ response }) => {
                     setMessage('error', response.data.message)

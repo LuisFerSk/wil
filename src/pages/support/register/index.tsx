@@ -23,15 +23,11 @@ export default function SupportRegister<T>(props: RegisterInterface<T[] | []>): 
         onSubmit: (data, { resetForm }) => {
             messageLoader()
 
-            
-
             supportCreate(token, data)
                 .then((response) => {
-                    if (response.status >= 200 && response.status < 300) {
-                        setData((old) => addInArray<T>(old, response.data.info))
-                        resetForm()
-                        setMessage("success", 'Se ha guardado correctamente el usuario.')
-                    }
+                    setData((old) => addInArray<T>(old, response.data.info))
+                    resetForm()
+                    setMessage("success", 'Se ha guardado correctamente el usuario.')
                 })
                 .catch((error) => {
                     const { response } = error;
@@ -54,7 +50,7 @@ export default function SupportRegister<T>(props: RegisterInterface<T[] | []>): 
                     <TextField {...getFieldFormikProps('username')} fullWidth label="Nombre de usuario" variant="outlined" />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                    <TextFieldPassword {...getFieldFormikProps('password')} fullWidth type="password" label="Cédula" variant="outlined" />
+                    <TextFieldPassword {...getFieldFormikProps('password')} fullWidth type="password" label="Contraseña" variant="outlined" />
                 </Grid>
                 <Grid item xs={12}>
                     <Button type="submit" variant="contained">Guardar</Button>

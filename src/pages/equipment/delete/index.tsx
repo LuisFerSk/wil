@@ -27,20 +27,11 @@ export default function EquipmentDelete(props: DeleteEquipmentProps): JSX.Elemen
     const onSubmit = () => {
         messageLoader()
 
-        if (!token) {
-            return
-        }
-
         equipmentDestroy(token, id)
             .then(response => {
-                if (response.status >= 200 && response.status < 300) {
-                    setData(old => deleteInArrayData(old, id))
-                    openAlert()
-                    closeModal()
-                    return;
-                }
-                setMessage('error', response.data)
-                console.log(response)
+                setData(old => deleteInArrayData(old, id))
+                openAlert()
+                closeModal()
             })
             .catch(({ response }) => {
                 console.log(response)
