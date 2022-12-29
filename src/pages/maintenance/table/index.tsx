@@ -1,4 +1,4 @@
-import editFill from '@iconify/icons-eva/edit-fill'
+import baselineRemoveRedEye from '@iconify/icons-ic/baseline-remove-red-eye';
 import trash2Outline from '@iconify/icons-eva/trash-2-outline'
 import { TableCell } from '@mui/material'
 import { FloatAlert, Modal, Table } from 'components'
@@ -7,11 +7,13 @@ import TableMoreMenu from 'components/table/TableMoreMenu'
 import { useFloat } from 'hooks'
 import { HeadLabelInterface, TableDataInterface, TableOptionsInterface, MaintenanceInterface } from 'interfaces'
 import MaintenanceDelete from '../delete'
+import MaintenanceView from '../view'
 
 const headLabel: HeadLabelInterface[] = [
     { id: 'id', label: 'Id', alignRight: false },
-    { id: 'equipment_user', label: 'Usurio', alignRight: false },
+    { id: 'equipment_user', label: 'Usuario', alignRight: false },
     { id: 'equipment', label: 'Equipo', alignRight: false },
+    { id: 'date', label: 'Fecha', alignRight: false },
     { id: '', label: '' }
 ]
 
@@ -27,14 +29,25 @@ export default function MaintenanceTable(props: TableDataInterface<MaintenanceIn
 
 
     function createTableCells(row: MaintenanceInterface): JSX.Element {
-        const { id, equipment_user, equipment } = row;
+        const { id, equipment_user, equipment, date } = row;
 
         const options: TableOptionsInterface[] = [
+            {
+                label: 'Ver',
+                icon: baselineRemoveRedEye,
+                onClick: () => {
+                    modalState.setTitle(`Mantenimiento ${row.id}`)
+                    modalState.setContent(
+                        <MaintenanceView data={row} />
+                    )
+                    modalState.open()
+                }
+            },
             {
                 label: 'Eliminar',
                 icon: trash2Outline,
                 onClick: () => {
-                    modalState.setTitle('Eliminar Usuario')
+                    modalState.setTitle('Eliminar mantenimiento')
                     modalState.setContent(
                         <MaintenanceDelete
                             data={row}
@@ -54,6 +67,7 @@ export default function MaintenanceTable(props: TableDataInterface<MaintenanceIn
                 <TableCell align='left'>{id}</TableCell>
                 <TableCell align='left'>{equipment_user.name}</TableCell>
                 <TableCell align='left'>{equipment.license_plate}</TableCell>
+                <TableCell align='left'>{date.split('T')[0]}</TableCell>
                 <TableCell padding='checkbox'>
                     <TableMoreMenu>
                         {mappingMenuItem(options)}

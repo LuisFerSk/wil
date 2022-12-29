@@ -20,5 +20,28 @@ export function maintenanceUpdate(token: string, maintenance: MaintenanceProps):
 }
 
 export function maintenanceCreate(token: string, maintenance: MaintenanceProps): Promise<AxiosResponse<any, any>> {
-    return axios.post(`${maintenanceBaseUrl}/create`, maintenance, postToken(token))
+    const headers = {
+        "Content-Type": 'multipart/form-data'
+    }
+
+    const formData = new FormData()
+
+    let key: keyof MaintenanceProps
+
+    for (key in maintenance) {
+        if (typeof maintenance[key] === "boolean" && maintenance[key]) {
+            formData.append(key, '1')
+            continue;
+        }
+
+        if (typeof maintenance[key] === "boolean" && !maintenance[key]) {
+            formData.append(key, '0')
+            continue;
+        }
+
+        const value = maintenance[key] as string | Blob
+        formData.append(key, value)
+    };
+
+    return axios.post(`${maintenanceBaseUrl}/create`, formData, postToken(token, { headers }))
 }

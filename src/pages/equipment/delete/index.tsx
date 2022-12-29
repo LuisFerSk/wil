@@ -46,8 +46,7 @@ export default function EquipmentDelete(props: DeleteEquipmentProps): JSX.Elemen
             messageError={`Escriba la placa del equipo: ${license_plate}`}
             message={message}
         >
-            Esta seguro de desea eliminar el equipo con placa: <strong>{license_plate}</strong> si es así escriba la placa correspondiente a continuación.
-
+            Esta seguro de desea eliminar el equipo con placa: <strong>{license_plate}</strong>, esta acción también <strong>borrara los mantenimientos</strong> de tenga este equipo, si es así escriba la <strong>placa</strong> correspondiente a continuación.
         </Delete>
     )
 }

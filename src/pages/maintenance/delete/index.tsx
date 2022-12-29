@@ -46,8 +46,7 @@ export default function MaintenanceDelete(props: MaintenanceDeleteProps): JSX.El
             messageError={`Escriba el id del mantenimiento: ${id}`}
             message={message}
         >
-            Esta seguro de desea eliminar el mantenimiento con id: <strong>{id}</strong> si es así escriba el id correspondiente a continuación.
-
+            Esta seguro de desea eliminar el mantenimiento con id: <strong>{id}</strong> si es así escriba el <strong>id</strong> correspondiente a continuación.
         </Delete>
     )
 }

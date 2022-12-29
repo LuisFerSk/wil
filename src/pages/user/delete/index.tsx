@@ -42,12 +42,11 @@ export default function UserDelete(props: DeleteUserProps): JSX.Element {
         <Delete
             value={cc}
             onSubmitFormik={onSubmit}
-            label='Placa'
+            label='Cédula'
             messageError={`Escriba la cédula del usuario: ${cc}`}
             message={message}
         >
-            Esta seguro de desea eliminar el usuario con cédula: <strong>{cc}</strong> si es así escriba la cédula correspondiente a continuación.
-
+            Esta seguro de desea eliminar el usuario con cédula: <strong>{cc}</strong> ,esta acción también <strong>borrara los mantenimientos</strong> de tenga este usuario, es así escriba la <strong>cédula</strong> correspondiente a continuación.
         </Delete>
     )
 }

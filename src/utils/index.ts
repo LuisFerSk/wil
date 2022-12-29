@@ -64,3 +64,31 @@ export function formatDateApi(date: string): string {
 
     return dateFormat.toLocaleDateString()
 }
+
+export function dataURLtoBlob(dataurl: string): Blob {
+    const arr = dataurl.split(',')
+
+    const arrReg = arr[0].match(/:(.*?);/)
+
+    const mime = arrReg ? arrReg[1] : undefined
+
+    const bstr = atob(arr[1])
+    let n = bstr.length
+    const u8arr = new Uint8Array(n)
+
+    while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+
+    return new Blob([u8arr], { type: mime });
+}
+
+export function blobToDataURL(blob: Blob, callback: (result?: string | ArrayBuffer | null) => void) {
+    const a = new FileReader()
+
+    a.onload = (event) => {
+        callback(event.target?.result)
+    }
+
+    a.readAsDataURL(blob)
+}

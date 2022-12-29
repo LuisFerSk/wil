@@ -137,9 +137,9 @@ export interface EntityInterface extends DataBaseProps {
     id: IdType
 }
 
-export interface EquipmentProps {
+
+export interface EquipmentBaseProps {
     type: string,
-    brand: string,
     model: string,
     serial: string,
     monitor_serial: string,
@@ -148,7 +148,18 @@ export interface EquipmentProps {
     flat: string,
 }
 
-export interface EquipmentInterface extends EntityInterface, EquipmentProps { }
+export interface EquipmentProps {
+    brand: string,
+}
+
+export interface BrandInterface extends EntityInterface {
+    id: IdType
+    name: string
+}
+
+export interface EquipmentInterface extends EntityInterface, EquipmentBaseProps {
+    brand: BrandInterface
+}
 
 export type DataTableType<T> = T[] | [];
 
@@ -212,13 +223,21 @@ export interface HeadLabelInterface {
     padding?: "checkbox" | "none" | "normal",
 }
 
-export interface MaintenanceProps {
+export interface MaintenanceBaseProps {
     equipment_user_id: number
     equipment_id: number
     date: string
     workstation: string
     city: string
     campus: string
+    end_error_description: string
+    Q1: string
+    Q2: string
+    Q3: string
+    observations: string
+}
+
+export interface MaintenanceProps extends MaintenanceBaseProps {
     ignition_station: boolean
     operating_system_boot: boolean
     HDD: boolean
@@ -245,16 +264,42 @@ export interface MaintenanceProps {
     deletion_temporary_cookies: boolean
     disk_defragmentation: boolean
     equipment_delivery: boolean
-    end_error_description: string
-    Q1: string
-    Q2: string
-    Q3: string
-    observations: string
+    signature: Blob
 }
 
-export interface MaintenanceInterface extends EntityInterface, MaintenanceProps {
+export type BooleanTypeApi = 1 | 0
+
+export interface MaintenanceInterface extends EntityInterface, MaintenanceBaseProps {
     equipment: EquipmentInterface
     equipment_user: UserInterface
+    ignition_station: BooleanTypeApi | null
+    operating_system_boot: BooleanTypeApi | null
+    HDD: BooleanTypeApi | null
+    CD_rom_DVD: BooleanTypeApi | null
+    display: BooleanTypeApi | null
+    mouse: BooleanTypeApi | null
+    keyboard: BooleanTypeApi | null
+    remove_indoor_dust: BooleanTypeApi | null
+    check_internal_connections: BooleanTypeApi | null
+    clean_keyboard: BooleanTypeApi | null
+    clean_monitor: BooleanTypeApi | null
+    clean_mouse: BooleanTypeApi | null
+    connect_power_peripheral_cables: BooleanTypeApi | null
+    close_PC_clean_case: BooleanTypeApi | null
+    end_ignition_station: BooleanTypeApi | null
+    end_operating_system_boot: BooleanTypeApi | null
+    end_HDD: BooleanTypeApi | null
+    end_CD_rom_DVD: BooleanTypeApi | null
+    end_display: BooleanTypeApi | null
+    end_mouse: BooleanTypeApi | null
+    end_keyboard: BooleanTypeApi | null
+    error_description: string
+    check_anti_virus: BooleanTypeApi | null
+    deletion_temporary_cookies: BooleanTypeApi | null
+    disk_defragmentation: BooleanTypeApi | null
+    equipment_delivery: BooleanTypeApi | null
+    signature: string
+
 }
 
 export interface SupportInterface extends EntityInterface {

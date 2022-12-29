@@ -47,7 +47,6 @@ export default function SupportDelete(props: SupportDeleteProps): JSX.Element {
             message={message}
         >
             Esta seguro de desea eliminar el usuario: <strong>{username}</strong> si es así escriba el nombre de este a continuación.
-
         </Delete>
     )
 }

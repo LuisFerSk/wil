@@ -3,7 +3,7 @@ import { Box, Button, Checkbox, FormControlLabel, FormGroup, Grid, MenuItem, Rad
 import { AsyncSelect, Form, Select } from "components";
 import { useFormik } from "formik";
 import { useFormikFiledProps, useMessage } from "hooks";
-import { addInArray, formatDateApi } from "utils";
+import { addInArray, dataURLtoBlob, formatDateApi } from "utils";
 import { RegisterInterface } from "interfaces";
 import { authContext } from "provider/Auth";
 import { maintenanceInitialValues, maintenanceSchema } from "../schema";
@@ -47,9 +47,11 @@ export default function MaintenanceRegister<T>(props: MaintenanceRegisterProps<T
 
             const { date } = data;
 
+            const signature = dataURLtoBlob(sigPad.getTrimmedCanvas().toDataURL('image/png'))
+
             const dataToCreate = {
                 ...data,
-                signature: sigPad.getTrimmedCanvas().toDataURL('image/png'),
+                signature,
                 date: formatDateApi(date)
             }
 
@@ -194,7 +196,7 @@ export default function MaintenanceRegister<T>(props: MaintenanceRegisterProps<T
                     <FormGroup>
                         <FormControlLabel control={<Checkbox {...getFieldFormikProps('clean_keyboard')} />} label="Limpiar teclado" />
                         <FormControlLabel control={<Checkbox {...getFieldFormikProps('clean_monitor')} />} label="Limpiar monitor" />
-                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('clean_mouse ')} />} label="Limpiar mouse (esfera y rodillo)" />
+                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('clean_mouse')} />} label="Limpiar mouse (esfera y rodillo)" />
                     </FormGroup>
                 </Grid>
                 <Grid item xs={12}>

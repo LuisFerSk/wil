@@ -433,14 +433,21 @@
   dependencies:
     "@iconify/types" "*"
 
-"@iconify/icons-fluent@^1.2.18":
+"@iconify/icons-fluent@1.2.18":
   version "1.2.18"
   resolved "https://registry.yarnpkg.com/@iconify/icons-fluent/-/icons-fluent-1.2.18.tgz#cfe9c27e251436f1c5b25cf3d7b66e102641437c"
   integrity sha512-gMzME2zyyX6zdPYGoHAq4uYUUBO76fqjuoU7NalrWk26WEGHtG0KAHTGUF0iofqSp2dxjMVtbv1eDR+2QdDCXg==
   dependencies:
     "@iconify/types" "*"
 
-"@iconify/icons-material-symbols@^1.2.25":
+"@iconify/icons-ic@^1.2.11":
+  version "1.2.11"
+  resolved "https://registry.yarnpkg.com/@iconify/icons-ic/-/icons-ic-1.2.11.tgz#398c472432d6b89756fc0aaf651aac5c0d017411"
+  integrity sha512-X73nE2DFKSPxWfBxfy+adUBrVmZaXodDN3yCj0/M30c4YFQrn8OvZuw5cz0GriiePwhL/MudvbJSi7MnmAZ40Q==
+  dependencies:
+    "@iconify/types" "*"
+
+"@iconify/icons-material-symbols@1.2.25":
   version "1.2.25"
   resolved "https://registry.yarnpkg.com/@iconify/icons-material-symbols/-/icons-material-symbols-1.2.25.tgz#4a75ecbdd443f9c941c0da4f643ddbeb9a02d83c"
   integrity sha512-Sbr0058ROI94VmF8pi73x8DYABi5s3ttq9ugl4yP041X2oxr9H79VrqbT0rpN04ssYNAUQO7gw5VdCit4C71Jw==
@@ -454,14 +461,14 @@
   dependencies:
     "@iconify/types" "*"
 
-"@iconify/icons-pajamas@^1.2.8":
+"@iconify/icons-pajamas@1.2.8":
   version "1.2.8"
   resolved "https://registry.yarnpkg.com/@iconify/icons-pajamas/-/icons-pajamas-1.2.8.tgz#96d8abf733f7b44cebf2ad694dd6c30ab0f6dfa5"
   integrity sha512-lWSpVKr4yGfRLG8XKCY12j6GwikXAJGgqgWAkWWbbSqi/i2TKOo95nlFjyxND7GoF+SmOo9i3hNmTuBToh3dww==
   dependencies:
     "@iconify/types" "*"
 
-"@iconify/react@4.0.1":
+"@iconify/react@^4.0.1":
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/@iconify/react/-/react-4.0.1.tgz#098c7bcddb74ead7684a2a70e1f36dfaf2fee30d"
   integrity sha512-/DBJqh5K7W4f+d4kpvyJa/OTpVa3GfgrE9bZFAKP0vIWDr0cvVU9MVvbbkek216w9nLQhpJY/FeJtc6izB1PHw==
@@ -706,7 +713,7 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-signature-canvas@^1.0.2":
+"@types/react-signature-canvas@1.0.2":
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@types/react-signature-canvas/-/react-signature-canvas-1.0.2.tgz#c27bae1b3452c779315cc0ef6e9a2907116ce1bb"
   integrity sha512-uDHDoo2JM/9qYS+U7PRKDLBgOnQOOUEkDdXjCxBvI19fWtOLqXisrjiquPu+enu5iu2oWIfU7cVhn1QJZPkLTg==
@@ -749,7 +756,7 @@
   resolved "https://registry.yarnpkg.com/@types/signature_pad/-/signature_pad-2.3.2.tgz#97121116570b945b7b8d70525ee5428b6ae17569"
   integrity sha512-dDfWIgRcdzAaeVOpLRmLHIumGwc5inSD4Dj2Duis3yUEoSADZECLJHKkUQphbaANQ7kSC2bkf1JzyBPSmTlrPQ==
 
-"@types/styled-components@^5.1.26":
+"@types/styled-components@5.1.26":
   version "5.1.26"
   resolved "https://registry.yarnpkg.com/@types/styled-components/-/styled-components-5.1.26.tgz#5627e6812ee96d755028a98dae61d28e57c233af"
   integrity sha512-KuKJ9Z6xb93uJiIyxo/+ksS7yLjS1KzG6iv5i78dhVg/X3u5t1H7juRWqVmodIdz6wGVaIApo1u01kmFRdJHVw==
@@ -1392,7 +1399,7 @@ lodash.throttle@^4.1.1:
   resolved "https://registry.yarnpkg.com/lodash.throttle/-/lodash.throttle-4.1.1.tgz#c23e91b710242ac70c37f1e1cda9274cc39bf2f4"
   integrity sha512-wIkUCfVKpVsWo3JSZlc+8MB5it+2AN5W8J7YVMST30UrvcQNZ1Okbj+rbVniijTWE6FGYy4XJq/rHkas8qJMLQ==
 
-lodash@^4.17.11, lodash@^4.17.21:
+lodash@4.17.21, lodash@^4.17.11, lodash@^4.17.21:
   version "4.17.21"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
@@ -1599,7 +1606,7 @@ react-router@6.4.3:
   dependencies:
     "@remix-run/router" "1.0.3"
 
-react-signature-canvas@^1.0.6:
+react-signature-canvas@1.0.6:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/react-signature-canvas/-/react-signature-canvas-1.0.6.tgz#095a8c2341cb7ba0b23ddd167955147b062c91ee"
   integrity sha512-NoMHomYu9HxFeLjUGbIeV9abPdWSROfFxFNDekGdwmmaIx+w5ziOEiU2C34X0Ao4GxFnwqyUy/BpYlA4lCD1CA==
@@ -1683,7 +1690,7 @@ signature_pad@^2.3.2:
   resolved "https://registry.yarnpkg.com/signature_pad/-/signature_pad-2.3.2.tgz#ca7230021c89cedeead27b33d8d16ff254e5f04a"
   integrity sha512-peYXLxOsIY6MES2TrRLDiNg2T++8gGbpP2yaC+6Ohtxr+a2dzoaqWosWDY9sWqTAAk6E/TyQO+LJw9zQwyu5kA==
 
-simplebar-react@^2.4.3:
+simplebar-react@2.4.3:
   version "2.4.3"
   resolved "https://registry.yarnpkg.com/simplebar-react/-/simplebar-react-2.4.3.tgz#79c830711c23a5ae457ef73420f5752d4a1b3133"
   integrity sha512-Ep8gqAUZAS5IC2lT5RE4t1ZFUIVACqbrSRQvFV9a6NbVUzXzOMnc4P82Hl8Ak77AnPQvmgUwZS7aUKLyBoMAcg==
@@ -1728,7 +1735,7 @@ strip-bom@^3.0.0:
   resolved "https://registry.yarnpkg.com/strip-bom/-/strip-bom-3.0.0.tgz#2334c18e9c759f7bdd56fdef7e9ae3d588e68ed3"
   integrity sha512-vavAMRXOgBVNF6nyEEmL3DBK19iRpDcoIwW+swQ+CbGiu7lju6t+JklA1MHweoWtadgt4ISVUsXLyDq34ddcwA==
 
-styled-components@^5.3.6:
+styled-components@5.3.6:
   version "5.3.6"
   resolved "https://registry.yarnpkg.com/styled-components/-/styled-components-5.3.6.tgz#27753c8c27c650bee9358e343fc927966bfd00d1"
   integrity sha512-hGTZquGAaTqhGWldX7hhfzjnIYBZ0IXQXkCYdvF1Sq3DsUaLx6+NTHC5Jj1ooM2F68sBiVz3lvhfwQs/S3l6qg==
