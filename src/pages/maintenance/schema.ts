@@ -1,4 +1,4 @@
-import { MaintenanceProps } from 'interfaces'
+import { MaintenanceInitValueProps } from 'interfaces'
 import { number, object, string, date, boolean } from 'yup'
 
 export const maintenanceSchema = object().shape({
@@ -45,9 +45,9 @@ export const maintenanceSchema = object().shape({
     Q3: string(),
     observations: string(),
 })
-export const maintenanceInitialValues: MaintenanceProps = {
-    equipment_user_id: 0,
-    equipment_id: 0,
+export const maintenanceInitialValues: MaintenanceInitValueProps = {
+    equipment_user_id: '',
+    equipment_id: '',
     date: '',
     workstation: '',
     city: '',

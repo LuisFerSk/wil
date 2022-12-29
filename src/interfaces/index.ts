@@ -224,8 +224,6 @@ export interface HeadLabelInterface {
 }
 
 export interface MaintenanceBaseProps {
-    equipment_user_id: number
-    equipment_id: number
     date: string
     workstation: string
     city: string
@@ -237,7 +235,9 @@ export interface MaintenanceBaseProps {
     observations: string
 }
 
-export interface MaintenanceProps extends MaintenanceBaseProps {
+export interface MaintenanceInitValueProps extends MaintenanceBaseProps {
+    equipment_user_id: string
+    equipment_id: string
     ignition_station: boolean
     operating_system_boot: boolean
     HDD: boolean
@@ -264,6 +264,9 @@ export interface MaintenanceProps extends MaintenanceBaseProps {
     deletion_temporary_cookies: boolean
     disk_defragmentation: boolean
     equipment_delivery: boolean
+}
+
+export interface MaintenanceProps extends MaintenanceBaseProps, MaintenanceInitValueProps {
     signature: Blob
 }
 

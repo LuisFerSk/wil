@@ -73,7 +73,7 @@ export default function EquipmentTable(props: TableDataInterface<EquipmentInterf
             <>
                 <TableCell align='left'>{license_plate}</TableCell>
                 <TableCell align='left'>{type}</TableCell>
-                <TableCell align='left'>{brand}</TableCell>
+                <TableCell align='left'>{brand.name}</TableCell>
                 <TableCell align='left'>{model}</TableCell>
                 <TableCell padding='checkbox'>
                     <TableMoreMenu>
