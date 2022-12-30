@@ -8,6 +8,10 @@ export function maintenanceFindAll(token: string): Promise<AxiosResponse<any, an
     return axios.get(`${maintenanceBaseUrl}/find-all`, postToken(token))
 }
 
+export function maintenanceFindMadePerDay(token: string): Promise<AxiosResponse<any, any>> {
+    return axios.get(`${maintenanceBaseUrl}/find-made-per-day`, postToken(token))
+}
+
 export function maintenanceDestroy(token: string, id: IdType): Promise<AxiosResponse<any, any>> {
     const config = {
         data: { id }

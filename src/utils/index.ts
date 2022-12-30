@@ -63,10 +63,10 @@ export function serializeToken(token: string): string {
     return token.replace(/["']/g, '')
 }
 
-export function formatDateApi(date: string): string {
+export function formatDateApi(date: string, daysSetting: number = 1): string {
     const dateFormat = new Date(date)
 
-    dateFormat.setDate(dateFormat.getDate() + 1)
+    dateFormat.setDate(dateFormat.getDate() + daysSetting)
     dateFormat.setHours(0, 0, 0, 0)
 
     return dateFormat.toLocaleDateString()

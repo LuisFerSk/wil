@@ -7,6 +7,14 @@ export const maintenanceSchema = object().shape({
     equipment_id: number()
         .required('El equipo es requerido.'),
     date: date()
+        .test('len', 'La fecha no puede ser mayor a la de hoy.', value => {
+            if (value !== undefined) {
+                const today = new Date()
+                return value <= today;
+            }
+
+            return true;
+        })
         .required('La fecha del mantenimiento es requerida.'),
     city: string()
         .required('La ciudad es requerida.'),

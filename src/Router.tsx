@@ -1,4 +1,4 @@
-import { Login, Home, Loader, User, Equipment, Maintenance, NotFound, Support } from 'pages'
+import { Login, Home, Loader, User, Equipment, Maintenance, NotFound, Support, Dashboard } from 'pages'
 import { Navigate, useRoutes } from 'react-router-dom'
 import { authContext } from 'provider/Auth'
 import { useContext } from 'react';
@@ -62,7 +62,7 @@ export default function Router(): React.ReactElement<any, string | React.JSXElem
         },
         {
           path: "/home",
-          element: <>Home</>
+          element: <Dashboard />
         }
       ]
     },

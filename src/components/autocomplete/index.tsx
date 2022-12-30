@@ -37,6 +37,11 @@ export default function Autocomplete<T>(props: AutocompleteProps<T>): JSX.Elemen
                     return;
                 }
 
+                if (!newValue) {
+                    setFieldValue(name, '')
+                    return;
+                }
+
                 setFieldValue(name, newValue?.title)
 
             }}

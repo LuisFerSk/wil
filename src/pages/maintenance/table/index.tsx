@@ -65,7 +65,7 @@ export default function MaintenanceTable(props: TableDataInterface<MaintenanceIn
         return (
             <>
                 <TableCell align='left'>{id}</TableCell>
-                <TableCell align='left'>{equipment_user.name}</TableCell>
+                <TableCell align='left'>{`${equipment_user.cc} - ${equipment_user.name}`}</TableCell>
                 <TableCell align='left'>{equipment.license_plate}</TableCell>
                 <TableCell align='left'>{date.split('T')[0]}</TableCell>
                 <TableCell padding='checkbox'>

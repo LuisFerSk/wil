@@ -100,6 +100,7 @@ export interface ShapeInterface extends Shape {
 
 export interface CustomShadowsInterface {
     z1: string;
+    z4: string;
     z8: string;
     z12: string;
     z16: string;
@@ -111,6 +112,9 @@ export interface CustomShadowsInterface {
     success: string;
     warning: string;
     error: string;
+    card: string;
+    dialog: string;
+    dropdown: string;
 }
 
 export interface TableOptionsInterface {
@@ -321,4 +325,11 @@ export interface BrandInterface extends EntityInterface {
 export interface BrandStateInterface {
     brands: BrandInterface[]
     setBrands: Dispatch<SetStateAction<BrandInterface[]>>
+}
+
+export interface BarCharData {
+    name: string;
+    type: string;
+    fill: string;
+    data: number[];
 }

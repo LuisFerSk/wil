@@ -15,6 +15,12 @@ import ReactSignatureCanvas from "react-signature-canvas";
 
 interface MaintenanceRegisterProps<T> extends RegisterInterface<T[] | []>, ConstantsInterface { }
 
+let sigPad: ReactSignatureCanvas | null = null;
+
+function clear() {
+    sigPad?.clear()
+}
+
 export default function MaintenanceRegister<T>(props: MaintenanceRegisterProps<T>): JSX.Element {
     const { setData, users, equipments } = props;
 
@@ -28,12 +34,6 @@ export default function MaintenanceRegister<T>(props: MaintenanceRegisterProps<T
 
     const [message, setMessage, messageLoader, resetMensaje] = useMessage()
 
-    let sigPad: ReactSignatureCanvas | null = null;
-
-    function clear() {
-        sigPad?.clear()
-    }
-
     const formik = useFormik({
         initialValues: maintenanceInitialValues,
         validationSchema: maintenanceSchema,
@@ -41,7 +41,6 @@ export default function MaintenanceRegister<T>(props: MaintenanceRegisterProps<T
             messageLoader()
 
             if (!sigPad) {
-                resetMensaje()
                 return;
             }
 
@@ -57,9 +56,9 @@ export default function MaintenanceRegister<T>(props: MaintenanceRegisterProps<T
 
             maintenanceCreate(token, dataToCreate)
                 .then((response) => {
+                    clear()
                     setData((old) => addInArray<T>(old, response.data.info))
                     resetForm()
-                    clear()
                     setMessage("success", 'Se ha guardado correctamente el mantenimiento.')
                 })
                 .catch((error) => {
@@ -117,7 +116,7 @@ export default function MaintenanceRegister<T>(props: MaintenanceRegisterProps<T
                     >
                         {equipments?.map((equipment, key) =>
                             <MenuItem key={`${uuidEquipment}-${key}`} value={equipment.id}>
-                                {`${equipment.type} - ${equipment.brand} ${equipment.model} - placa: ${equipment.license_plate}`}
+                                {`${equipment.type} - ${equipment.brand.name} ${equipment.model} - placa: ${equipment.license_plate}`}
                             </MenuItem>
                         )}
                     </AsyncSelect>
