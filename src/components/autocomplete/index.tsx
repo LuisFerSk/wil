@@ -1,28 +1,65 @@
-import { Autocomplete as AutocompleteMaterial, AutocompleteRenderInputParams, createFilterOptions, TextField } from "@mui/material";
-import { FieldInputProps } from "formik";
+import { Autocomplete as AutocompleteMaterial, AutocompleteRenderInputParams, createFilterOptions, TextField, TextFieldProps } from "@mui/material";
+import { FormikErrors } from "formik";
 
-interface AutocompleteProps extends FieldInputProps<any> {
-    handledChangeState: (value: string | null) => void
+interface AutocompleteProps<T> {
     options: string[]
+    textFieldProps: TextFieldProps
+    fieldValue: string
+    setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<FormikErrors<T>> | Promise<void>
 }
 
-const filter = createFilterOptions<string>();
+export interface valueProps {
+    title: string
+    inputValue?: string
+}
 
-export default function Autocomplete(props: AutocompleteProps): JSX.Element {
-    const { onChange, handledChangeState, options } = props;
+const filter = createFilterOptions<valueProps>();
 
+export default function Autocomplete<T>(props: AutocompleteProps<T>): JSX.Element {
+    const { options, fieldValue, setFieldValue, textFieldProps } = props;
+    const { name = '' } = textFieldProps;
 
     return (
         <AutocompleteMaterial
-            fullWidth
+            handleHomeEndKeys
+            selectOnFocus
+            clearOnBlur
             freeSolo
-            {...props}
+            value={{ title: fieldValue }}
+            onChange={(event, newValue) => {
+                if (typeof newValue === 'string') {
+                    setFieldValue(name, newValue)
+                    return;
+                }
+
+                if (newValue && newValue.inputValue) {
+                    setFieldValue(name, newValue.inputValue)
+                    return;
+                }
+
+                setFieldValue(name, newValue?.title)
+
+            }}
+            options={options.map(row => ({ title: row } as valueProps))}
+            renderOption={(props, option) => <li {...props}>{option.title}</li>}
+            getOptionLabel={(option) => {
+                if (typeof option === 'string') {
+                    return option;
+                }
+
+                if (option.inputValue) {
+                    return option.inputValue;
+                }
+
+                return option.title;
+            }}
             filterOptions={(options, params) => {
-                const filtered = filter(options, params);
+                const filtered = filter(options, params)
 
                 const { inputValue } = params;
-                // Suggest the creation of a new value
-                const isExisting = options.some((option) => inputValue === option.title);
+
+                const isExisting = options.some((option) => inputValue === option.title)
+
                 if (inputValue !== '' && !isExisting) {
                     filtered.push({
                         inputValue,
@@ -32,11 +69,7 @@ export default function Autocomplete(props: AutocompleteProps): JSX.Element {
 
                 return filtered;
             }}
-            selectOnFocus
-            clearOnBlur
-            handleHomeEndKeys
-            options={options}
-            renderInput={(params: AutocompleteRenderInputParams) => <TextField {...params} label="marca" />}
+            renderInput={(params: AutocompleteRenderInputParams) => <TextField {...params} {...textFieldProps} value={fieldValue} />}
         />
     )
 }

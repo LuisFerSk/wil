@@ -26,11 +26,6 @@ export default function ChangePassword(props: ChangePassordProps) {
         onSubmit: (data, { resetForm }) => {
             messageLoader()
 
-            if (!token) {
-                resetMessage()
-                return;
-            }
-
             const propsChangePassword = {
                 id,
                 token,
@@ -39,9 +34,7 @@ export default function ChangePassword(props: ChangePassordProps) {
 
             changePassword(propsChangePassword)
                 .then((response) => {
-                    if (response.status >= 200 && response.status < 300) {
-                        setMessage("success", 'Se ha cambiado la contraseña exitosamente.')
-                    }
+                    setMessage("success", 'Se ha cambiado la contraseña exitosamente.')
                 })
                 .catch(error => {
                     const { response } = error;

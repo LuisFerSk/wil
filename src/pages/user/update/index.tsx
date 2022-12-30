@@ -46,10 +46,10 @@ export default function UserUpdate(props: UpdateInterface<UserInterface>): JSX.E
                     <TextField {...getFieldFormikProps('name')} fullWidth label="Tipo de equipo" variant="outlined" />
                 </Grid>
                 <Grid item xs={6}>
-                    <TextField {...getFieldFormikProps('cc')} fullWidth type="number" label="Marca" variant="outlined" />
+                    <TextField {...getFieldFormikProps('cc')} fullWidth type="number" label="Cédula" variant="outlined" />
                 </Grid>
                 <Grid item xs={6}>
-                    <TextField {...getFieldFormikProps('phone')} fullWidth type="number" label="Modelo" variant="outlined" />
+                    <TextField {...getFieldFormikProps('phone')} fullWidth type="number" label="Teléfono" variant="outlined" />
                 </Grid>
                 <Grid item xs={6}>
                     <Button type="submit" variant="contained">Guardar</Button>

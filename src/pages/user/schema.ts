@@ -1,3 +1,4 @@
+import { UserProps } from 'interfaces';
 import { object, string } from 'yup'
 
 export const userSchema = object().shape({
@@ -26,21 +27,23 @@ export const userSchema = object().shape({
         })
         .required('La cédula es requerida.'),
     phone: string()
+        .nullable()
         .test('len', 'El número de teléfono debe contener solo números.', value => {
-            if (value !== undefined) {
+            if (value) {
                 return /^[0-9]+$/.test(value)
             }
             return true;
         })
         .test('len', 'El número de teléfono debe tener entre 7 a 10 dígitos.', value => {
-            if (value !== undefined) {
+            if (value) {
                 const valueLength = value.replace(/\s+/g, '').length;
                 return valueLength >= 7 && valueLength <= 10
             }
             return true;
-        }),
+        })
+    ,
 })
-export const userInitialValues = {
+export const userInitialValues: UserProps = {
     name: '',
     cc: '',
     phone: '',

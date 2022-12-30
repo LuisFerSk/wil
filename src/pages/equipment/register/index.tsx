@@ -1,25 +1,23 @@
-import { useContext } from "react";
+import { Dispatch, SetStateAction, useContext } from "react";
 import { Button, Grid, TextField } from "@mui/material";
-import { Form } from "components";
+import { Autocomplete, Form } from "components";
 import { useFormik } from "formik";
 import { useFormikFiledProps, useMessage } from "hooks";
 import { equipmentCreate } from "api/equipment";
-import { addInArray } from "utils";
-import { BrandInterface, RegisterInterface } from "interfaces";
+import { addIfNotExist, addInArray } from "utils";
+import { BrandStateInterface, RegisterInterface } from "interfaces";
 import { authContext } from "provider/Auth";
 import { equipmentInitialValues, equipmentSchema } from "../schema";
-import { brandFindAll } from "api/brand";
-import { useGetQueryApi } from "hooks/getQueryApi";
 
-export default function RegisterEquipment<T>(props: RegisterInterface<T[] | []>): JSX.Element {
-    const { setData } = props;
+interface EquipmentRegisterProps<T> extends RegisterInterface<T[] | []>, BrandStateInterface { }
+
+export default function EquipmentRegister<T>(props: EquipmentRegisterProps<T>): JSX.Element {
+    const { setData, brands, setBrands } = props;
 
     const _authContext = useContext(authContext)
     const { token } = _authContext;
 
     const [message, setMessage, messageLoader] = useMessage()
-
-    const [brands, setBrands] = useGetQueryApi<BrandInterface[]>(brandFindAll(token), [])
 
     const formik = useFormik({
         initialValues: equipmentInitialValues,
@@ -27,9 +25,12 @@ export default function RegisterEquipment<T>(props: RegisterInterface<T[] | []>)
         onSubmit: (data, { resetForm }) => {
             messageLoader()
 
+            console.log(data)
+
             equipmentCreate(token, data)
                 .then((response) => {
                     setData((old) => addInArray<T>(old, response.data.info))
+                    setBrands((old) => addIfNotExist(old, response.data.info.brand))
                     resetForm()
                     setMessage("success", 'Se ha guardado correctamente el equipo.')
                 })
@@ -54,7 +55,17 @@ export default function RegisterEquipment<T>(props: RegisterInterface<T[] | []>)
                     <TextField {...getFieldFormikProps('type')} fullWidth label="Tipo de equipo" variant="outlined" />
                 </Grid>
                 <Grid item xs={6}>
-                    <TextField {...getFieldFormikProps('brand')} fullWidth label="Marca" variant="outlined" />
+                    <Autocomplete
+                        fieldValue={formik.values.brand}
+                        setFieldValue={formik.setFieldValue}
+                        options={brands.map(brand => brand.name)}
+                        textFieldProps={{
+                            fullWidth: true,
+                            label: 'marca',
+                            variant: "outlined",
+                            ...getFieldFormikProps('brand')
+                        }}
+                    />
                 </Grid>
                 <Grid item xs={6}>
                     <TextField {...getFieldFormikProps('model')} fullWidth label="Modelo" variant="outlined" />

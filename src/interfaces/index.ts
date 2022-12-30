@@ -148,7 +148,7 @@ export interface EquipmentBaseProps {
     flat: string,
 }
 
-export interface EquipmentProps {
+export interface EquipmentProps extends EquipmentBaseProps {
     brand: string,
 }
 
@@ -161,7 +161,7 @@ export interface EquipmentInterface extends EntityInterface, EquipmentBaseProps 
     brand: BrandInterface
 }
 
-export type DataTableType<T> = T[] | [];
+export type DataTableType<T> = T[];
 
 export interface TablePropsInterface<T> {
     id?: string
@@ -203,7 +203,7 @@ export interface UpdateInterface<T> {
 export interface UserProps {
     name: string,
     cc: string,
-    phone: string
+    phone: string | null
 }
 
 export interface UserInterface extends EntityInterface, UserProps { }
@@ -316,4 +316,9 @@ export interface SupportProps {
 
 export interface BrandInterface extends EntityInterface {
     name: string
+}
+
+export interface BrandStateInterface {
+    brands: BrandInterface[]
+    setBrands: Dispatch<SetStateAction<BrandInterface[]>>
 }

@@ -1,9 +1,10 @@
+import { EquipmentProps } from 'interfaces';
 import { number, object, string } from 'yup'
 
 export const equipmentSchema = object().shape({
     type: string()
         .test('len', 'El tipo de equipo debe tener entre 3 a 25 caracteres.', value => {
-            if (value !== undefined) {
+            if (value) {
                 const valueLength = value.replace(/\s+/g, '').length
                 return valueLength >= 3 && valueLength <= 25
             }
@@ -12,7 +13,7 @@ export const equipmentSchema = object().shape({
         .required('El tipo de equipo es requerido.'),
     brand: string()
         .test('len', 'La marca del equipo debe tener entre 2 a 25 caracteres.', value => {
-            if (value !== undefined) {
+            if (value) {
                 const valueLength = value.replace(/\s+/g, '').length
                 return valueLength >= 2 && valueLength <= 25
             }
@@ -21,7 +22,7 @@ export const equipmentSchema = object().shape({
         .required('La marca es requerida.'),
     model: string()
         .test('len', 'El modelo del equipo debe tener entre 2 a 25 caracteres.', value => {
-            if (value !== undefined) {
+            if (value) {
                 const valueLength = value.replace(/\s+/g, '').length
                 return valueLength >= 2 && valueLength <= 25
             }
@@ -30,7 +31,7 @@ export const equipmentSchema = object().shape({
         .required('El modelo del equipo es requerido.'),
     serial: string()
         .test('len', 'El numero serial del equipo debe tener entre 3 a 25 caracteres.', value => {
-            if (value !== undefined) {
+            if (value) {
                 const valueLength = value.replace(/\s+/g, '').length
                 return valueLength >= 3 && valueLength <= 25
             }
@@ -39,7 +40,7 @@ export const equipmentSchema = object().shape({
         .required('El numero serial del equipo es requerido.'),
     monitor_serial: string()
         .test('len', 'El numero serial del monitor del equipo debe tener entre 3 a 25 caracteres.', value => {
-            if (value !== undefined) {
+            if (value) {
                 const valueLength = value.replace(/\s+/g, '').length
                 return valueLength >= 3 && valueLength <= 25
             }
@@ -48,7 +49,7 @@ export const equipmentSchema = object().shape({
         .required('El numero serial del monitor es requerido.'),
     license_plate: string()
         .test('len', 'la placa del equipo debe tener entre 3 a 25 caracteres.', value => {
-            if (value !== undefined) {
+            if (value) {
                 const valueLength = value.replace(/\s+/g, '').length
                 return valueLength >= 3 && valueLength <= 25
             }
@@ -57,7 +58,7 @@ export const equipmentSchema = object().shape({
         .required('la placa del equipo es requerido'),
     area: string()
         .test('len', 'El area del equipo debe tener entre 3 a 25 caracteres.', value => {
-            if (value !== undefined) {
+            if (value) {
                 const valueLength = value.replace(/\s+/g, '').length
                 return valueLength >= 3 && valueLength <= 25
             }
@@ -66,14 +67,14 @@ export const equipmentSchema = object().shape({
         .required('El numero serial del mouse es requerido.'),
     flat: number()
         .test('len', 'El piso en donde esta ubicado el equipo debe ser un número entre 1 y 100.', value => {
-            if (value !== undefined) {
+            if (value) {
                 return value >= 1 || value <= 100
             }
             return false;
         })
         .required('El piso en donde esta ubicado el equipo es requerida.'),
 })
-export const equipmentInitialValues = {
+export const equipmentInitialValues: EquipmentProps = {
     type: '',
     brand: '',
     model: '',

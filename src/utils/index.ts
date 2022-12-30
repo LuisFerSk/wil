@@ -17,6 +17,13 @@ export function addInArray<T>(array: T[] | [], data: T): T[] {
     return [...array, data]
 }
 
+export function addIfNotExist<T>(array: T[], data: T): T[] {
+    if (array.includes(data)) {
+        return array;
+    }
+    return addInArray(array, data)
+}
+
 export function deleteInArrayData<T extends EntityInterface>(array: T[], id: IdType): T[] {
     return filter(array, row => row.id !== id)
 }

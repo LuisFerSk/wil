@@ -1,16 +1,18 @@
 import { Button, Grid, TextField } from "@mui/material";
-import { Form } from "components";
+import { Autocomplete, Form } from "components";
 import { useFormik } from "formik";
 import { useFormikFiledProps, useMessage } from "hooks";
 import { equipmentSchema } from "../schema";
-import { updateDataInArray } from "utils";
-import { EquipmentInterface, UpdateInterface } from "interfaces";
+import { addIfNotExist, updateDataInArray } from "utils";
+import { BrandStateInterface, EquipmentInterface, UpdateInterface } from "interfaces";
 import { useContext } from "react";
 import { authContext } from "provider/Auth";
 import { equipmentUpdate } from "api/equipment";
 
-export default function EquipmentUpdate(props: UpdateInterface<EquipmentInterface>): JSX.Element {
-    const { initData, setData } = props;
+interface EquipmentUpdateProps extends UpdateInterface<EquipmentInterface>, BrandStateInterface { }
+
+export default function EquipmentUpdate(props: EquipmentUpdateProps): JSX.Element {
+    const { initData, setData, brands, setBrands } = props;
 
     const _authContext = useContext(authContext)
     const { token } = _authContext;
@@ -19,7 +21,7 @@ export default function EquipmentUpdate(props: UpdateInterface<EquipmentInterfac
 
 
     const formik = useFormik({
-        initialValues: initData,
+        initialValues: { ...initData, brand: initData.brand.name },
         validationSchema: equipmentSchema,
         onSubmit: (data) => {
             messageLoader()
@@ -28,7 +30,8 @@ export default function EquipmentUpdate(props: UpdateInterface<EquipmentInterfac
 
             equipmentUpdate(token, data)
                 .then((response) => {
-                    setData((old) => updateDataInArray<EquipmentInterface>(old, id, data))
+                    setData((old) => updateDataInArray<EquipmentInterface>(old, id, response.data.info))
+                    setBrands((old) => addIfNotExist(old, response.data.info.brand))
                     setMessage("success", 'Se ha actualizado correctamente el equipo.')
                 })
                 .catch(({ response }) => {
@@ -46,7 +49,17 @@ export default function EquipmentUpdate(props: UpdateInterface<EquipmentInterfac
                     <TextField {...getFieldFormikProps('type')} fullWidth label="Tipo de equipo" variant="outlined" />
                 </Grid>
                 <Grid item xs={6}>
-                    <TextField {...getFieldFormikProps('brand')} fullWidth label="Marca" variant="outlined" />
+                    <Autocomplete
+                        fieldValue={formik.values.brand}
+                        setFieldValue={formik.setFieldValue}
+                        options={brands.map(brand => brand.name)}
+                        textFieldProps={{
+                            fullWidth: true,
+                            label: 'marca',
+                            variant: "outlined",
+                            ...getFieldFormikProps('brand')
+                        }}
+                    />
                 </Grid>
                 <Grid item xs={6}>
                     <TextField {...getFieldFormikProps('model')} fullWidth label="Modelo" variant="outlined" />

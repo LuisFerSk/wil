@@ -4,11 +4,10 @@ import trash2Outline from '@iconify/icons-eva/trash-2-outline'
 import { TableCell } from '@mui/material'
 import { FloatAlert, Modal, Table } from 'components'
 
-
 import { mappingMenuItem } from 'components/table/TableFunctions'
 import TableMoreMenu from 'components/table/TableMoreMenu'
 import { useFloat } from 'hooks'
-import { EquipmentInterface, HeadLabelInterface, TableDataInterface, TableOptionsInterface } from 'interfaces'
+import { BrandStateInterface, EquipmentInterface, HeadLabelInterface, TableDataInterface, TableOptionsInterface } from 'interfaces'
 import EquipmentDelete from '../delete'
 import EquipmentUpdate from '../update'
 
@@ -21,8 +20,12 @@ const headLabel: HeadLabelInterface[] = [
     { id: '', label: '' }
 ]
 
-export default function EquipmentTable(props: TableDataInterface<EquipmentInterface>): JSX.Element {
-    const { data, setData } = props;
+interface EquipmentTableProps extends TableDataInterface<EquipmentInterface> {
+    updateProps: BrandStateInterface
+}
+
+export default function EquipmentTable(props: EquipmentTableProps): JSX.Element {
+    const { data, setData, updateProps } = props;
 
     const modalState = useFloat({ initialState: false })
 
@@ -43,6 +46,7 @@ export default function EquipmentTable(props: TableDataInterface<EquipmentInterf
                     modalState.setTitle('Actualizar Equipo')
                     modalState.setContent(
                         <EquipmentUpdate
+                            {...updateProps}
                             setData={setData}
                             initData={row}
                         />
