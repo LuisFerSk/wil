@@ -19,7 +19,6 @@ export default function Sidebar(props: SidebarProps): JSX.Element {
     const { pathname } = useLocation()
 
     const _authContext = useContext(authContext)
-
     const { user } = _authContext;
 
     function getNavConfig() {

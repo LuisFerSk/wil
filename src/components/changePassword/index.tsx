@@ -1,5 +1,5 @@
 import { Button, Grid } from "@mui/material";
-import { changePassword } from "services/support";
+import { changeMePassword, changePassword } from "services/support";
 import { Form, TextFieldPassword } from "components";
 import { useFormik } from "formik";
 import { useFormikFiledProps, useMessage } from "hooks";
@@ -8,11 +8,11 @@ import { authContext } from "provider/Auth";
 import { useContext } from "react";
 import { changePasswordInitialValues, changePasswordSchema } from "./schema";
 
-interface ChangePassordProps {
-    id: IdType
+interface ChangePasswordProps {
+    id?: IdType
 }
 
-export default function ChangePassword(props: ChangePassordProps) {
+export default function ChangePassword(props: ChangePasswordProps) {
     const { id } = props;
 
     const [message, setMessage, messageLoader, resetMessage] = useMessage()
@@ -26,10 +26,31 @@ export default function ChangePassword(props: ChangePassordProps) {
         onSubmit: (data, { resetForm }) => {
             messageLoader()
 
-            const propsChangePassword = {
-                id,
+            const propsChangeMePassword = {
                 token,
                 password: data.password,
+            }
+
+            if (!id) {
+                changeMePassword(propsChangeMePassword)
+                    .then((response) => {
+                        setMessage("success", 'Se ha cambiado la contraseña exitosamente.')
+                    })
+                    .catch(error => {
+                        const { response } = error;
+                        if (response) {
+                            setMessage('error', response.data.message)
+                            return;
+                        }
+                        setMessage('error', "Ha sucedió un error al realizar la operación")
+                        console.log(error)
+                    })
+                return;
+            }
+
+            const propsChangePassword = {
+                id,
+                ...propsChangeMePassword,
             }
 
             changePassword(propsChangePassword)
@@ -45,6 +66,7 @@ export default function ChangePassword(props: ChangePassordProps) {
                     setMessage('error', "Ha sucedió un error al realizar la operación")
                     console.log(error)
                 })
+
         },
     })
 

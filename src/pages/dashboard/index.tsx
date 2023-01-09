@@ -23,7 +23,6 @@ export default function Dashboard() {
         <Typography variant="h4" sx={{ mb: 5 }}>
           Bienvenido
         </Typography>
-
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <BarChar

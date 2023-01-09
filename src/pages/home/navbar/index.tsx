@@ -3,9 +3,8 @@ import menu2Fill from '@iconify/icons-eva/menu-2-fill'
 import { Box, Stack, IconButton } from '@mui/material'
 
 import AccountPopover from '../accountPopover'
-import { MHidden, Modal } from 'components'
+import { MHidden, Modal, ChangePassword } from 'components'
 import { RootStyle, ToolbarStyle } from './style'
-import ChangeMePassword from 'screens/user/changeMePassword'
 import { useFloat } from 'hooks'
 
 
@@ -31,8 +30,8 @@ export default function Navbar(props: NavbarProps): JSX.Element {
                     <AccountPopover openModal={modalState.open} />
                 </Stack>
             </ToolbarStyle>
-            <Modal title={'Modificar Contraseña'} isOpen={modalState.isOpen} onClose={modalState.close}>
-                <></>
+            <Modal title={'Modificar mi contraseña'} isOpen={modalState.isOpen} onClose={modalState.close}>
+                <ChangePassword />
             </Modal>
         </RootStyle>
     )

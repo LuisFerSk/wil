@@ -34,3 +34,14 @@ export function changePassword(props: ChangePasswordProps): Promise<AxiosRespons
 
     return axios.put(`${userBaseUrl}/change-password`, user, postToken(token))
 }
+
+interface ChangeMePasswordProps {
+    token: string
+    password: string
+}
+
+export function changeMePassword(props: ChangeMePasswordProps): Promise<AxiosResponse<any, any>> {
+    const { token, ...user } = props;
+
+    return axios.put(`${userBaseUrl}/change-me-password`, user, postToken(token))
+}

@@ -1,13 +1,12 @@
 import formTextboxPassword from '@iconify/icons-mdi/form-textbox-password';
 import trash2Outline from '@iconify/icons-eva/trash-2-outline'
 import { TableCell } from '@mui/material'
-import { FloatAlert, Modal, Table } from 'components'
+import { FloatAlert, Modal, Table, ChangePassword } from 'components'
 import { mappingMenuItem } from 'components/table/TableFunctions'
 import TableMoreMenu from 'components/table/TableMoreMenu'
 import { useFloat } from 'hooks'
 import { HeadLabelInterface, TableDataInterface, TableOptionsInterface, SupportInterface } from 'interfaces'
 import SupportDelete from '../delete'
-import ChangePassword from '../changePassword';
 
 
 const headLabel: HeadLabelInterface[] = [

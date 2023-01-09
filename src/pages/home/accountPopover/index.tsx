@@ -15,7 +15,7 @@ type MenuOption = {
 
 const MENU_OPTIONS: MenuOption = [
     {
-        label: 'Actualizar Contraseña',
+        label: 'Actualizar mi contraseña',
         icon: formTextboxPassword,
     }
 ]
@@ -30,8 +30,8 @@ export default function AccountPopover(props: AccountPopoverProps): JSX.Element 
     const anchorRef = useRef(null)
     const [open, setOpen] = useState(false)
 
-    const authsContext = useContext(authContext)
-    const { user, logout } = authsContext;
+    const _authContext = useContext(authContext)
+    const { user, logout } = _authContext;
 
     function handleOpen() {
         setOpen(true)
