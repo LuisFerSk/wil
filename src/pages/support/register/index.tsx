@@ -7,7 +7,7 @@ import { addInArray } from "utils";
 import { RegisterInterface } from "interfaces";
 import { authContext } from "provider/Auth";
 import { supportInitialValues, supportSchema } from "../schema";
-import { supportCreate } from "api/support";
+import { supportCreate } from "services/support";
 
 export default function SupportRegister<T>(props: RegisterInterface<T[] | []>): JSX.Element {
     const { setData } = props;

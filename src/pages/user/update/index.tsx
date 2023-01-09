@@ -7,7 +7,7 @@ import { updateDataInArray } from "utils";
 import { UpdateInterface, UserInterface } from "interfaces";
 import { useContext } from "react";
 import { authContext } from "provider/Auth";
-import { userUpdate } from "api/user";
+import { userUpdate } from "services/user";
 
 export default function UserUpdate(props: UpdateInterface<UserInterface>): JSX.Element {
     const { initData, setData } = props;

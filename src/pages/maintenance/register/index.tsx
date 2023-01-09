@@ -7,7 +7,7 @@ import { addInArray, dataURLtoBlob, formatDateApi } from "utils";
 import { RegisterInterface } from "interfaces";
 import { authContext } from "provider/Auth";
 import { maintenanceInitialValues, maintenanceSchema } from "../schema";
-import { maintenanceCreate } from "api/maintenance";
+import { maintenanceCreate } from "services/maintenance";
 import { ConstantsInterface } from "../"
 import SignatureCanvas from 'react-signature-canvas'
 import styles from './style.module.css'

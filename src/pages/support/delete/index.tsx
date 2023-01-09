@@ -4,7 +4,7 @@ import { Dispatch, SetStateAction, useContext } from 'react';
 import { Delete } from 'components';
 import { authContext } from 'provider/Auth';
 import { useMessage } from 'hooks';
-import { userDestroy } from 'api/user';
+import { userDestroy } from 'services/user';
 
 interface SupportDeleteProps {
     data: SupportInterface

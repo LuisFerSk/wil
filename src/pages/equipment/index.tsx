@@ -6,9 +6,9 @@ import { useContext } from 'react';
 import { authContext } from 'provider/Auth';
 import EquipmentTable from './table';
 import RegisterEquipment from './register';
-import { equipmentFindAll } from 'api/equipment';
+import { equipmentFindAll } from 'services/equipment';
 import { useGetQueryApi } from 'hooks/getQueryApi';
-import { brandFindAll } from 'api/brand';
+import { brandFindAll } from 'services/brand';
 
 export default function Equipment(): JSX.Element {
     const _authContext = useContext(authContext)

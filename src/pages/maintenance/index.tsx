@@ -6,9 +6,9 @@ import { useContext, useEffect, useState } from 'react';
 import { authContext } from 'provider/Auth';
 import MaintenanceTable from './table';
 import MaintenanceRegister from './register';
-import { maintenanceFindAll } from 'api/maintenance';
-import { userFindAll } from 'api/user';
-import { equipmentFindAll } from 'api/equipment';
+import { maintenanceFindAll } from 'services/maintenance';
+import { userFindAll } from 'services/user';
+import { equipmentFindAll } from 'services/equipment';
 
 export interface ConstantsInterface {
     users: UserInterface[] | undefined

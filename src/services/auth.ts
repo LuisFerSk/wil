@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-import { postToken } from "api"
+import { postToken } from "services"
 
 interface usuario {
     username: string,

@@ -1,4 +1,4 @@
-import { postToken } from "api";
+import { postToken } from "services";
 import axios, { AxiosResponse } from "axios";
 import { IdType, MaintenanceProps } from "interfaces";
 

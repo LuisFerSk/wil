@@ -4,7 +4,7 @@ import { Dispatch, SetStateAction, useContext } from 'react';
 import { Delete } from 'components';
 import { authContext } from 'provider/Auth';
 import { useMessage } from 'hooks';
-import { maintenanceDestroy } from 'api/maintenance';
+import { maintenanceDestroy } from 'services/maintenance';
 
 interface MaintenanceDeleteProps {
     data: MaintenanceInterface

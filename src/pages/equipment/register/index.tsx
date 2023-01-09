@@ -3,7 +3,7 @@ import { Button, Grid, TextField } from "@mui/material";
 import { Autocomplete, Form } from "components";
 import { useFormik } from "formik";
 import { useFormikFiledProps, useMessage } from "hooks";
-import { equipmentCreate } from "api/equipment";
+import { equipmentCreate } from "services/equipment";
 import { addIfNotExist, addInArray } from "utils";
 import { BrandStateInterface, RegisterInterface } from "interfaces";
 import { authContext } from "provider/Auth";

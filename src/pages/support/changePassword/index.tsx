@@ -1,5 +1,5 @@
 import { Button, Grid } from "@mui/material";
-import { changePassword } from "api/support";
+import { changePassword } from "services/support";
 import { Form, TextFieldPassword } from "components";
 import { useFormik } from "formik";
 import { useFormikFiledProps, useMessage } from "hooks";

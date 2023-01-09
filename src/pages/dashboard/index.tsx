@@ -1,5 +1,5 @@
 import { Grid, Container, Typography } from '@mui/material';
-import { maintenanceFindMadePerDay } from 'api/maintenance';
+import { maintenanceFindMadePerDay } from 'services/maintenance';
 
 import BarChar from 'components/metric/barChar';
 import { useGetQueryApi } from 'hooks/getQueryApi';

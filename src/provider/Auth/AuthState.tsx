@@ -1,11 +1,11 @@
-import { verifyToken } from 'api/auth'
+import { verifyToken } from 'services/auth'
 import { useLocalStorage } from 'hooks'
 import { ProviderProps } from 'interfaces'
 import { useState, useEffect } from 'react'
 import { createContext } from 'react'
 import { serializeToken } from 'utils'
 
-const initToken = ''
+const initToken: string = ''
 
 interface UserApiInterface {
     username: string

@@ -1,6 +1,6 @@
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 import { Box, Card, Grid } from "@mui/material";
-import { supportFindAll } from 'api/support';
+import { supportFindAll } from 'services/support';
 import { Accordion } from "components";
 import { SupportInterface } from 'interfaces';
 import { useContext, useEffect, useState } from 'react';

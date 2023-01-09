@@ -36,7 +36,6 @@ export default function BarChar(props: BarCharProps) {
   return (
     <Card {...other}>
       <CardHeader title={title} subheader={subheader} />
-
       <Box sx={{ p: 3, pb: 1 }} dir="ltr">
         <ReactApexChart type="line" series={chartData} options={chartOptions} height={280} />
       </Box>

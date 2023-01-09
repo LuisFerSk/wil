@@ -3,7 +3,7 @@ import { loginInitialValues, loginSchema } from './schema'
 import { Form, Logo, TextFieldPassword } from 'components'
 import { useFormikFiledProps, useMessage } from 'hooks'
 import { Button, Grid, Paper, TextField } from '@mui/material'
-import { login } from 'api/auth'
+import { login } from 'services/auth'
 import { useContext } from 'react'
 import { authContext } from 'provider/Auth'
 

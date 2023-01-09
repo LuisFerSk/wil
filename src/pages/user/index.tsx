@@ -6,7 +6,7 @@ import { useContext, useEffect, useState } from 'react';
 import { authContext } from 'provider/Auth';
 import UserTable from './table';
 import UserRegister from './register';
-import { userFindAll } from 'api/user';
+import { userFindAll } from 'services/user';
 
 export default function User(): JSX.Element {
     const [users, setUsers] = useState<UserInterface[] | []>([])

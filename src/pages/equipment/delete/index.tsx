@@ -3,7 +3,7 @@ import { DataTableType, EquipmentInterface } from 'interfaces';
 import { Dispatch, SetStateAction, useContext } from 'react';
 import { Delete } from 'components';
 import { authContext } from 'provider/Auth';
-import { equipmentDestroy } from 'api/equipment';
+import { equipmentDestroy } from 'services/equipment';
 import { useMessage } from 'hooks';
 
 interface DeleteEquipmentProps {

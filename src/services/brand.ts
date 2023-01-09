@@ -1,4 +1,4 @@
-import { postToken } from "api";
+import { postToken } from "services";
 import axios, { AxiosResponse } from "axios";
 
 const equipmentBaseUrl: string = `${import.meta.env.VITE_BACKEND_URL}/brand`

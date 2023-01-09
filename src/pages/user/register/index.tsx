@@ -7,7 +7,7 @@ import { addInArray } from "utils";
 import { RegisterInterface } from "interfaces";
 import { authContext } from "provider/Auth";
 import { userInitialValues, userSchema } from "../schema";
-import { userCreate } from "api/user";
+import { userCreate } from "services/user";
 
 export default function UserRegister<T>(props: RegisterInterface<T[] | []>): JSX.Element {
     const { setData } = props;

@@ -7,7 +7,7 @@ import { addIfNotExist, updateDataInArray } from "utils";
 import { BrandStateInterface, EquipmentInterface, UpdateInterface } from "interfaces";
 import { useContext } from "react";
 import { authContext } from "provider/Auth";
-import { equipmentUpdate } from "api/equipment";
+import { equipmentUpdate } from "services/equipment";
 
 interface EquipmentUpdateProps extends UpdateInterface<EquipmentInterface>, BrandStateInterface { }
 
