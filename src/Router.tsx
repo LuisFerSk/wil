@@ -1,44 +1,16 @@
-import { Login, Home, Loader, User, Equipment, Maintenance, NotFound, Support, Dashboard } from 'pages'
+import { User, Equipment, Maintenance, NotFound, Dashboard } from 'pages'
 import { Navigate, useRoutes } from 'react-router-dom'
-import { authContext } from 'provider/Auth'
-import { useContext } from 'react';
-import { roles } from 'constants';
+import { AuthGuard, NotAuthGuard, SupportGuard } from 'guards';
 
 export default function Router(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | null {
-  const _authContext = useContext(authContext)
-  const { user } = _authContext;
-
-  function noAutenticado(): JSX.Element | undefined {
-    if (user === undefined) {
-      return <Loader />
-    }
-    if (user === null) {
-      return <Login />;
-    }
-    if (user) {
-      return <Navigate to='/' replace />;
-    }
-  }
-
-  function autenticado(): JSX.Element | undefined {
-    if (user === undefined) {
-      return <Loader />
-    }
-    if (user === null) {
-      return <Navigate to='/login' replace />;
-    }
-    if (user) {
-      return <Home />;
-    }
-  }
   return useRoutes([
     {
       path: '/login',
-      element: noAutenticado(),
+      element: <NotAuthGuard />,
     },
     {
       path: '/',
-      element: autenticado(),
+      element: <AuthGuard />,
       children: [
         {
           path: "/",
@@ -58,7 +30,7 @@ export default function Router(): React.ReactElement<any, string | React.JSXElem
         },
         {
           path: "/support",
-          element: user?.role === roles.administrator ? <Support /> : <Navigate to='/404' replace />
+          element: <SupportGuard />
         },
         {
           path: "/home",
