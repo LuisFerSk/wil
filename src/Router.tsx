@@ -1,8 +1,8 @@
-import { User, Equipment, Maintenance, NotFound, Dashboard } from 'pages'
+import { Equipment, Maintenance, NotFound, Dashboard, PrinterScanner } from 'pages'
 import { Navigate, useRoutes } from 'react-router-dom'
 import { AuthGuard, NotAuthGuard, SupportGuard } from 'guards';
 
-export default function Router(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | null {
+export default function Router(): JSX.Element | null {
   return useRoutes([
     {
       path: '/login',
@@ -21,8 +21,8 @@ export default function Router(): React.ReactElement<any, string | React.JSXElem
           element: <Equipment />
         },
         {
-          path: "/user",
-          element: <User />,
+          path: "/printer-scanner",
+          element: <PrinterScanner />
         },
         {
           path: "/maintenance",

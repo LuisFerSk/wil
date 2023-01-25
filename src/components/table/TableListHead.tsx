@@ -6,12 +6,12 @@ interface TableListHeadProps {
     order: GetComparatorOrderType
     orderBy: string
     headLabel: HeadLabelInterface[]
-    onRequestSort: (event: any, property: any) => void
+    onRequestSort: (event: any, property: string) => void
 }
 
 export default function TableListHead(props: TableListHeadProps) {
     const { order, orderBy, headLabel, onRequestSort, } = props
-    const createSortHandler = (property: any) => (event: any) => {
+    const createSortHandler = (property: string) => (event: any) => {
         onRequestSort(event, property)
     }
 

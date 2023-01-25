@@ -1,7 +1,6 @@
-import { EquipmentProps } from 'interfaces';
 import { number, object, string } from 'yup'
 
-export const equipmentSchema = object().shape({
+export const schema = object().shape({
     type: string()
         .required('El tipo de equipo es requerido.'),
     campus: string()
@@ -33,14 +32,6 @@ export const equipmentSchema = object().shape({
             return false;
         })
         .required('El numero serial del equipo es requerido.'),
-    monitor_serial: string()
-        .test('len', 'El numero serial del monitor del equipo debe tener entre 3 a 25 caracteres.', value => {
-            if (value) {
-                const valueLength = value.replace(/\s+/g, '').length
-                return valueLength >= 3 && valueLength <= 25
-            }
-            return true;
-        }),
     license_plate: string()
         .nullable()
         .test('len', 'La placa del equipo debe contener solo números.', value => {
@@ -107,13 +98,12 @@ export const equipmentSchema = object().shape({
         })
 })
 
-export const equipmentInitialValues: EquipmentProps = {
+export const initialValues = {
     type: '',
     brand: '',
     campus: '',
     model: '',
     serial: '',
-    monitor_serial: '',
     license_plate: '',
     area: '',
     flat: '',
@@ -122,107 +112,25 @@ export const equipmentInitialValues: EquipmentProps = {
     phone: '',
 }
 
-export const typesEquipments = [
+export const typesPrinterScanner = [
     {
-        label: 'Todo en uno',
-        value: 'All in one'
+        label: 'Impresora',
+        value: 'Impresora'
     },
     {
-        label: 'Escritorio',
-        value: 'Desktop'
+        label: 'Impresora sencilla',
+        value: 'Imp Sencilla'
     },
     {
-        label: 'Laptop',
-        value: 'Laptop'
+        label: 'Impresora multifuncional a color',
+        value: 'Imp Multifuncional Color'
     },
     {
-        label: 'Estación de trabajo',
-        value: 'Workstation'
+        label: 'Impresora multifuncional BN',
+        value: 'Imp Multifuncional BN'
     },
     {
-        label: 'Tablet iOS',
-        value: 'Tablet iOS'
+        label: 'Scanner',
+        value: 'Scanner'
     }
-]
-
-export const headquarters = [
-    {
-        label: 'Valledupar',
-        value: 'VALLEDUPAR'
-    },
-    {
-        label: 'Aguachica',
-        value: 'AGUACHICA'
-    },
-    {
-        label: 'Curumani',
-        value: 'CURUMANI'
-    },
-    {
-        label: 'Chimichagua',
-        value: 'CHIMICHAGUA'
-    },
-    {
-        label: 'Jagua de Ibirico',
-        value: 'JAGUA DE IBIRICO'
-    },
-]
-
-export const areas = [
-    {
-        label: 'Dirección general',
-        value: 'DIRECCIÓN GENERAL'
-    },
-    {
-        label: 'Secretaria general',
-        value: 'SECRETARIA GENERAL'
-    },
-    {
-        label: 'Oficina Jurídica',
-        value: 'OFICINA JURÍDICA'
-    },
-    {
-        label: 'Oficina Control Interno',
-        value: 'OFICINA CONTROL INTERNO'
-    },
-    {
-        label: 'Asesor Dirección General',
-        value: 'ASESOR DIRECCIÓN GENERAL'
-    },
-    {
-        label: 'Oficina de Sistemas y TICS',
-        value: 'OFICINA DE SISTEMAS Y TICS'
-    },
-    {
-        label: 'subdirección General Área de Planeación',
-        value: 'SUBDIRECCIÓN GENERAL ÁREA DE PLANEACIÓN'
-    },
-    {
-        label: 'Subdirección General Área de Gestión Ambiental',
-        value: 'SUBDIRECCIÓN GENERAL ÁREA DE GESTIÓN AMBIENTAL'
-    },
-    {
-        label: 'Subdirección General Área Administrativa y Financiera',
-        value: 'SUBDIRECCIÓN GENERAL ÁREA ADMINISTRATIVA Y FINANCIERA'
-    },
-    {
-        label: 'Gestión Financiera',
-        value: 'GESTIÓN FINANCIERA'
-    },
-    {
-        label: 'Contabilidad',
-        value: 'CONTABILIDAD'
-    },
-    {
-        label: 'Tesoreria',
-        value: 'TESORERIA'
-    },
-    {
-        label: 'Pagaduria',
-        value: 'PAGADURIA'
-    },
-    {
-        label: 'Ventanilla Única',
-        value: 'VENTANILLA ÚNICA'
-    },
 ]

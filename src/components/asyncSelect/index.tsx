@@ -45,7 +45,5 @@ export default function AsyncSelect(props: AsyncSelectProps): JSX.Element {
         )
     }
 
-    return (
-        <>{textFieldUserReturn()}</>
-    )
+    return textFieldUserReturn()
 }

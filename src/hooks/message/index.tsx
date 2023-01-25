@@ -2,14 +2,14 @@ import { useState } from 'react'
 import { Alert, AlertColor, CircularProgress } from '@mui/material'
 import { StateMessage } from 'interfaces'
 
-type useMesaggeReturn = [
+type useMessageReturn = [
   StateMessage,
   (severity: AlertColor, label: string) => void,
-  () => void,
-  () => void,
+  Function,
+  Function,
 ]
 
-export function useMessage(): useMesaggeReturn {
+export function useMessage(): useMessageReturn {
   const [mensaje, setMensaje] = useState<StateMessage>(null)
 
   function updateMensaje(severity: AlertColor, label: string) {

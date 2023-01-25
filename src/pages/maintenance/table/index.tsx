@@ -11,7 +11,6 @@ import MaintenanceView from '../view'
 
 const headLabel: HeadLabelInterface[] = [
     { id: 'id', label: 'Id', alignRight: false },
-    { id: 'equipment_user', label: 'Usuario', alignRight: false },
     { id: 'equipment', label: 'Equipo', alignRight: false },
     { id: 'date', label: 'Fecha', alignRight: false },
     { id: '', label: '' }
@@ -29,7 +28,7 @@ export default function MaintenanceTable(props: TableDataInterface<MaintenanceIn
 
 
     function createTableCells(row: MaintenanceInterface): JSX.Element {
-        const { id, equipment_user, equipment, date } = row;
+        const { id, equipment, date } = row;
 
         const options: TableOptionsInterface[] = [
             {
@@ -65,7 +64,6 @@ export default function MaintenanceTable(props: TableDataInterface<MaintenanceIn
         return (
             <>
                 <TableCell align='left'>{id}</TableCell>
-                <TableCell align='left'>{`${equipment_user.cc} - ${equipment_user.name}`}</TableCell>
                 <TableCell align='left'>{equipment.license_plate}</TableCell>
                 <TableCell align='left'>{date.split('T')[0]}</TableCell>
                 <TableCell padding='checkbox'>

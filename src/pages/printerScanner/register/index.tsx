@@ -7,34 +7,36 @@ import { equipmentCreate } from "services/equipment";
 import { addIfNotExist, addInArray } from "utils";
 import { BrandStateInterface, RegisterInterface } from "interfaces";
 import { authContext } from "provider/Auth";
-import { areas, equipmentInitialValues, equipmentSchema, headquarters, typesEquipments } from "../schema";
+import { initialValues, schema, typesPrinterScanner } from "../schema";
+import { areas, headquarters } from "constants";
+import { printerScannerCreate } from "services/printer_scanner";
 
-interface EquipmentRegisterProps<T> extends RegisterInterface<T[] | []>, BrandStateInterface { }
+interface PrinterScannerRegisterProps<T> extends RegisterInterface<T[] | []>, BrandStateInterface { }
 
-export default function EquipmentRegister<T>(props: EquipmentRegisterProps<T>): JSX.Element {
+export default function PrinterScannerRegister<T>(props: PrinterScannerRegisterProps<T>): JSX.Element {
     const { setData, brands, setBrands } = props;
 
     const _authContext = useContext(authContext)
     const { token } = _authContext;
 
     const uuidTypeEquipment = useId();
-    const uuidCampus= useId();
-    const uuidArea= useId();
+    const uuidCampus = useId();
+    const uuidArea = useId();
 
     const [message, setMessage, messageLoader] = useMessage()
 
     const formik = useFormik({
-        initialValues: equipmentInitialValues,
-        validationSchema: equipmentSchema,
+        initialValues: initialValues,
+        validationSchema: schema,
         onSubmit: (data, { resetForm }) => {
             messageLoader()
 
-            equipmentCreate(token, data)
+            printerScannerCreate(token, data)
                 .then((response) => {
                     setData((old) => addInArray<T>(old, response.data.info))
                     setBrands((old) => addIfNotExist(old, response.data.info.brand))
                     resetForm()
-                    setMessage("success", 'Se ha guardado correctamente el equipo.')
+                    setMessage("success", 'Se ha guardado correctamente la impresora o scanner.')
                 })
                 .catch((error) => {
                     const { response } = error;
@@ -60,9 +62,9 @@ export default function EquipmentRegister<T>(props: EquipmentRegisterProps<T>): 
                         variant="outlined"
                         {...getFieldFormikProps('type')}
                     >
-                        {typesEquipments.map((typeEquipment, key) =>
-                            <MenuItem key={`${uuidTypeEquipment}-${key}`} value={typeEquipment.value}>
-                                {typeEquipment.label}
+                        {typesPrinterScanner.map((printerScanner, key) =>
+                            <MenuItem key={`${uuidTypeEquipment}-${key}`} value={printerScanner.value}>
+                                {printerScanner.label}
                             </MenuItem>
                         )}
                     </Select>
@@ -95,9 +97,6 @@ export default function EquipmentRegister<T>(props: EquipmentRegisterProps<T>): 
                 <Grid item xs={6}>
                     <TextField {...getFieldFormikProps('serial')} fullWidth label="Serial" variant="outlined" />
                 </Grid>
-                <Grid item xs={6}>
-                    <TextField {...getFieldFormikProps('monitor_serial')} fullWidth label="Serial del monitor" variant="outlined" />
-                </Grid>
                 <Grid item xs={4}>
                     <Select
                         fullWidth
@@ -112,8 +111,11 @@ export default function EquipmentRegister<T>(props: EquipmentRegisterProps<T>): 
                         )}
                     </Select>
                 </Grid>
+                <Grid item xs={2}>
+                    <TextField {...getFieldFormikProps('flat')} fullWidth label="Piso" type="number" variant="outlined" />
+                </Grid>
                 <Grid item xs={6}>
-                <Select
+                    <Select
                         fullWidth
                         label="Area"
                         variant="outlined"
@@ -125,9 +127,6 @@ export default function EquipmentRegister<T>(props: EquipmentRegisterProps<T>): 
                             </MenuItem>
                         )}
                     </Select>
-                </Grid>
-                <Grid item xs={2}>
-                    <TextField {...getFieldFormikProps('flat')} fullWidth label="Piso" type="number" variant="outlined" />
                 </Grid>
                 <Grid item xs={12}>
                     <Typography variant="subtitle2" >

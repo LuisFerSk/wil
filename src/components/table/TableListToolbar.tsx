@@ -37,7 +37,7 @@ interface TableListToolbarProps {
     placeholder?: string
 }
 
-export default function TableListToolbar(props: TableListToolbarProps): JSX.Element {
+export default function TableListToolbar(props: TableListToolbarProps) {
     const {
         filter,
         onFilter,

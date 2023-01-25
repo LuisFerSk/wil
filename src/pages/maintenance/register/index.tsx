@@ -22,13 +22,12 @@ function clear() {
 }
 
 export default function MaintenanceRegister<T>(props: MaintenanceRegisterProps<T>): JSX.Element {
-    const { setData, users, equipments } = props;
+    const { setData, equipments } = props;
 
     const _authContext = useContext(authContext)
     const { token } = _authContext;
 
     const uuidEquipment = useId()
-    const uuidUser = useId()
 
     const theme = useTheme()
 
@@ -83,26 +82,7 @@ export default function MaintenanceRegister<T>(props: MaintenanceRegisterProps<T
                         1. Actividades iniciales.
                     </Typography>
                 </Grid>
-                <Grid item xs={12} sm={6}>
-                    <AsyncSelect
-                        data={users}
-                        textLoading='Cargando usuarios...'
-                        textNotData='Se debe registrar al menos un usuario para poder realizar un mantenimiento'
-                        fieldProps={{
-                            ...getFieldFormikProps('equipment_user_id'),
-                            fullWidth: true,
-                            label: 'Usuario',
-                            variant: 'outlined',
-                        }}
-                    >
-                        {users?.map((user, key) =>
-                            <MenuItem key={`${uuidUser}-${key}`} value={user.id}>
-                                {user.name}
-                            </MenuItem>
-                        )}
-                    </AsyncSelect>
-                </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12}>
                     <AsyncSelect
                         data={equipments}
                         textLoading='Cargando equipos...'
@@ -116,12 +96,12 @@ export default function MaintenanceRegister<T>(props: MaintenanceRegisterProps<T
                     >
                         {equipments?.map((equipment, key) =>
                             <MenuItem key={`${uuidEquipment}-${key}`} value={equipment.id}>
-                                {`${equipment.type} - ${equipment.brand.name} ${equipment.model} - placa: ${equipment.license_plate}`}
+                                {`${equipment.type} - ${equipment.brand.name} ${equipment.model} - serial: ${equipment.serial}`}
                             </MenuItem>
                         )}
                     </AsyncSelect>
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={4}>
                     <TextField
                         {...getFieldFormikProps('city')}
                         fullWidth
@@ -129,15 +109,15 @@ export default function MaintenanceRegister<T>(props: MaintenanceRegisterProps<T
                         variant="outlined"
                     />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={4}>
                     <TextField
-                        {...getFieldFormikProps('campus')}
+                        {...getFieldFormikProps('workstation')}
                         fullWidth
-                        label="Sede"
+                        label="Estación de trabajo"
                         variant="outlined"
                     />
                 </Grid>
-                <Grid item xs={12} sm={3}>
+                <Grid item xs={12} sm={4}>
                     <TextField
                         {...getFieldFormikProps('date')}
                         fullWidth
@@ -148,9 +128,6 @@ export default function MaintenanceRegister<T>(props: MaintenanceRegisterProps<T
                             shrink: true,
                         }}
                     />
-                </Grid>
-                <Grid item xs={12} sm={9}>
-                    <TextField {...getFieldFormikProps('workstation')} fullWidth label="Estación de trabajo" variant="outlined" />
                 </Grid>
                 <Grid item xs={12}>
                     <Typography variant="subtitle2" >

@@ -7,75 +7,52 @@ interface MaintenanceViewProps {
     data: MaintenanceInterface
 }
 
-export default function MaintenanceView(props: MaintenanceViewProps): JSX.Element {
+export default function MaintenanceView(props: MaintenanceViewProps) {
     const theme = useTheme()
+
     const { data } = props;
+
     return (
         <Grid container spacing={3}>
             <Grid item xs={12}>
-                <Typography variant="subtitle2" >
+                <Typography variant="subtitle1" >
                     1. Actividades iniciales.
                 </Typography>
             </Grid>
             <Grid item xs={12} sm={6}>
-                <TextField
-                    value={data.equipment_user.name}
-                    fullWidth
-                    label="Usuario"
-                    disabled
-                    variant="outlined"
-                />
+                <Typography variant="subtitle2" >
+                    Usuario:
+                    <Typography variant="body2" >
+                        {data.user.username}
+                    </Typography>
+                </Typography>
             </Grid>
             <Grid item xs={12} sm={6}>
-                <TextField
-                    value={`${data.equipment.type} - ${data.equipment.brand.name} ${data.equipment.model} - placa: ${data.equipment.license_plate}`}
-                    fullWidth
-                    disabled
-                    label="Ciudad"
-                    variant="outlined"
-                />
+                <Typography variant="subtitle2" >
+                    Equipo:
+                    <Typography variant="body2" >
+                        {`${data.equipment.type} - ${data.equipment.brand.name} ${data.equipment.model} - serial: ${data.equipment.serial}`}
+                    </Typography>
+                </Typography>
             </Grid>
             <Grid item xs={12} sm={6}>
-                <TextField
-                    value={data.city}
-                    fullWidth
-                    disabled
-                    label="Ciudad"
-                    variant="outlined"
-                />
+                <Typography variant="subtitle2" >
+                    Ciudad:
+                    <Typography variant="body2" >
+                        {data.city}
+                    </Typography>
+                </Typography>
             </Grid>
             <Grid item xs={12} sm={6}>
-                <TextField
-                    value={data.campus}
-                    fullWidth
-                    disabled
-                    label="Sede"
-                    variant="outlined"
-                />
-            </Grid>
-            <Grid item xs={12} sm={3}>
-                <TextField
-                    value={data.date.split('T')[0]}
-                    disabled
-                    fullWidth
-                    type='date'
-                    label="Fecha"
-                    variant="outlined"
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
-                />
-            </Grid>
-            <Grid item xs={12} sm={9}>
-                <TextField
-                    value={data.workstation}
-                    disabled
-                    fullWidth
-                    label="Estación de trabajo"
-                    variant="outlined" />
+                <Typography variant="subtitle2" >
+                    Fecha:
+                    <Typography variant="body2" >
+                        {data.date.split('T')[0]}
+                    </Typography>
+                </Typography>
             </Grid>
             <Grid item xs={12}>
-                <Typography variant="subtitle2" >
+                <Typography variant="subtitle1" >
                     2. Verificación de funcionamiento.
                 </Typography>
             </Grid>
@@ -91,15 +68,12 @@ export default function MaintenanceView(props: MaintenanceViewProps): JSX.Elemen
                 </FormGroup>
             </Grid>
             <Grid item xs={12} sm={8}>
-                <TextField
-                    value={data.error_description}
-                    disabled
-                    fullWidth
-                    label="Descripción de error encontrado o reportado"
-                    variant="outlined"
-                    multiline
-                    rows={11}
-                />
+                <Typography variant="subtitle2" >
+                    Descripción de error encontrado o reportado
+                    <Typography variant="body2" >
+                        {data.error_description || 'No registrado'}
+                    </Typography>
+                </Typography>
             </Grid>
             <Grid item xs={12}>
                 <Typography variant="subtitle2" >
@@ -138,15 +112,12 @@ export default function MaintenanceView(props: MaintenanceViewProps): JSX.Elemen
                 </FormGroup>
             </Grid>
             <Grid item xs={12} sm={8}>
-                <TextField
-                    value={data.end_error_description}
-                    disabled
-                    fullWidth
-                    label="Descripción de error encontrado o reportado"
-                    variant="outlined"
-                    multiline
-                    rows={11}
-                />
+                <Typography variant="subtitle2" >
+                    Descripción de error encontrado o reportado
+                    <Typography variant="body2" >
+                        {data.end_error_description || 'No registrado'}
+                    </Typography>
+                </Typography>
             </Grid>
             <Grid item xs={12}>
                 <Typography variant="subtitle2" >
@@ -212,15 +183,12 @@ export default function MaintenanceView(props: MaintenanceViewProps): JSX.Elemen
                 </FormGroup>
             </Grid>
             <Grid item xs={12}>
-                <TextField
-                    fullWidth
-                    disabled
-                    value={data.observations}
-                    label="Observaciones"
-                    variant="outlined"
-                    multiline
-                    rows={4}
-                />
+                <Typography variant="subtitle2" >
+                    Observaciones
+                    <Typography variant="body2" >
+                        {data.observations || 'No registrado'}
+                    </Typography>
+                </Typography>
             </Grid>
             <Grid item xs={12}>
                 <Box sx={{

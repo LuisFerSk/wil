@@ -2,7 +2,6 @@ import { filter } from 'lodash'
 import { Icon } from '@iconify/react'
 import { MenuItem, ListItemIcon, ListItemText } from '@mui/material'
 import {
-    AnyObject,
     DataTableType,
     DescendingComparatorInterface,
     GetComparatorOrderType,
@@ -10,7 +9,7 @@ import {
     TableOptionsInterface
 } from 'interfaces'
 
-export function mappingMenuItem(options: TableOptionsInterface[]): JSX.Element {
+export function mappingMenuItem(options: TableOptionsInterface[]) {
     return (
         <span>
             {options.map((row, index) => {
@@ -41,9 +40,11 @@ export function descendingComparator(props: DescendingComparatorInterface): desc
     if (b[orderBy] < a[orderBy]) {
         return -1;
     }
+
     if (b[orderBy] > a[orderBy]) {
         return 1;
     }
+
     return 0;
 }
 
@@ -51,9 +52,17 @@ type getComparatorReturn<T> = (a: T, b: T) => number;
 
 export function getComparator<T>(order: GetComparatorOrderType, orderBy: string): getComparatorReturn<T> {
     if (order === 'desc') {
-        return (a: T, b: T) => descendingComparator({ a: a as AnyObject, b: b as AnyObject, orderBy })
+        return (a: T, b: T) => descendingComparator({
+            a: a as Record<any, any>,
+            b: b as Record<any, any>,
+            orderBy
+        })
     }
-    return (a: T, b: T) => -descendingComparator({ a: a as AnyObject, b: b as AnyObject, orderBy })
+    return (a: T, b: T) => -descendingComparator({
+        a: a as Record<any, any>,
+        b: b as Record<any, any>, 
+        orderBy
+    })
 }
 
 interface ApplySortFilterInterface<T> {
@@ -75,8 +84,10 @@ export function applySortFilter<T>(props: ApplySortFilterInterface<T>): any[] {
 
         return a[1] - b[1]
     })
+
     if (query) {
-        return filter(array, (header: AnyObject) => header[searchBy].toString().toLowerCase().indexOf(query.toLowerCase()) !== -1)
+        return filter(array, (header: Record<any, any>) => header[searchBy].toString().toLowerCase().indexOf(query.toLowerCase()) !== -1)
     }
+
     return stabilizedThis.map((element: any) => element[0])
 }

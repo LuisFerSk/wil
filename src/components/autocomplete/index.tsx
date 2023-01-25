@@ -43,7 +43,6 @@ export default function Autocomplete<T>(props: AutocompleteProps<T>): JSX.Elemen
                 }
 
                 setFieldValue(name, newValue?.title)
-
             }}
             options={options.map(row => ({ title: row } as valueProps))}
             renderOption={(props, option) => <li {...props}>{option.title}</li>}

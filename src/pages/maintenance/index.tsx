@@ -1,22 +1,19 @@
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 import { Box, Card, Grid } from "@mui/material";
 import { Accordion } from "components";
-import { EquipmentInterface, MaintenanceInterface, UserInterface } from 'interfaces';
+import { EquipmentInterface, MaintenanceInterface } from 'interfaces';
 import { useContext, useEffect, useState } from 'react';
 import { authContext } from 'provider/Auth';
 import MaintenanceTable from './table';
 import MaintenanceRegister from './register';
 import { maintenanceFindAll } from 'services/maintenance';
-import { userFindAll } from 'services/user';
 import { equipmentFindAll } from 'services/equipment';
 
 export interface ConstantsInterface {
-    users: UserInterface[] | undefined
     equipments: EquipmentInterface[] | undefined
 }
 
 const initConstants: ConstantsInterface = {
-    users: undefined,
     equipments: undefined
 }
 
@@ -38,13 +35,6 @@ export default function Maintenance(): JSX.Element {
     useEffect(() => {
         maintenanceFindAll(token).then((result) => {
             setMaintenances(result.data.info)
-        })
-
-        userFindAll(token).then((result) => {
-            setConstants(old => ({
-                ...old,
-                users: result.data.info
-            }))
         })
 
         equipmentFindAll(token).then((result) => {

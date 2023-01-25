@@ -17,7 +17,7 @@ interface DeleteEquipmentProps {
 export default function EquipmentDelete(props: DeleteEquipmentProps): JSX.Element {
     const { data, setData, closeModal, openAlert } = props;
 
-    const { id, license_plate } = data;
+    const { id, serial } = data;
 
     const _authContext = useContext(authContext)
     const { token } = _authContext;
@@ -40,13 +40,13 @@ export default function EquipmentDelete(props: DeleteEquipmentProps): JSX.Elemen
 
     return (
         <Delete
-            value={license_plate}
+            value={serial}
             onSubmitFormik={onSubmit}
-            label='Placa'
-            messageError={`Escriba la placa del equipo: ${license_plate}`}
+            label='Serial'
+            messageError={`Escriba la placa del equipo: ${serial}`}
             message={message}
         >
-            Esta seguro de desea eliminar el equipo con placa: <strong>{license_plate}</strong>, esta acción también <strong>borrara los mantenimientos</strong> de tenga este equipo, si es así escriba la <strong>placa</strong> correspondiente a continuación.
+            Esta seguro de desea eliminar el equipo con serial: <strong>{serial}</strong>, esta acción también <strong>borrara los mantenimientos</strong> de tenga este equipo, si es así escriba el <strong>serial</strong> correspondiente a continuación.
         </Delete>
     )
 }

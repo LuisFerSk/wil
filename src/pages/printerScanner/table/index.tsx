@@ -3,42 +3,50 @@ import trash2Outline from '@iconify/icons-eva/trash-2-outline'
 
 import { TableCell } from '@mui/material'
 import { FloatAlert, Modal, Table } from 'components'
+
 import { mappingMenuItem } from 'components/table/TableFunctions'
 import TableMoreMenu from 'components/table/TableMoreMenu'
 import { useFloat } from 'hooks'
-import { HeadLabelInterface, TableDataInterface, TableOptionsInterface, UserInterface } from 'interfaces'
-import UserDelete from '../delete'
-import UserUpdate from '../update'
+import { BrandStateInterface, EquipmentInterface, HeadLabelInterface, TableDataInterface, TableOptionsInterface } from 'interfaces'
+import EquipmentDelete from '../delete'
+import EquipmentUpdate from '../update'
+
 
 const headLabel: HeadLabelInterface[] = [
-    { id: 'cc', label: 'Cédula', alignRight: false },
-    { id: 'name', label: 'Nombre', alignRight: false },
-    { id: 'phone', label: 'Teléfono', alignRight: false },
+    { id: 'serial', label: 'Serial', alignRight: false },
+    { id: 'type', label: 'Tipo', alignRight: false },
+    { id: 'brand', label: 'Marca', alignRight: false },
+    { id: 'model', label: 'Modelo', alignRight: false },
     { id: '', label: '' }
 ]
 
-export default function UserTable(props: TableDataInterface<UserInterface>): JSX.Element {
-    const { data, setData } = props;
+interface EquipmentTableProps extends TableDataInterface<EquipmentInterface> {
+    updateProps: BrandStateInterface
+}
+
+export default function EquipmentTable(props: EquipmentTableProps): JSX.Element {
+    const { data, setData, updateProps } = props;
 
     const modalState = useFloat({ initialState: false })
 
     const alertState = useFloat({
         initialState: false,
-        initialContent: '¡Se ha eliminado correctamente el funcionario!'
+        initialContent: '¡Se ha eliminado correctamente la impresora o scanner!'
     })
 
 
-    function createTableCells(row: UserInterface): JSX.Element {
-        const { cc, name, phone } = row;
+    function createTableCells(row: EquipmentInterface): JSX.Element {
+        const { serial, type, brand, model } = row;
 
         const options: TableOptionsInterface[] = [
             {
                 label: 'Editar',
                 icon: editFill,
                 onClick: () => {
-                    modalState.setTitle('Actualizar Usuario')
+                    modalState.setTitle('Actualizar Impresora o scanner')
                     modalState.setContent(
-                        <UserUpdate
+                        <EquipmentUpdate
+                            {...updateProps}
                             setData={setData}
                             initData={row}
                         />
@@ -50,9 +58,9 @@ export default function UserTable(props: TableDataInterface<UserInterface>): JSX
                 label: 'Eliminar',
                 icon: trash2Outline,
                 onClick: () => {
-                    modalState.setTitle('Eliminar Usuario')
+                    modalState.setTitle('Eliminar Impresora o scanner')
                     modalState.setContent(
-                        <UserDelete
+                        <EquipmentDelete
                             data={row}
                             setData={setData}
                             closeModal={modalState.close}
@@ -67,9 +75,10 @@ export default function UserTable(props: TableDataInterface<UserInterface>): JSX
 
         return (
             <>
-                <TableCell align='left'>{cc}</TableCell>
-                <TableCell align='left'>{name}</TableCell>
-                <TableCell align='left'>{phone}</TableCell>
+                <TableCell align='left'>{serial}</TableCell>
+                <TableCell align='left'>{type}</TableCell>
+                <TableCell align='left'>{brand.name}</TableCell>
+                <TableCell align='left'>{model}</TableCell>
                 <TableCell padding='checkbox'>
                     <TableMoreMenu>
                         {mappingMenuItem(options)}
@@ -85,9 +94,9 @@ export default function UserTable(props: TableDataInterface<UserInterface>): JSX
                 createTableCells={createTableCells}
                 headLabel={headLabel}
                 data={data}
-                selectBy='cc'
-                searchBy='cc'
-                placeholder='Buscar por cédula'
+                selectBy='serial'
+                searchBy='serial'
+                placeholder='Buscar por serial'
             />
             <Modal title={modalState.title} isOpen={modalState.isOpen} onClose={modalState.close}>
                 <>

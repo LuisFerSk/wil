@@ -83,14 +83,16 @@ export interface CustomPaletteInterface extends Palette {
     background: PaletteBackgroundInterface
 }
 
+interface BreakpointValueInterface {
+    xs: number;
+    sm: number;
+    md: number;
+    lg: number;
+    xl: number;
+}
+
 export interface BreakpointsInterface extends Breakpoints {
-    values: {
-        xs: number;
-        sm: number;
-        md: number;
-        lg: number;
-        xl: number;
-    }
+    values: BreakpointValueInterface
 }
 
 export interface ShapeInterface extends Shape {
@@ -150,6 +152,10 @@ export interface EquipmentBaseProps {
     license_plate: string,
     area: string,
     flat: string,
+    user: string,
+    cc: string,
+    phone: string,
+    campus: string,
 }
 
 export interface EquipmentProps extends EquipmentBaseProps {
@@ -189,8 +195,8 @@ export type StabilizedSortType<T> = [T, number];
 export type AnyObject = { [key: string]: any };
 
 export interface DescendingComparatorInterface {
-    a: AnyObject,
-    b: AnyObject,
+    a: Record<any, any>,
+    b: Record<any, any>,
     orderBy: string
 }
 
@@ -205,7 +211,7 @@ export interface UpdateInterface<T> {
 
 
 export interface UserProps {
-    name: string,
+    username: string,
     cc: string,
     phone: string | null
 }
@@ -231,7 +237,6 @@ export interface MaintenanceBaseProps {
     date: string
     workstation: string
     city: string
-    campus: string
     end_error_description: string
     Q1: string
     Q2: string
@@ -240,7 +245,6 @@ export interface MaintenanceBaseProps {
 }
 
 export interface MaintenanceInitValueProps extends MaintenanceBaseProps {
-    equipment_user_id: string
     equipment_id: string
     ignition_station: boolean
     operating_system_boot: boolean
@@ -278,7 +282,6 @@ export type BooleanTypeApi = 1 | 0
 
 export interface MaintenanceInterface extends EntityInterface, MaintenanceBaseProps {
     equipment: EquipmentInterface
-    equipment_user: UserInterface
     ignition_station: BooleanTypeApi | null
     operating_system_boot: BooleanTypeApi | null
     HDD: BooleanTypeApi | null
@@ -306,7 +309,7 @@ export interface MaintenanceInterface extends EntityInterface, MaintenanceBasePr
     disk_defragmentation: BooleanTypeApi | null
     equipment_delivery: BooleanTypeApi | null
     signature: string
-
+    user: UserInterface
 }
 
 export interface SupportInterface extends EntityInterface {
@@ -332,4 +335,18 @@ export interface BarCharData {
     type: string;
     fill: string;
     data: number[];
+}
+
+export type PrinterScannerProps = {
+    type: string,
+    model: string,
+    serial: string,
+    license_plate: string,
+    area: string,
+    flat: string,
+    user: string,
+    cc: string,
+    phone: string,
+    campus: string,
+    brand: string
 }

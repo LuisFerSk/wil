@@ -10,7 +10,7 @@ function getBreakpoint(width: MHiddenProps['width']): Breakpoint {
     return width.substring(0, 2) as Breakpoint;
 }
 
-function MHidden(props: MHiddenProps): JSX.Element | null {
+export default function MHidden(props: MHiddenProps): JSX.Element | null {
     const { width, children } = props
     const breakpoint: Breakpoint = getBreakpoint(width)
 
@@ -27,5 +27,3 @@ function MHidden(props: MHiddenProps): JSX.Element | null {
 
     return null;
 }
-
-export default MHidden;

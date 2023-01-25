@@ -1,23 +1,22 @@
 import { deleteInArrayData } from 'utils'
-import { DataTableType, UserInterface } from 'interfaces';
+import { DataTableType, EquipmentInterface } from 'interfaces';
 import { Dispatch, SetStateAction, useContext } from 'react';
 import { Delete } from 'components';
 import { authContext } from 'provider/Auth';
 import { useMessage } from 'hooks';
-import { userDestroy } from 'services/user';
+import { printerScannerDestroy } from 'services/printer_scanner';
 
-interface DeleteUserProps {
-    data: UserInterface
-    setData: Dispatch<SetStateAction<DataTableType<UserInterface>>>
+interface Props {
+    data: EquipmentInterface
+    setData: Dispatch<SetStateAction<DataTableType<EquipmentInterface>>>
     closeModal: Function
     openAlert: Function
 }
 
-
-export default function UserDelete(props: DeleteUserProps): JSX.Element {
+export default function PrinterScannerDelete(props: Props) {
     const { data, setData, closeModal, openAlert } = props;
 
-    const { id, cc } = data;
+    const { id, serial } = data;
 
     const _authContext = useContext(authContext)
     const { token } = _authContext;
@@ -27,7 +26,7 @@ export default function UserDelete(props: DeleteUserProps): JSX.Element {
     const onSubmit = () => {
         messageLoader()
 
-        userDestroy(token, id)
+        printerScannerDestroy(token, id)
             .then(response => {
                 setData(old => deleteInArrayData(old, id))
                 openAlert()
@@ -40,13 +39,13 @@ export default function UserDelete(props: DeleteUserProps): JSX.Element {
 
     return (
         <Delete
-            value={cc}
+            value={serial}
             onSubmitFormik={onSubmit}
-            label='Cédula'
-            messageError={`Escriba la cédula del usuario: ${cc}`}
+            label='Serial'
+            messageError={`Escriba la serial la impresora o scanner: ${serial}`}
             message={message}
         >
-            Esta seguro de desea eliminar el usuario con cédula: <strong>{cc}</strong> ,esta acción también <strong>borrara los mantenimientos</strong> de tenga este usuario, es así escriba la <strong>cédula</strong> correspondiente a continuación.
+            Esta seguro de desea eliminar la impresora o scanner con serial: <strong>{serial}</strong>, si es así escriba el <strong>serial</strong> correspondiente a continuación.
         </Delete>
     )
 }

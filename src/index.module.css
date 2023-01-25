@@ -34,8 +34,6 @@
     --borderRadiusGeneral: 0.8rem;
     --borderRadius: 0.25rem;
 
-    --transition: 0.25s all ease-in-out;
-
     --shadowColor: rgba(245, 245, 246, 1);
 
     --width-viewport-mobile: 425px;
@@ -58,7 +56,6 @@
     padding: 0;
     box-sizing: border-box;
     text-decoration: none;
-    transition: var(--transition);
 }
 
 svg {
@@ -72,25 +69,25 @@ body {
     background-color: var(--primaryColor);
 }
 
-body::-webkit-scrollbar {
+*::-webkit-scrollbar {
     -webkit-appearance: none;
 }
 
-body::-webkit-scrollbar:vertical {
+*::-webkit-scrollbar:vertical {
     width: 0.8vw;
     min-width: 8px;
 }
 
-body::-webkit-scrollbar:horizontal {
+*::-webkit-scrollbar:horizontal {
     height: 6px;
 }
 
-body::-webkit-scrollbar-thumb {
+*::-webkit-scrollbar-thumb {
     border-radius: 5px;
     background-color: var(--primaryHover);
 }
 
-body::-webkit-scrollbar-track {
+*::-webkit-scrollbar-track {
     border-radius: 5px;
 }
 

@@ -1,34 +1,38 @@
-import { Button, Grid, TextField, Typography } from "@mui/material";
-import { Autocomplete, Form } from "components";
+import { Button, Grid, MenuItem, TextField, Typography } from "@mui/material";
+import { Autocomplete, Form, Select } from "components";
 import { useFormik } from "formik";
 import { useFormikFiledProps, useMessage } from "hooks";
-import { equipmentSchema } from "../schema";
+import { schema, typesPrinterScanner } from "../schema";
 import { addIfNotExist, updateDataInArray } from "utils";
 import { BrandStateInterface, EquipmentInterface, UpdateInterface } from "interfaces";
-import { useContext } from "react";
+import { useContext, useId } from "react";
 import { authContext } from "provider/Auth";
-import { equipmentUpdate } from "services/equipment";
+import { printerScannerUpdate } from "services/printer_scanner";
+import { areas, headquarters } from "constants";
 
-interface EquipmentUpdateProps extends UpdateInterface<EquipmentInterface>, BrandStateInterface { }
+interface Props extends UpdateInterface<EquipmentInterface>, BrandStateInterface { }
 
-export default function EquipmentUpdate(props: EquipmentUpdateProps): JSX.Element {
+export default function EquipmentUpdate(props: Props) {
     const { initData, setData, brands, setBrands } = props;
 
     const _authContext = useContext(authContext)
     const { token } = _authContext;
 
-    const [message, setMessage, messageLoader, resetMessage] = useMessage()
+    const [message, setMessage, messageLoader] = useMessage()
 
+    const uuidTypeEquipment = useId();
+    const uuidCampus = useId();
+    const uuidArea = useId();
 
     const formik = useFormik({
         initialValues: { ...initData, brand: initData.brand.name },
-        validationSchema: equipmentSchema,
+        validationSchema: schema,
         onSubmit: (data) => {
             messageLoader()
 
             const { id } = data;
 
-            equipmentUpdate(token, data)
+            printerScannerUpdate(token, data)
                 .then((response) => {
                     setData((old) => updateDataInArray<EquipmentInterface>(old, id, response.data.info))
                     setBrands((old) => addIfNotExist(old, response.data.info.brand))
@@ -46,7 +50,18 @@ export default function EquipmentUpdate(props: EquipmentUpdateProps): JSX.Elemen
         <Form formik={formik}>
             <Grid container spacing={3}>
                 <Grid item xs={6}>
-                    <TextField {...getFieldFormikProps('type')} fullWidth label="Tipo de equipo" variant="outlined" />
+                    <Select
+                        fullWidth
+                        label="Tipo"
+                        variant="outlined"
+                        {...getFieldFormikProps('type')}
+                    >
+                        {typesPrinterScanner.map((printerScanner, key) =>
+                            <MenuItem key={`${uuidTypeEquipment}-${key}`} value={printerScanner.value}>
+                                {printerScanner.label}
+                            </MenuItem>
+                        )}
+                    </Select>
                 </Grid>
                 <Grid item xs={6}>
                     <Autocomplete
@@ -68,16 +83,35 @@ export default function EquipmentUpdate(props: EquipmentUpdateProps): JSX.Elemen
                     <TextField {...getFieldFormikProps('serial')} fullWidth label="Serial" variant="outlined" />
                 </Grid>
                 <Grid item xs={6}>
-                    <TextField {...getFieldFormikProps('monitor_serial')} fullWidth label="Serial del monitor" variant="outlined" />
-                </Grid>
-                <Grid item xs={6}>
                     <TextField {...getFieldFormikProps('license_plate')} type='number' fullWidth label="Placa" variant="outlined" />
                 </Grid>
-                <Grid item xs={4}>
-                    <TextField {...getFieldFormikProps('campus')} fullWidth label="Sede" variant="outlined" />
+                <Grid item xs={6}>
+                    <Select
+                        fullWidth
+                        label="Sede"
+                        variant="outlined"
+                        {...getFieldFormikProps('campus')}
+                    >
+                        {headquarters.map((campus, key) =>
+                            <MenuItem key={`${uuidCampus}-${key}`} value={campus.value}>
+                                {campus.label}
+                            </MenuItem>
+                        )}
+                    </Select>
                 </Grid>
-                <Grid item xs={4}>
-                    <TextField {...getFieldFormikProps('area')} fullWidth label="Area" variant="outlined" />
+                <Grid item xs={6}>
+                    <Select
+                        fullWidth
+                        label="Area"
+                        variant="outlined"
+                        {...getFieldFormikProps('area')}
+                    >
+                        {areas.map((area, key) =>
+                            <MenuItem key={`${uuidArea}-${key}`} value={area.value}>
+                                {area.label}
+                            </MenuItem>
+                        )}
+                    </Select>
                 </Grid>
                 <Grid item xs={4}>
                     <TextField {...getFieldFormikProps('flat')} fullWidth label="Piso" type="number" variant="outlined" />

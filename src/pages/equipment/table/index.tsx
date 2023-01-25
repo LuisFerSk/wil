@@ -13,7 +13,7 @@ import EquipmentUpdate from '../update'
 
 
 const headLabel: HeadLabelInterface[] = [
-    { id: 'license_plate', label: 'Placa', alignRight: false },
+    { id: 'serial', label: 'Serial', alignRight: false },
     { id: 'type', label: 'Tipo', alignRight: false },
     { id: 'brand', label: 'Marca', alignRight: false },
     { id: 'model', label: 'Modelo', alignRight: false },
@@ -36,7 +36,7 @@ export default function EquipmentTable(props: EquipmentTableProps): JSX.Element 
 
 
     function createTableCells(row: EquipmentInterface): JSX.Element {
-        const { license_plate, type, brand, model } = row;
+        const { serial, type, brand, model } = row;
 
         const options: TableOptionsInterface[] = [
             {
@@ -75,7 +75,7 @@ export default function EquipmentTable(props: EquipmentTableProps): JSX.Element 
 
         return (
             <>
-                <TableCell align='left'>{license_plate}</TableCell>
+                <TableCell align='left'>{serial}</TableCell>
                 <TableCell align='left'>{type}</TableCell>
                 <TableCell align='left'>{brand.name}</TableCell>
                 <TableCell align='left'>{model}</TableCell>

@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
-import './index.css'
+import './index.module.css'
 import { HashRouter } from 'react-router-dom'
 import ThemeConfig from 'theme'
 import { BreakpointsInterface, CustomPaletteInterface, CustomShadowsInterface, ShapeInterface } from 'interfaces'

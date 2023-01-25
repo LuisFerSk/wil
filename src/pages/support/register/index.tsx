@@ -50,7 +50,7 @@ export default function SupportRegister<T>(props: RegisterInterface<T[] | []>): 
                     <TextField {...getFieldFormikProps('username')} fullWidth label="Nombre de usuario" variant="outlined" />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                    <TextFieldPassword {...getFieldFormikProps('password')} fullWidth type="password" label="Contraseña" variant="outlined" />
+                    <TextFieldPassword {...getFieldFormikProps('password')}  fullWidth type="password" label="Contraseña" variant="outlined" />
                 </Grid>
                 <Grid item xs={12}>
                     <Button type="submit" variant="contained">Guardar</Button>

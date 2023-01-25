@@ -1,9 +1,7 @@
 import { Icon } from '@iconify/react';
 import closeIcon from '@iconify/icons-mdi/close';
-import { Card, Modal as MaterialModal, IconButton, Grid, Typography } from '@mui/material'
+import { Card, Modal as MaterialModal, IconButton, Grid, Typography, Paper } from '@mui/material'
 import useStylesModal from 'theme/useStylesModal';
-
-
 
 interface ModalProps {
     isOpen: boolean
@@ -27,7 +25,7 @@ export default function Modal(props: ModalProps): JSX.Element {
                 aria-describedby='simple-modal-description'
             >
                 <Grid item xs={11} md={11} sm={10} lg={10}>
-                    <Card className={classes.paper} sx={{ maxHeight: '90vh', overflow: 'auto' }}>
+                    <Paper className={classes.paper}>
                         <div id='simple-modal-title' >
                             <Typography variant='h6'>
                                 {title}
@@ -41,17 +39,10 @@ export default function Modal(props: ModalProps): JSX.Element {
                                 </IconButton>
                             </Typography>
                         </div>
-                        <Grid
-                            item
-                            xs={12}
-                            md={12}
-                            sm={12}
-                            lg={12}
-                            id='simple-modal-description'
-                        >
+                        <Grid item xs={12} id='simple-modal-description'>
                             {children}
                         </Grid>
-                    </Card>
+                    </Paper>
                 </Grid>
             </MaterialModal>
         </Grid>

@@ -8,7 +8,7 @@ interface TableMoreMenuProps {
 	children: JSX.Element
 }
 
-function TableMoreMenu(props: TableMoreMenuProps): JSX.Element {
+export default function TableMoreMenu(props: TableMoreMenuProps) {
 	const { children } = props
 
 	const ref = useRef(null)
@@ -34,5 +34,3 @@ function TableMoreMenu(props: TableMoreMenuProps): JSX.Element {
 		</>
 	)
 }
-
-export default TableMoreMenu;

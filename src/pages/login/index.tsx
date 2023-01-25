@@ -2,7 +2,7 @@ import { useFormik } from 'formik'
 import { loginInitialValues, loginSchema } from './schema'
 import { Form, Logo, TextFieldPassword } from 'components'
 import { useFormikFiledProps, useMessage } from 'hooks'
-import { Button, Grid, Paper, TextField } from '@mui/material'
+import { Button, Grid, Paper, TextField, Typography } from '@mui/material'
 import { login } from 'services/auth'
 import { useContext } from 'react'
 import { authContext } from 'provider/Auth'
@@ -57,6 +57,9 @@ export default function Login(): JSX.Element {
 				>
 					<Grid item xs={12} textAlign='center'>
 						<Logo height={100} />
+						<Typography>
+							Title
+						</Typography>
 					</Grid>
 					<Grid item xs={12} textAlign='center'>
 						{mensaje}
