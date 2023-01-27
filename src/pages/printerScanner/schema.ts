@@ -1,4 +1,4 @@
-import { number, object, string } from 'yup'
+import { object, string } from 'yup'
 
 export const schema = object().shape({
     type: string()
@@ -49,14 +49,6 @@ export const schema = object().shape({
         }),
     area: string()
         .required('El numero serial del mouse es requerido.'),
-    flat: number()
-        .test('len', 'El piso debe ser un número entre 1 y 100.', value => {
-            if (value) {
-                return value >= 1 || value <= 100
-            }
-            return false;
-        })
-        .required('El piso en donde esta ubicado el equipo es requerida.'),
     user: string()
         .test('len', 'El nombre de usuario debe tener entre 5 a 50 caracteres.', value => {
             if (value !== undefined) {
@@ -106,7 +98,6 @@ export const initialValues = {
     serial: '',
     license_plate: '',
     area: '',
-    flat: '',
     user: '',
     cc: '',
     phone: '',

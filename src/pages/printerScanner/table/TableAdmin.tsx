@@ -7,7 +7,7 @@ import { FloatAlert, Modal, Table } from 'components'
 import { mappingMenuItem } from 'components/table/TableFunctions'
 import TableMoreMenu from 'components/table/TableMoreMenu'
 import { useFloat } from 'hooks'
-import { BrandStateInterface, EquipmentInterface, HeadLabelInterface, TableDataInterface, TableOptionsInterface } from 'interfaces'
+import { BrandStateInterface, EquipmentInterface, HeadLabelInterface, PrinterScannerInterface, TableDataInterface, TableOptionsInterface } from 'interfaces'
 import EquipmentDelete from '../delete'
 import EquipmentUpdate from '../update'
 
@@ -20,11 +20,11 @@ const headLabel: HeadLabelInterface[] = [
     { id: '', label: '' }
 ]
 
-interface EquipmentTableProps extends TableDataInterface<EquipmentInterface> {
+interface EquipmentTableProps extends TableDataInterface<PrinterScannerInterface> {
     updateProps: BrandStateInterface
 }
 
-export default function EquipmentTable(props: EquipmentTableProps): JSX.Element {
+export default function EquipmentTable(props: EquipmentTableProps) {
     const { data, setData, updateProps } = props;
 
     const modalState = useFloat({ initialState: false })
@@ -35,10 +35,10 @@ export default function EquipmentTable(props: EquipmentTableProps): JSX.Element 
     })
 
 
-    function createTableCells(row: EquipmentInterface): JSX.Element {
+    function createTableCells(row: PrinterScannerInterface) {
         const { serial, type, brand, model } = row;
 
-        const options: TableOptionsInterface[] = [
+        const options = [
             {
                 label: 'Editar',
                 icon: editFill,
@@ -94,9 +94,10 @@ export default function EquipmentTable(props: EquipmentTableProps): JSX.Element 
                 createTableCells={createTableCells}
                 headLabel={headLabel}
                 data={data}
-                selectBy='serial'
-                searchBy='serial'
-                placeholder='Buscar por serial'
+                selectBy='license_plate'
+                searchBy='license_plate'
+                searchByOther='serial'
+                placeholder='Buscar por placa o serial'
             />
             <Modal title={modalState.title} isOpen={modalState.isOpen} onClose={modalState.close}>
                 <>

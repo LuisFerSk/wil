@@ -4,13 +4,13 @@ import { useFormik } from "formik";
 import { useFormikFiledProps, useMessage } from "hooks";
 import { schema, typesPrinterScanner } from "../schema";
 import { addIfNotExist, updateDataInArray } from "utils";
-import { BrandStateInterface, EquipmentInterface, UpdateInterface } from "interfaces";
+import { BrandStateInterface, PrinterScannerInterface, UpdateInterface } from "interfaces";
 import { useContext, useId } from "react";
 import { authContext } from "provider/Auth";
 import { printerScannerUpdate } from "services/printer_scanner";
-import { areas, headquarters } from "constants";
+import { areas, flat, headquarters } from "constants";
 
-interface Props extends UpdateInterface<EquipmentInterface>, BrandStateInterface { }
+interface Props extends UpdateInterface<PrinterScannerInterface>, BrandStateInterface { }
 
 export default function EquipmentUpdate(props: Props) {
     const { initData, setData, brands, setBrands } = props;
@@ -32,9 +32,16 @@ export default function EquipmentUpdate(props: Props) {
 
             const { id } = data;
 
-            printerScannerUpdate(token, data)
+            const newData = {
+                ...data,
+                cc: data.cc.toString(),
+                phone: data.phone?.toString() || null,
+                license_plate: data.license_plate?.toString() || null,
+            }
+
+            printerScannerUpdate(token, newData)
                 .then((response) => {
-                    setData((old) => updateDataInArray<EquipmentInterface>(old, id, response.data.info))
+                    setData((old) => updateDataInArray<PrinterScannerInterface>(old, id, response.data.info))
                     setBrands((old) => addIfNotExist(old, response.data.info.brand))
                     setMessage("success", 'Se ha actualizado correctamente el equipo.')
                 })
@@ -114,7 +121,16 @@ export default function EquipmentUpdate(props: Props) {
                     </Select>
                 </Grid>
                 <Grid item xs={4}>
-                    <TextField {...getFieldFormikProps('flat')} fullWidth label="Piso" type="number" variant="outlined" />
+                    <TextField
+                        value={flat[formik.values.area as any] || ''}
+                        fullWidth
+                        label="Piso"
+                        type="number"
+                        variant="outlined"
+                        InputLabelProps={{
+                            shrink: Boolean(formik.values.area),
+                        }}
+                    />
                 </Grid>
                 <Grid item xs={12}>
                     <Typography variant="subtitle2" >

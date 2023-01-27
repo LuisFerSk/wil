@@ -34,6 +34,7 @@ export const equipmentSchema = object().shape({
         })
         .required('El numero serial del equipo es requerido.'),
     monitor_serial: string()
+        .nullable()
         .test('len', 'El numero serial del monitor del equipo debe tener entre 3 a 25 caracteres.', value => {
             if (value) {
                 const valueLength = value.replace(/\s+/g, '').length
@@ -58,14 +59,6 @@ export const equipmentSchema = object().shape({
         }),
     area: string()
         .required('El numero serial del mouse es requerido.'),
-    flat: number()
-        .test('len', 'El piso debe ser un número entre 1 y 100.', value => {
-            if (value) {
-                return value >= 1 || value <= 100
-            }
-            return false;
-        })
-        .required('El piso en donde esta ubicado el equipo es requerida.'),
     user: string()
         .test('len', 'El nombre de usuario debe tener entre 5 a 50 caracteres.', value => {
             if (value !== undefined) {
@@ -116,7 +109,6 @@ export const equipmentInitialValues: EquipmentProps = {
     monitor_serial: '',
     license_plate: '',
     area: '',
-    flat: '',
     user: '',
     cc: '',
     phone: '',
@@ -143,86 +135,4 @@ export const typesEquipments = [
         label: 'Tablet iOS',
         value: 'Tablet iOS'
     }
-]
-
-export const headquarters = [
-    {
-        label: 'Valledupar',
-        value: 'VALLEDUPAR'
-    },
-    {
-        label: 'Aguachica',
-        value: 'AGUACHICA'
-    },
-    {
-        label: 'Curumani',
-        value: 'CURUMANI'
-    },
-    {
-        label: 'Chimichagua',
-        value: 'CHIMICHAGUA'
-    },
-    {
-        label: 'Jagua de Ibirico',
-        value: 'JAGUA DE IBIRICO'
-    },
-]
-
-export const areas = [
-    {
-        label: 'Dirección general',
-        value: 'DIRECCIÓN GENERAL'
-    },
-    {
-        label: 'Secretaria general',
-        value: 'SECRETARIA GENERAL'
-    },
-    {
-        label: 'Oficina Jurídica',
-        value: 'OFICINA JURÍDICA'
-    },
-    {
-        label: 'Oficina Control Interno',
-        value: 'OFICINA CONTROL INTERNO'
-    },
-    {
-        label: 'Asesor Dirección General',
-        value: 'ASESOR DIRECCIÓN GENERAL'
-    },
-    {
-        label: 'Oficina de Sistemas y TICS',
-        value: 'OFICINA DE SISTEMAS Y TICS'
-    },
-    {
-        label: 'subdirección General Área de Planeación',
-        value: 'SUBDIRECCIÓN GENERAL ÁREA DE PLANEACIÓN'
-    },
-    {
-        label: 'Subdirección General Área de Gestión Ambiental',
-        value: 'SUBDIRECCIÓN GENERAL ÁREA DE GESTIÓN AMBIENTAL'
-    },
-    {
-        label: 'Subdirección General Área Administrativa y Financiera',
-        value: 'SUBDIRECCIÓN GENERAL ÁREA ADMINISTRATIVA Y FINANCIERA'
-    },
-    {
-        label: 'Gestión Financiera',
-        value: 'GESTIÓN FINANCIERA'
-    },
-    {
-        label: 'Contabilidad',
-        value: 'CONTABILIDAD'
-    },
-    {
-        label: 'Tesoreria',
-        value: 'TESORERIA'
-    },
-    {
-        label: 'Pagaduria',
-        value: 'PAGADURIA'
-    },
-    {
-        label: 'Ventanilla Única',
-        value: 'VENTANILLA ÚNICA'
-    },
 ]

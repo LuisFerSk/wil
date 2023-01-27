@@ -12,7 +12,7 @@ interface NavbarProps {
     onOpenSidebar: () => void
 }
 
-export default function Navbar(props: NavbarProps): JSX.Element {
+export default function Navbar(props: NavbarProps) {
     const { onOpenSidebar } = props;
 
     const modalState = useFloat({ initialState: false })

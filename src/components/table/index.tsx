@@ -17,8 +17,8 @@ import { getComparator, applySortFilter } from './TableFunctions'
 import { GetComparatorOrderType, TablePropsInterface } from 'interfaces'
 
 
-export default function Table<T>(props: TablePropsInterface<T>): JSX.Element {
-    const { headLabel, data, selectBy, createTableCells, searchBy, placeholder } = props
+export default function Table<T>(props: TablePropsInterface<T>) {
+    const { headLabel, data, selectBy, createTableCells, searchBy, placeholder, searchByOther } = props
 
     const [page, setPage] = useState<number>(0)
     const [filter, setFilter] = useState<string>('')
@@ -32,14 +32,14 @@ export default function Table<T>(props: TablePropsInterface<T>): JSX.Element {
     const comparator = getComparator(order, orderBy);
     const query = filter;
 
-    const filtered = applySortFilter<T>({ array, comparator, query, searchBy })
+    const filtered = applySortFilter<T>({ array, comparator, query, searchBy, searchByOther })
 
     return (
         <>
             <TableListToolbar
                 filter={filter}
                 placeholder={placeholder}
-                onFilter={(props: any) => {
+                onFilter={(props) => {
                     const { target } = props
                     setFilter(target.value)
                 }}
@@ -51,7 +51,7 @@ export default function Table<T>(props: TablePropsInterface<T>): JSX.Element {
                             order={order}
                             orderBy={orderBy}
                             headLabel={headLabel}
-                            onRequestSort={(event: any, property: any) => {
+                            onRequestSort={(event, property) => {
                                 const isAsc = orderBy === property && order === 'asc'
                                 setOrder(isAsc ? 'desc' : 'asc')
                                 setOrderBy(property)
@@ -60,7 +60,7 @@ export default function Table<T>(props: TablePropsInterface<T>): JSX.Element {
                         <TableBody>
                             {filtered
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                .map((row: any, index: any) =>
+                                .map((row, index) =>
                                     <TableRow
                                         hover
                                         key={index}

@@ -60,20 +60,21 @@ export function getComparator<T>(order: GetComparatorOrderType, orderBy: string)
     }
     return (a: T, b: T) => -descendingComparator({
         a: a as Record<any, any>,
-        b: b as Record<any, any>, 
+        b: b as Record<any, any>,
         orderBy
     })
 }
 
 interface ApplySortFilterInterface<T> {
-    array: DataTableType<T>
+    array: T[]
     comparator: (a: T, b: T) => number
     query: string
     searchBy: string
+    searchByOther?: string
 }
 
 export function applySortFilter<T>(props: ApplySortFilterInterface<T>): any[] {
-    const { array, comparator, query, searchBy } = props
+    const { array, comparator, query, searchBy, searchByOther } = props
 
     const stabilizedThis: StabilizedSortType<T>[] = array.map((element, index) => [element, index])
 
@@ -86,8 +87,23 @@ export function applySortFilter<T>(props: ApplySortFilterInterface<T>): any[] {
     })
 
     if (query) {
-        return filter(array, (header: Record<any, any>) => header[searchBy].toString().toLowerCase().indexOf(query.toLowerCase()) !== -1)
+        return filter(array, (header: Record<any, any>) => {
+            if (header[searchBy] && searchByOther && header[searchByOther]) {
+                return header[searchByOther].toString().toLowerCase().indexOf(query.toLowerCase()) !== -1 || header[searchBy].toString().toLowerCase().indexOf(query.toLowerCase()) !== -1
+            }
+
+            if (header[searchBy]) {
+                return header[searchBy].toString().toLowerCase().indexOf(query.toLowerCase()) !== -1
+            }
+
+            if (searchByOther && header[searchByOther]) {
+                return header[searchByOther].toString().toLowerCase().indexOf(query.toLowerCase()) !== -1
+            }
+
+            return -1
+        })
     }
+
 
     return stabilizedThis.map((element: any) => element[0])
 }

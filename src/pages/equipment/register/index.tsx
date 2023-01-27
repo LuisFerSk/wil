@@ -7,7 +7,8 @@ import { equipmentCreate } from "services/equipment";
 import { addIfNotExist, addInArray } from "utils";
 import { BrandStateInterface, RegisterInterface } from "interfaces";
 import { authContext } from "provider/Auth";
-import { areas, equipmentInitialValues, equipmentSchema, headquarters, typesEquipments } from "../schema";
+import { equipmentInitialValues, equipmentSchema, typesEquipments } from "../schema";
+import { areas, flat, headquarters } from "constants";
 
 interface EquipmentRegisterProps<T> extends RegisterInterface<T[] | []>, BrandStateInterface { }
 
@@ -18,8 +19,8 @@ export default function EquipmentRegister<T>(props: EquipmentRegisterProps<T>): 
     const { token } = _authContext;
 
     const uuidTypeEquipment = useId();
-    const uuidCampus= useId();
-    const uuidArea= useId();
+    const uuidCampus = useId();
+    const uuidArea = useId();
 
     const [message, setMessage, messageLoader] = useMessage()
 
@@ -29,7 +30,15 @@ export default function EquipmentRegister<T>(props: EquipmentRegisterProps<T>): 
         onSubmit: (data, { resetForm }) => {
             messageLoader()
 
-            equipmentCreate(token, data)
+            const newData = {
+                ...data,
+                cc: data.cc.toString(),
+                phone: data.phone?.toString() || null,
+                license_plate: data.license_plate?.toString() || null,
+                monitor_serial: data.monitor_serial || null
+            }
+
+            equipmentCreate(token, newData)
                 .then((response) => {
                     setData((old) => addInArray<T>(old, response.data.info))
                     setBrands((old) => addIfNotExist(old, response.data.info.brand))
@@ -53,7 +62,7 @@ export default function EquipmentRegister<T>(props: EquipmentRegisterProps<T>): 
     return (
         <Form formik={formik}>
             <Grid container spacing={3}>
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={6}>
                     <Select
                         fullWidth
                         label="Tipo"
@@ -67,7 +76,7 @@ export default function EquipmentRegister<T>(props: EquipmentRegisterProps<T>): 
                         )}
                     </Select>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={6}>
                     <Autocomplete
                         fieldValue={formik.values.brand}
                         setFieldValue={formik.setFieldValue}
@@ -80,7 +89,7 @@ export default function EquipmentRegister<T>(props: EquipmentRegisterProps<T>): 
                         }}
                     />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={6}>
                     <TextField
                         {...getFieldFormikProps('license_plate')}
                         type='number'
@@ -89,16 +98,16 @@ export default function EquipmentRegister<T>(props: EquipmentRegisterProps<T>): 
                         variant="outlined"
                     />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={6}>
                     <TextField {...getFieldFormikProps('model')} fullWidth label="Modelo" variant="outlined" />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={6}>
                     <TextField {...getFieldFormikProps('serial')} fullWidth label="Serial" variant="outlined" />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={6}>
                     <TextField {...getFieldFormikProps('monitor_serial')} fullWidth label="Serial del monitor" variant="outlined" />
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={12} sm={4}>
                     <Select
                         fullWidth
                         label="Sede"
@@ -112,8 +121,8 @@ export default function EquipmentRegister<T>(props: EquipmentRegisterProps<T>): 
                         )}
                     </Select>
                 </Grid>
-                <Grid item xs={6}>
-                <Select
+                <Grid item xs={12} sm={6}>
+                    <Select
                         fullWidth
                         label="Area"
                         variant="outlined"
@@ -126,8 +135,17 @@ export default function EquipmentRegister<T>(props: EquipmentRegisterProps<T>): 
                         )}
                     </Select>
                 </Grid>
-                <Grid item xs={2}>
-                    <TextField {...getFieldFormikProps('flat')} fullWidth label="Piso" type="number" variant="outlined" />
+                <Grid item xs={12} sm={2}>
+                    <TextField
+                        value={flat[formik.values.area as any] || ''}
+                        fullWidth
+                        label="Piso"
+                        type="number"
+                        variant="outlined"
+                        InputLabelProps={{
+                            shrink: Boolean(formik.values.area),
+                        }}
+                    />
                 </Grid>
                 <Grid item xs={12}>
                     <Typography variant="subtitle2" >
@@ -137,10 +155,10 @@ export default function EquipmentRegister<T>(props: EquipmentRegisterProps<T>): 
                 <Grid item xs={12}>
                     <TextField {...getFieldFormikProps('user')} fullWidth label="Nombre" variant="outlined" />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={6}>
                     <TextField {...getFieldFormikProps('cc')} fullWidth type="number" label="Cédula" variant="outlined" />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={6}>
                     <TextField {...getFieldFormikProps('phone')} fullWidth type="number" label="Teléfono" variant="outlined" />
                 </Grid>
                 <Grid item xs={12}>

@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react'
 import { createContext } from 'react'
 import { serializeToken } from 'utils'
 
-const initToken: string = ''
+const initToken = ''
 
 interface UserApiInterface {
     username: string
@@ -36,7 +36,7 @@ interface AuthContextProps {
 
 export const authContext = createContext<AuthContextProps>(initialStateAuthState)
 
-export default function AuthState(props: ProviderProps): JSX.Element {
+export default function AuthState(props: ProviderProps) {
     const { children } = props;
 
     const [user, setUser] = useState<UserApiInterface | undefined | null>()
@@ -45,11 +45,11 @@ export default function AuthState(props: ProviderProps): JSX.Element {
 
     const [serializedToken, setSerializedToken] = useState<string>(token)
 
-    function logout(): void {
+    function logout() {
         setToken(initToken)
     }
 
-    function login(data: loginProps): void {
+    function login(data: loginProps) {
         setToken(data.token)
     }
 

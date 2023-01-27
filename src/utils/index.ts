@@ -1,34 +1,29 @@
 import { EntityInterface, IdType } from "interfaces"
 import { filter } from "lodash"
 
-interface indexTabReturn {
-    id: string
-    'aria-controls': string
-}
-
-export function indexTab(index: number): indexTabReturn {
+export function indexTab(index: number) {
     return {
         id: `scrollable-force-tab-${index}`,
         'aria-controls': `scrollable-force-tabpanel-${index}`,
     }
 }
 
-export function addInArray<T>(array: T[] | [], data: T): T[] {
+export function addInArray<T>(array: T[] | [], data: T) {
     return [...array, data]
 }
 
-export function addIfNotExist<T>(array: T[], data: T): T[] {
-    if (array.includes(data)) {
+export function addIfNotExist<T>(array: T[], data: T) {
+    if (array.indexOf(data) !== -1) {
         return array;
     }
     return addInArray(array, data)
 }
 
-export function deleteInArrayData<T extends EntityInterface>(array: T[], id: IdType): T[] {
+export function deleteInArrayData<T extends EntityInterface>(array: T[], id: IdType) {
     return filter(array, row => row.id !== id)
 }
 
-export function updateDataInArray<T extends EntityInterface>(array: T[], id: IdType, newData: T): T[] {
+export function updateDataInArray<T extends EntityInterface>(array: T[], id: IdType, newData: T) {
     const data = deleteInArrayData(array, id)
 
     return addInArray(data, newData)
@@ -49,7 +44,7 @@ export function getDataLocalStorage<T>(key: string, initValue: T | string = ""):
     }
 }
 
-export function setDataLocalStorage(key: string, data: any): boolean {
+export function setDataLocalStorage(key: string, data: any) {
     try {
         window.localStorage.setItem(key, data)
         return true
@@ -59,11 +54,11 @@ export function setDataLocalStorage(key: string, data: any): boolean {
     }
 }
 
-export function serializeToken(token: string): string {
+export function serializeToken(token: string) {
     return token.replace(/["']/g, '')
 }
 
-export function formatDateApi(date: string, daysSetting: number = 1): string {
+export function formatDateApi(date: string, daysSetting: number = 1) {
     const dateFormat = new Date(date)
 
     dateFormat.setDate(dateFormat.getDate() + daysSetting)
@@ -72,7 +67,7 @@ export function formatDateApi(date: string, daysSetting: number = 1): string {
     return dateFormat.toLocaleDateString()
 }
 
-export function dataURLtoBlob(dataurl: string): Blob {
+export function dataURLtoBlob(dataurl: string) {
     const arr = dataurl.split(',')
 
     const arrReg = arr[0].match(/:(.*?);/)

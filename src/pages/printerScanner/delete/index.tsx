@@ -1,5 +1,5 @@
 import { deleteInArrayData } from 'utils'
-import { DataTableType, EquipmentInterface } from 'interfaces';
+import { DataTableType, PrinterScannerInterface } from 'interfaces';
 import { Dispatch, SetStateAction, useContext } from 'react';
 import { Delete } from 'components';
 import { authContext } from 'provider/Auth';
@@ -7,8 +7,8 @@ import { useMessage } from 'hooks';
 import { printerScannerDestroy } from 'services/printer_scanner';
 
 interface Props {
-    data: EquipmentInterface
-    setData: Dispatch<SetStateAction<DataTableType<EquipmentInterface>>>
+    data: PrinterScannerInterface
+    setData: Dispatch<SetStateAction<DataTableType<PrinterScannerInterface>>>
     closeModal: Function
     openAlert: Function
 }

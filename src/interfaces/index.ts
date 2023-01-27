@@ -148,13 +148,12 @@ export interface EquipmentBaseProps {
     type: string,
     model: string,
     serial: string,
-    monitor_serial: string,
-    license_plate: string,
+    monitor_serial: string | null | undefined,
+    license_plate: string | null | undefined,
     area: string,
-    flat: string,
     user: string,
     cc: string,
-    phone: string,
+    phone: string | null | undefined,
     campus: string,
 }
 
@@ -181,6 +180,7 @@ export interface TablePropsInterface<T> {
     selectBy: string
     searchBy: string
     placeholder?: string
+    searchByOther?: string
 }
 
 export interface TableDataInterface<T> {
@@ -337,16 +337,22 @@ export interface BarCharData {
     data: number[];
 }
 
-export type PrinterScannerProps = {
+export interface PrinterScannerBaseProps {
     type: string,
     model: string,
     serial: string,
-    license_plate: string,
+    license_plate: string | null | undefined,
     area: string,
-    flat: string,
     user: string,
     cc: string,
-    phone: string,
+    phone: string | null | undefined,
     campus: string,
+}
+
+export interface PrinterScannerProps extends PrinterScannerBaseProps {
     brand: string
+}
+
+export interface PrinterScannerInterface extends EntityInterface, PrinterScannerBaseProps {
+    brand: BrandInterface
 }

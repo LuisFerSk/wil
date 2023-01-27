@@ -3,17 +3,16 @@ import { Button, Grid, MenuItem, TextField, Typography } from "@mui/material";
 import { Autocomplete, Form, Select } from "components";
 import { useFormik } from "formik";
 import { useFormikFiledProps, useMessage } from "hooks";
-import { equipmentCreate } from "services/equipment";
 import { addIfNotExist, addInArray } from "utils";
 import { BrandStateInterface, RegisterInterface } from "interfaces";
 import { authContext } from "provider/Auth";
 import { initialValues, schema, typesPrinterScanner } from "../schema";
-import { areas, headquarters } from "constants";
+import { areas, flat, headquarters } from "constants";
 import { printerScannerCreate } from "services/printer_scanner";
 
 interface PrinterScannerRegisterProps<T> extends RegisterInterface<T[] | []>, BrandStateInterface { }
 
-export default function PrinterScannerRegister<T>(props: PrinterScannerRegisterProps<T>): JSX.Element {
+export default function PrinterScannerRegister<T>(props: PrinterScannerRegisterProps<T>) {
     const { setData, brands, setBrands } = props;
 
     const _authContext = useContext(authContext)
@@ -31,7 +30,14 @@ export default function PrinterScannerRegister<T>(props: PrinterScannerRegisterP
         onSubmit: (data, { resetForm }) => {
             messageLoader()
 
-            printerScannerCreate(token, data)
+            const newData = {
+                ...data,
+                cc: data.cc.toString(),
+                phone: data.phone?.toString() || null,
+                license_plate: data.license_plate?.toString() || null,
+            }
+
+            printerScannerCreate(token, newData)
                 .then((response) => {
                     setData((old) => addInArray<T>(old, response.data.info))
                     setBrands((old) => addIfNotExist(old, response.data.info.brand))
@@ -112,7 +118,16 @@ export default function PrinterScannerRegister<T>(props: PrinterScannerRegisterP
                     </Select>
                 </Grid>
                 <Grid item xs={2}>
-                    <TextField {...getFieldFormikProps('flat')} fullWidth label="Piso" type="number" variant="outlined" />
+                    <TextField
+                        value={flat[formik.values.area as any] || ''}
+                        fullWidth
+                        label="Piso"
+                        type="number"
+                        variant="outlined"
+                        InputLabelProps={{
+                            shrink: Boolean(formik.values.area),
+                        }}
+                    />
                 </Grid>
                 <Grid item xs={6}>
                     <Select

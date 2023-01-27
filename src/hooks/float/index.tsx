@@ -11,19 +11,7 @@ interface useFloatProps {
     initialSeverity?: severity
 }
 
-interface useFloatReturn {
-    isOpen: boolean;
-    open: () => void;
-    close: () => void;
-    content: content;
-    setContent: React.Dispatch<React.SetStateAction<content>>;
-    title: title;
-    setTitle: React.Dispatch<React.SetStateAction<title>>;
-    severity: severity;
-    setSeverity: React.Dispatch<React.SetStateAction<severity>>;
-}
-
-export function useFloat(props: useFloatProps): useFloatReturn {
+export function useFloat(props: useFloatProps) {
     const { initialState = false, initialContent = null, initialTitle = null, initialSeverity = 'success' } = props;
 
     const [title, setTitle] = useState<title>(initialTitle)

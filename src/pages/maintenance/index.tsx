@@ -4,7 +4,7 @@ import { Accordion } from "components";
 import { EquipmentInterface, MaintenanceInterface } from 'interfaces';
 import { useContext, useEffect, useState } from 'react';
 import { authContext } from 'provider/Auth';
-import MaintenanceTable from './table';
+import TableAdmin from './table/TableAdmin';
 import MaintenanceRegister from './register';
 import { maintenanceFindAll } from 'services/maintenance';
 import { equipmentFindAll } from 'services/equipment';
@@ -54,7 +54,7 @@ export default function Maintenance(): JSX.Element {
             </Grid>
             <Grid item xs={12} md={12} sm={12} lg={12}>
                 <Box>
-                    <MaintenanceTable data={maintenances} setData={setMaintenances} />
+                    <TableAdmin data={maintenances} setData={setMaintenances} />
                 </Box>
             </Grid>
         </Grid>

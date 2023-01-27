@@ -4,7 +4,7 @@ import { authContext } from "provider/Auth";
 import { useContext } from "react";
 import { Navigate } from "react-router-dom";
 
-export default function SupportGuard(): JSX.Element {
+export default function SupportGuard() {
     const _authContext = useContext(authContext)
     const { user } = _authContext;
 

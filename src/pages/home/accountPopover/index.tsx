@@ -61,7 +61,7 @@ export default function AccountPopover(props: AccountPopoverProps): JSX.Element 
                 open={open}
                 onClose={handleClose}
                 anchorEl={anchorRef.current}
-                sx={{ width: 220 }}
+                sx={{ width: 240 }}
             >
                 {MENU_OPTIONS.map((option) => (
                     <MenuItem

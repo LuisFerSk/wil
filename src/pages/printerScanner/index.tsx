@@ -1,20 +1,23 @@
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 import { Box, Card, Grid } from "@mui/material";
+
 import { Accordion } from "components";
-import { BrandInterface, EquipmentInterface } from 'interfaces';
+import { BrandInterface, PrinterScannerInterface } from 'interfaces';
 import { useContext } from 'react';
 import { authContext } from 'provider/Auth';
-import EquipmentTable from './table';
+import TableAdmin from './table/TableAdmin';
+import TableSupport from './table/TableSupport';
 import RegisterEquipment from './register';
-import { equipmentFindAll } from 'services/equipment';
 import { useGetQueryApi } from 'hooks/getQueryApi';
 import { brandFindAll } from 'services/brand';
+import { roles } from 'constants';
+import { printerScannerFindAll } from 'services/printer_scanner';
 
 export default function PrinterScanner() {
     const _authContext = useContext(authContext)
-    const { token } = _authContext;
+    const { token, user } = _authContext;
 
-    const [equipments, setEquipments] = useGetQueryApi<EquipmentInterface[]>(equipmentFindAll(token), [])
+    const [equipments, setEquipments] = useGetQueryApi<PrinterScannerInterface[]>(printerScannerFindAll(token), [])
 
     const [brands, setBrands] = useGetQueryApi<BrandInterface[]>(brandFindAll(token), [])
 
@@ -35,14 +38,18 @@ export default function PrinterScanner() {
             </Grid>
             <Grid item xs={12} md={12} sm={12} lg={12}>
                 <Box>
-                    <EquipmentTable
-                        data={equipments}
-                        setData={setEquipments}
-                        updateProps={{
-                            brands,
-                            setBrands,
-                        }}
-                    />
+                    {user?.role === roles.administrator ? (
+                        <TableAdmin
+                            data={equipments}
+                            setData={setEquipments}
+                            updateProps={{
+                                brands,
+                                setBrands,
+                            }}
+                        />
+                    ) : (
+                        <TableSupport data={equipments} />
+                    )}
                 </Box>
             </Grid>
         </Grid>

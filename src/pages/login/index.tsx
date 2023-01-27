@@ -7,7 +7,7 @@ import { login } from 'services/auth'
 import { useContext } from 'react'
 import { authContext } from 'provider/Auth'
 
-export default function Login(): JSX.Element {
+export default function Login() {
 	const _authContext = useContext(authContext)
 
 	const theme = useTheme()
@@ -59,7 +59,7 @@ export default function Login(): JSX.Element {
 				>
 					<Grid item xs={12} textAlign='center'>
 						<Logo height={100} />
-						<Typography color={theme.palette.primary.main} variant="h4">
+						<Typography color={theme.palette.primary.main} variant="h5">
 							Title
 						</Typography>
 					</Grid>
