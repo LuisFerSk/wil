@@ -36,7 +36,7 @@ export default function EquipmentTable(props: EquipmentTableProps) {
 
 
     function createTableCells(row: PrinterScannerInterface) {
-        const { serial, type, brand, model } = row;
+        const { serial, type, brand, model, license_plate } = row;
 
         const options = [
             {
@@ -72,9 +72,9 @@ export default function EquipmentTable(props: EquipmentTableProps) {
             },
         ]
 
-
         return (
             <>
+                <TableCell align='left'>{license_plate || 'Sin placa'}</TableCell>
                 <TableCell align='left'>{serial}</TableCell>
                 <TableCell align='left'>{type}</TableCell>
                 <TableCell align='left'>{brand.name}</TableCell>

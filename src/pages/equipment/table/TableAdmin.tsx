@@ -75,7 +75,7 @@ export default function EquipmentTable(props: EquipmentTableProps) {
 
         return (
             <>
-                <TableCell align='left'>{license_plate}</TableCell>
+                <TableCell align='left'>{license_plate || 'Sin placa'}</TableCell>
                 <TableCell align='left'>{serial}</TableCell>
                 <TableCell align='left'>{type}</TableCell>
                 <TableCell align='left'>{brand.name}</TableCell>
