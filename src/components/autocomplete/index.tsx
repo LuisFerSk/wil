@@ -1,7 +1,7 @@
 import { Autocomplete as AutocompleteMaterial, AutocompleteRenderInputParams, createFilterOptions, TextField, TextFieldProps } from "@mui/material";
 import { FormikErrors } from "formik";
 
-interface AutocompleteProps<T> {
+interface Props<T> {
     options: string[]
     textFieldProps: TextFieldProps
     fieldValue: string
@@ -15,7 +15,7 @@ export interface valueProps {
 
 const filter = createFilterOptions<valueProps>();
 
-export default function Autocomplete<T>(props: AutocompleteProps<T>): JSX.Element {
+export default function Autocomplete<T>(props: Props<T>) {
     const { options, fieldValue, setFieldValue, textFieldProps } = props;
     const { name = '' } = textFieldProps;
 

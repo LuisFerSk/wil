@@ -1,6 +1,6 @@
 import { useContext, useId } from "react";
-import { Box, Button, Checkbox, FormControlLabel, FormGroup, Grid, MenuItem, Radio, RadioGroup, Stack, TextField, Typography, useTheme } from "@mui/material";
-import { AsyncSelect, Form, Select } from "components";
+import { Box, Button, Checkbox, FormControlLabel, FormGroup, Grid, MenuItem, Radio, RadioGroup, TextField, Typography, useTheme } from "@mui/material";
+import { AsyncSelect, Form } from "components";
 import { useFormik } from "formik";
 import { useFormikFiledProps, useMessage } from "hooks";
 import { addInArray, dataURLtoBlob, formatDateApi } from "utils";
@@ -13,7 +13,7 @@ import SignatureCanvas from 'react-signature-canvas'
 import styles from './style.module.css'
 import ReactSignatureCanvas from "react-signature-canvas";
 
-interface MaintenanceRegisterProps<T> extends RegisterInterface<T[] | []>, ConstantsInterface { }
+interface Props<T> extends RegisterInterface<T[] | []>, ConstantsInterface { }
 
 let sigPad: ReactSignatureCanvas | null = null;
 
@@ -21,7 +21,7 @@ function clear() {
     sigPad?.clear()
 }
 
-export default function MaintenanceRegister<T>(props: MaintenanceRegisterProps<T>): JSX.Element {
+export default function MaintenanceRegister<T>(props: Props<T>) {
     const { setData, equipments } = props;
 
     const _authContext = useContext(authContext)

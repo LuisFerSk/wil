@@ -3,7 +3,7 @@ import { Card, CardHeader, Box } from '@mui/material';
 import { useChart } from 'components/chart';
 import { BarCharData } from 'interfaces';
 
-interface BarCharProps {
+interface Props {
   title?: string
   subheader?: string
   chartData: BarCharData[]
@@ -11,7 +11,7 @@ interface BarCharProps {
   suffix: string
 };
 
-export default function BarChar(props: BarCharProps) {
+export default function BarChar(props: Props) {
   const { title, subheader, chartLabels, chartData, suffix, ...other } = props;
 
   const chartOptions = useChart({

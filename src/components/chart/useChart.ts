@@ -1,7 +1,7 @@
 import merge from 'lodash/merge';
 import { useTheme, alpha } from '@mui/material/styles';
 
-export default function useChart(options: any) {
+export default function useChart(options: ApexCharts.ApexOptions) {
   const theme = useTheme();
 
   const LABEL_TOTAL = {

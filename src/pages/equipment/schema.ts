@@ -1,5 +1,4 @@
-import { EquipmentProps } from 'interfaces';
-import { number, object, string } from 'yup'
+import { object, string } from 'yup'
 
 export const equipmentSchema = object().shape({
     type: string()
@@ -100,7 +99,7 @@ export const equipmentSchema = object().shape({
         })
 })
 
-export const equipmentInitialValues: EquipmentProps = {
+export const equipmentInitialValues = {
     type: '',
     brand: '',
     campus: '',

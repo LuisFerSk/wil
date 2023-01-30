@@ -1,13 +1,15 @@
+import { lazy, Suspense } from 'react'
+
 import baselineRemoveRedEye from '@iconify/icons-ic/baseline-remove-red-eye';
 import trash2Outline from '@iconify/icons-eva/trash-2-outline'
-import { TableCell } from '@mui/material'
+
+import { CircularProgress, Grid, TableCell } from '@mui/material'
+
 import { FloatAlert, Modal, Table } from 'components'
 import { mappingMenuItem } from 'components/table/TableFunctions'
 import TableMoreMenu from 'components/table/TableMoreMenu'
 import { useFloat } from 'hooks'
 import { HeadLabelInterface, TableDataInterface, TableOptionsInterface, MaintenanceInterface } from 'interfaces'
-import MaintenanceDelete from '../delete'
-import MaintenanceView from '../view'
 
 const headLabel: HeadLabelInterface[] = [
     { id: 'id', label: 'Id', alignRight: false },
@@ -16,7 +18,10 @@ const headLabel: HeadLabelInterface[] = [
     { id: '', label: '' }
 ]
 
-export default function MaintenanceTable(props: TableDataInterface<MaintenanceInterface>): JSX.Element {
+export default function MaintenanceTable(props: TableDataInterface<MaintenanceInterface>) {
+    const MaintenanceView = lazy(() => import('../view'));
+    const MaintenanceDelete = lazy(() => import('../delete'));
+
     const { data, setData } = props;
 
     const modalState = useFloat({ initialState: false })
@@ -26,8 +31,7 @@ export default function MaintenanceTable(props: TableDataInterface<MaintenanceIn
         initialContent: '¡Se ha eliminado correctamente el mantenimiento!'
     })
 
-
-    function createTableCells(row: MaintenanceInterface): JSX.Element {
+    function createTableCells(row: MaintenanceInterface) {
         const { id, equipment, date } = row;
 
         const options: TableOptionsInterface[] = [
@@ -37,7 +41,13 @@ export default function MaintenanceTable(props: TableDataInterface<MaintenanceIn
                 onClick: () => {
                     modalState.setTitle(`Mantenimiento ${row.id}`)
                     modalState.setContent(
-                        <MaintenanceView data={row} />
+                        <Suspense fallback={
+                            <Grid textAlign='center'>
+                                <CircularProgress color='success' />
+                            </Grid>
+                        }>
+                            <MaintenanceView data={row} />
+                        </Suspense>
                     )
                     modalState.open()
                 }
@@ -48,12 +58,18 @@ export default function MaintenanceTable(props: TableDataInterface<MaintenanceIn
                 onClick: () => {
                     modalState.setTitle('Eliminar mantenimiento')
                     modalState.setContent(
-                        <MaintenanceDelete
-                            data={row}
-                            setData={setData}
-                            closeModal={modalState.close}
-                            openAlert={alertState.open}
-                        />
+                        <Suspense fallback={
+                            <Grid textAlign='center'>
+                                <CircularProgress color='success' />
+                            </Grid>
+                        }>
+                            <MaintenanceDelete
+                                data={row}
+                                setData={setData}
+                                closeModal={modalState.close}
+                                openAlert={alertState.open}
+                            />
+                        </Suspense>
                     )
                     modalState.open()
                 }
@@ -86,9 +102,7 @@ export default function MaintenanceTable(props: TableDataInterface<MaintenanceIn
                 placeholder='Buscar por cédula'
             />
             <Modal title={modalState.title} isOpen={modalState.isOpen} onClose={modalState.close}>
-                <>
-                    {modalState.content}
-                </>
+                {modalState.content as JSX.Element}
             </Modal>
             <FloatAlert isOpen={alertState.isOpen} close={alertState.close} severity="success">
                 {alertState.content as JSX.Element}

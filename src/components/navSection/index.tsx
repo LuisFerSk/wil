@@ -4,11 +4,11 @@ import { SidebarConfigInterface } from 'interfaces'
 import { BoxProps } from '@mui/system'
 import NavItem from './navItem'
 
-interface NavSectionProps extends BoxProps {
+interface Props extends BoxProps {
     navConfig: SidebarConfigInterface
 }
 
-export default function NavSection(props: NavSectionProps): JSX.Element {
+export default function NavSection(props: Props) {
     const { navConfig, ...other } = props;
     const { pathname } = useLocation()
     const match = (path: string) => (path ? !!matchPath({ path, end: false }, pathname) : false)

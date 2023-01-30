@@ -20,11 +20,11 @@ const MENU_OPTIONS: MenuOption = [
     }
 ]
 
-interface AccountPopoverProps {
+interface Props {
     openModal: Function
 }
 
-export default function AccountPopover(props: AccountPopoverProps): JSX.Element {
+export default function AccountPopover(props: Props) {
     const { openModal } = props;
 
     const anchorRef = useRef(null)

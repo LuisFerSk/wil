@@ -8,12 +8,12 @@ import { Box, Collapse, List, ListItemText } from '@mui/material'
 import { ItemSidebarProps } from 'interfaces'
 import { activeSubStyle, ListItemIconStyle, ListItemStyle } from './style'
 
-interface NavItemProps {
+interface Props {
     item: ItemSidebarProps
     active: (path: string) => boolean
 }
 
-function NavItem(props: NavItemProps): JSX.Element {
+function NavItem(props: Props) {
     const { item, active } = props
     const theme = useTheme()
     const isActiveRoot = active(item.path)
@@ -40,16 +40,15 @@ function NavItem(props: NavItemProps): JSX.Element {
                         ...(isActiveRoot ? activeRootStyle : undefined)
                     }}
                 >
-                    <ListItemIconStyle>{icon ? icon : null}</ListItemIconStyle>
+                    <ListItemIconStyle>{icon || null}</ListItemIconStyle>
                     <ListItemText disableTypography primary={title} />
-                    {info ? info : null}
+                    {info || null}
                     <Box
                         component={Icon}
                         icon={open ? arrowIosDownwardFill : arrowIosForwardFill}
                         sx={{ width: 16, height: 16, ml: 1 }}
                     />
                 </ListItemStyle>
-
                 <Collapse in={open} timeout='auto' unmountOnExit>
                     <List component='div' disablePadding>
                         {children.map(rowChildren => {
@@ -101,9 +100,9 @@ function NavItem(props: NavItemProps): JSX.Element {
                 ...(isActiveRoot ? activeRootStyle : null)
             }}
         >
-            <ListItemIconStyle>{icon ? icon : null}</ListItemIconStyle>
+            <ListItemIconStyle>{icon || null}</ListItemIconStyle>
             <ListItemText disableTypography primary={title} />
-            {info ? info : null}
+            {info || null}
         </ListItemStyle>
     )
 }

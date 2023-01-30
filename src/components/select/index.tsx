@@ -10,7 +10,7 @@ const MenuProps = {
     },
 };
 
-export default function Select(props: TextFieldProps): JSX.Element {
+export default function Select(props: TextFieldProps) {
     return (
         <TextField
             select

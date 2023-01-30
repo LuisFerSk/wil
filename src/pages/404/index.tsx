@@ -3,7 +3,7 @@ import { Button, Grid, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { useTheme } from '@mui/material/styles';
 
-export default function NotFound(): JSX.Element {
+export default function NotFound() {
     const navigate = useNavigate()
 
     const theme = useTheme()

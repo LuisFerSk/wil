@@ -4,15 +4,15 @@ import { Autocomplete, Form, Select } from "components";
 import { useFormik } from "formik";
 import { useFormikFiledProps, useMessage } from "hooks";
 import { addIfNotExist, addInArray } from "utils";
-import { BrandStateInterface, RegisterInterface } from "interfaces";
+import { BrandStateInterface, RegisterInterface, flat, PrinterScannerProps } from "interfaces";
 import { authContext } from "provider/Auth";
 import { initialValues, schema, typesPrinterScanner } from "../schema";
-import { areas, flat, headquarters } from "constants";
+import { areas, headquarters } from "constants";
 import { printerScannerCreate } from "services/printer_scanner";
 
-interface PrinterScannerRegisterProps<T> extends RegisterInterface<T[] | []>, BrandStateInterface { }
+interface Props<T> extends RegisterInterface<T[] | []>, BrandStateInterface { }
 
-export default function PrinterScannerRegister<T>(props: PrinterScannerRegisterProps<T>) {
+export default function PrinterScannerRegister<T>(props: Props<T>) {
     const { setData, brands, setBrands } = props;
 
     const _authContext = useContext(authContext)
@@ -37,7 +37,7 @@ export default function PrinterScannerRegister<T>(props: PrinterScannerRegisterP
                 license_plate: data.license_plate?.toString() || null,
             }
 
-            printerScannerCreate(token, newData)
+            printerScannerCreate(token, newData as PrinterScannerProps)
                 .then((response) => {
                     setData((old) => addInArray<T>(old, response.data.info))
                     setBrands((old) => addIfNotExist(old, response.data.info.brand))

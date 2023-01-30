@@ -40,7 +40,6 @@ export default function Login() {
 				alignItems="center"
 				style={{
 					minHeight: '100vh',
-					// backgroundImage: `url(${ImgFondo})`,
 					backgroundRepeat: 'no-repeat',
 					backgroundSize: '100% 100%',
 				}}

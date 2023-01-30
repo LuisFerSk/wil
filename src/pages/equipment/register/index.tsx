@@ -5,14 +5,14 @@ import { useFormik } from "formik";
 import { useFormikFiledProps, useMessage } from "hooks";
 import { equipmentCreate } from "services/equipment";
 import { addIfNotExist, addInArray } from "utils";
-import { BrandStateInterface, RegisterInterface } from "interfaces";
+import { BrandStateInterface, EquipmentProps, flat, RegisterInterface } from "interfaces";
 import { authContext } from "provider/Auth";
 import { equipmentInitialValues, equipmentSchema, typesEquipments } from "../schema";
-import { areas, flat, headquarters } from "constants";
+import { areas, headquarters } from "constants";
 
 interface EquipmentRegisterProps<T> extends RegisterInterface<T[] | []>, BrandStateInterface { }
 
-export default function EquipmentRegister<T>(props: EquipmentRegisterProps<T>): JSX.Element {
+export default function EquipmentRegister<T>(props: EquipmentRegisterProps<T>) {
     const { setData, brands, setBrands } = props;
 
     const _authContext = useContext(authContext)
@@ -38,7 +38,7 @@ export default function EquipmentRegister<T>(props: EquipmentRegisterProps<T>): 
                 monitor_serial: data.monitor_serial || null
             }
 
-            equipmentCreate(token, newData)
+            equipmentCreate(token, newData as EquipmentProps)
                 .then((response) => {
                     setData((old) => addInArray<T>(old, response.data.info))
                     setBrands((old) => addIfNotExist(old, response.data.info.brand))

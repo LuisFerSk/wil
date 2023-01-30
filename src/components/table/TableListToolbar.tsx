@@ -1,13 +1,9 @@
+import { ChangeEvent } from 'react'
+
 import { Icon } from '@iconify/react'
 import searchFill from '@iconify/icons-eva/search-fill'
 import { styled } from '@mui/material/styles'
-import {
-    Box,
-    Toolbar,
-    OutlinedInput,
-    InputAdornment,
-} from '@mui/material'
-import { ChangeEvent } from 'react'
+import { Box, Toolbar, OutlinedInput, InputAdornment, } from '@mui/material'
 
 
 const RootStyle = styled(Toolbar)(({ theme }) => ({
@@ -30,20 +26,15 @@ const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
     }
 }))
 
-interface TableListToolbarProps {
+interface Props {
     filter: string
     onFilter: (event: ChangeEvent<HTMLInputElement>) => void
     type?: string
     placeholder?: string
 }
 
-export default function TableListToolbar(props: TableListToolbarProps) {
-    const {
-        filter,
-        onFilter,
-        type = 'text',
-        placeholder = 'Buscar',
-    } = props;
+export default function TableListToolbar(props: Props) {
+    const { filter, onFilter, type = 'text', placeholder = 'Buscar', } = props;
 
     return (
         <RootStyle>

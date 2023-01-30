@@ -1,16 +1,16 @@
 import { Icon } from '@iconify/react';
 import closeIcon from '@iconify/icons-mdi/close';
-import { Card, Modal as MaterialModal, IconButton, Grid, Typography, Paper } from '@mui/material'
+import { Modal as MaterialModal, IconButton, Grid, Typography, Paper } from '@mui/material'
 import useStylesModal from 'theme/useStylesModal';
 
-interface ModalProps {
+interface Props {
     isOpen: boolean
     onClose: () => void
     title: string | null
     children: JSX.Element | null
 }
 
-export default function Modal(props: ModalProps): JSX.Element {
+export default function Modal(props: Props) {
     const { isOpen, onClose, title, children } = props
 
     const classes = useStylesModal()

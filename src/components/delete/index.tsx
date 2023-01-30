@@ -5,7 +5,7 @@ import { Grid, TextField, Button } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { IdType, StateMessage } from 'interfaces'
 
-interface DeleteProps {
+interface Props {
     value: IdType
     messageError: string
     label: string
@@ -14,7 +14,7 @@ interface DeleteProps {
     message: StateMessage
 }
 
-export default function Delete(props: DeleteProps): JSX.Element {
+export default function Delete(props: Props) {
     const { children, onSubmitFormik, label, messageError, value, message } = props;
 
     const formik = useFormik({

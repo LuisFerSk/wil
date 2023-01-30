@@ -1,17 +1,17 @@
 import { FormikProvider, Form as Formik, FormikContextType } from 'formik'
 
-interface FormProps {
+interface Props {
     children: React.ReactNode
     formik: FormikContextType<any>
 }
 
-export default function Form(props: FormProps): JSX.Element {
+export default function Form(props: Props) {
     const { children, formik } = props
     const { handleSubmit } = formik
 
     return (
         <FormikProvider value={formik}>
-            <Formik autoComplete='on' onSubmit={handleSubmit}>
+            <Formik autoComplete='off' onSubmit={handleSubmit}>
                 {children}
             </Formik>
         </FormikProvider>

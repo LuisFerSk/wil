@@ -8,11 +8,11 @@ import { authContext } from "provider/Auth";
 import { useContext } from "react";
 import { changePasswordInitialValues, changePasswordSchema } from "./schema";
 
-interface ChangePasswordProps {
+interface Props {
     id?: IdType
 }
 
-export default function ChangePassword(props: ChangePasswordProps) {
+export default function ChangePassword(props: Props) {
     const { id } = props;
 
     const [message, setMessage, messageLoader, resetMessage] = useMessage()

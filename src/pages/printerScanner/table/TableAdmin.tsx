@@ -1,16 +1,16 @@
+import { lazy, Suspense } from 'react'
+
 import editFill from '@iconify/icons-eva/edit-fill'
 import trash2Outline from '@iconify/icons-eva/trash-2-outline'
+import baselineRemoveRedEye from '@iconify/icons-ic/baseline-remove-red-eye';
 
-import { TableCell } from '@mui/material'
+import { CircularProgress, Grid, TableCell } from '@mui/material'
 import { FloatAlert, Modal, Table } from 'components'
 
 import { mappingMenuItem } from 'components/table/TableFunctions'
 import TableMoreMenu from 'components/table/TableMoreMenu'
 import { useFloat } from 'hooks'
-import { BrandStateInterface, EquipmentInterface, HeadLabelInterface, PrinterScannerInterface, TableDataInterface, TableOptionsInterface } from 'interfaces'
-import EquipmentDelete from '../delete'
-import EquipmentUpdate from '../update'
-
+import { BrandStateInterface, HeadLabelInterface, PrinterScannerInterface, TableDataInterface } from 'interfaces'
 
 const headLabel: HeadLabelInterface[] = [
     { id: 'serial', label: 'Serial', alignRight: false },
@@ -20,11 +20,15 @@ const headLabel: HeadLabelInterface[] = [
     { id: '', label: '' }
 ]
 
-interface EquipmentTableProps extends TableDataInterface<PrinterScannerInterface> {
+interface Props extends TableDataInterface<PrinterScannerInterface> {
     updateProps: BrandStateInterface
 }
 
-export default function EquipmentTable(props: EquipmentTableProps) {
+export default function PrinterScannerTable(props: Props) {
+    const PrinterScannerView = lazy(() => import('../view'))
+    const PrinterScannerDelete = lazy(() => import('../delete'))
+    const PrinterScannerUpdate = lazy(() => import('../update'))
+
     const { data, setData, updateProps } = props;
 
     const modalState = useFloat({ initialState: false })
@@ -34,22 +38,44 @@ export default function EquipmentTable(props: EquipmentTableProps) {
         initialContent: '¡Se ha eliminado correctamente la impresora o scanner!'
     })
 
-
     function createTableCells(row: PrinterScannerInterface) {
         const { serial, type, brand, model, license_plate } = row;
 
         const options = [
+            {
+                label: 'Ver',
+                icon: baselineRemoveRedEye,
+                onClick: () => {
+                    modalState.setTitle('Equipo')
+                    modalState.setContent(
+                        <Suspense fallback={
+                            <Grid textAlign='center'>
+                                <CircularProgress color='primary' />
+                            </Grid>
+                        }>
+                            <PrinterScannerView data={row} />
+                        </Suspense>
+                    )
+                    modalState.open()
+                }
+            },
             {
                 label: 'Editar',
                 icon: editFill,
                 onClick: () => {
                     modalState.setTitle('Actualizar Impresora o scanner')
                     modalState.setContent(
-                        <EquipmentUpdate
-                            {...updateProps}
-                            setData={setData}
-                            initData={row}
-                        />
+                        <Suspense fallback={
+                            <Grid textAlign='center'>
+                                <CircularProgress color='primary' />
+                            </Grid>
+                        }>
+                            <PrinterScannerUpdate
+                                {...updateProps}
+                                setData={setData}
+                                initData={row}
+                            />
+                        </Suspense>
                     )
                     modalState.open()
                 }
@@ -60,12 +86,18 @@ export default function EquipmentTable(props: EquipmentTableProps) {
                 onClick: () => {
                     modalState.setTitle('Eliminar Impresora o scanner')
                     modalState.setContent(
-                        <EquipmentDelete
-                            data={row}
-                            setData={setData}
-                            closeModal={modalState.close}
-                            openAlert={alertState.open}
-                        />
+                        <Suspense fallback={
+                            <Grid textAlign='center'>
+                                <CircularProgress color='primary' />
+                            </Grid>
+                        }>
+                            <PrinterScannerDelete
+                                data={row}
+                                setData={setData}
+                                closeModal={modalState.close}
+                                openAlert={alertState.open}
+                            />
+                        </Suspense>
                     )
                     modalState.open()
                 }
@@ -100,9 +132,7 @@ export default function EquipmentTable(props: EquipmentTableProps) {
                 placeholder='Buscar por placa o serial'
             />
             <Modal title={modalState.title} isOpen={modalState.isOpen} onClose={modalState.close}>
-                <>
-                    {modalState.content}
-                </>
+                {modalState.content as JSX.Element}
             </Modal>
             <FloatAlert isOpen={alertState.isOpen} close={alertState.close} severity="success">
                 {alertState.content as JSX.Element}

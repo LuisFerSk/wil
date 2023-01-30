@@ -1,6 +1,6 @@
 import { useContext, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
-import { Box, Drawer } from '@mui/material'
+import { Box, Drawer, useTheme } from '@mui/material'
 
 import { Logo, Scrollbar, NavSection, MHidden } from 'components'
 import { sidebarConfigSupport, sidebarConfigAdministrator } from './SidebarConfig'
@@ -8,12 +8,12 @@ import { DRAWER_WIDTH, RootStyle } from './style'
 import { authContext } from 'provider/Auth'
 import { roles } from 'constants'
 
-interface SidebarProps {
+interface Props {
     isOpenSidebar: boolean
     onCloseSidebar: () => void
 }
 
-export default function Sidebar(props: SidebarProps): JSX.Element {
+export default function Sidebar(props: Props) {
     const { isOpenSidebar, onCloseSidebar } = props
 
     const { pathname } = useLocation()
@@ -21,13 +21,17 @@ export default function Sidebar(props: SidebarProps): JSX.Element {
     const _authContext = useContext(authContext)
     const { user } = _authContext;
 
+    const theme = useTheme()
+
     function getNavConfig() {
         if (user?.role === roles.administrator) {
             return sidebarConfigAdministrator
         }
+
         if (user?.role === roles.support) {
             return sidebarConfigSupport
         }
+
         return []
     }
 
@@ -75,7 +79,7 @@ export default function Sidebar(props: SidebarProps): JSX.Element {
                     PaperProps={{
                         sx: {
                             width: DRAWER_WIDTH,
-                            bgcolor: 'background.default'
+                            bgcolor: theme.palette.grey[100]
                         }
                     }}
                 >

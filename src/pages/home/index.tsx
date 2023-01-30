@@ -16,6 +16,7 @@ const MainStyle = styled('div')(({ theme }) => ({
     minHeight: '100%',
     paddingTop: 88,
     paddingBottom: theme.spacing(10),
+    backgroundColor: theme.palette.grey[100],
     [theme.breakpoints.up('lg')]: {
         paddingTop: 116,
         paddingLeft: theme.spacing(2),
@@ -23,7 +24,7 @@ const MainStyle = styled('div')(({ theme }) => ({
     }
 }))
 
-export default function Home(): JSX.Element {
+export default function Home() {
     const [open, setOpen] = useState<boolean>(false)
 
     return (

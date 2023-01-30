@@ -1,20 +1,20 @@
 import { deleteInArrayData } from 'utils'
-import { DataTableType, SupportInterface } from 'interfaces';
+import { SupportInterface } from 'interfaces';
 import { Dispatch, SetStateAction, useContext } from 'react';
 import { Delete } from 'components';
 import { authContext } from 'provider/Auth';
 import { useMessage } from 'hooks';
 import { userDestroy } from 'services/user';
 
-interface SupportDeleteProps {
+interface Props {
     data: SupportInterface
-    setData: Dispatch<SetStateAction<DataTableType<SupportInterface>>>
+    setData: Dispatch<SetStateAction<SupportInterface[]>>
     closeModal: Function
     openAlert: Function
 }
 
 
-export default function SupportDelete(props: SupportDeleteProps): JSX.Element {
+export default function SupportDelete(props: Props) {
     const { data, setData, closeModal, openAlert } = props;
 
     const { id, username } = data;

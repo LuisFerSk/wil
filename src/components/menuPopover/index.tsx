@@ -1,7 +1,9 @@
 import { Popover, PopoverProps } from '@mui/material'
 import { ArrowStyle } from './style'
 
-export default function MenuPopover({ children, sx, ...other }: PopoverProps): JSX.Element {
+export default function MenuPopover(props: PopoverProps) {
+    const { children, sx, ...other } = props;
+
     return (
         <Popover
             anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}

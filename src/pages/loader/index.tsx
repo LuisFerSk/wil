@@ -1,8 +1,8 @@
 import { CircularProgress, Grid } from "@mui/material";
 
-function Loader() {
+export default function Loader() {
     return (
-        <Grid sx={{height:'100vh'}}
+        <Grid sx={{ height: '100vh' }}
             container
             direction="column"
             justifyContent="center"
@@ -14,5 +14,3 @@ function Loader() {
 
     )
 }
-
-export default Loader;

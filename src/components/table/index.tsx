@@ -7,6 +7,7 @@ import {
     TableContainer,
     TablePagination,
     Table as MaterialTable,
+    Card,
 } from '@mui/material'
 
 import Scrollbar from '../scrollbar'
@@ -17,7 +18,7 @@ import { getComparator, applySortFilter } from './TableFunctions'
 import { GetComparatorOrderType, TablePropsInterface } from 'interfaces'
 
 
-export default function Table<T>(props: TablePropsInterface<T>) {
+export default function Table(props: TablePropsInterface) {
     const { headLabel, data, selectBy, createTableCells, searchBy, placeholder, searchByOther } = props
 
     const [page, setPage] = useState<number>(0)
@@ -32,10 +33,10 @@ export default function Table<T>(props: TablePropsInterface<T>) {
     const comparator = getComparator(order, orderBy);
     const query = filter;
 
-    const filtered = applySortFilter<T>({ array, comparator, query, searchBy, searchByOther })
+    const filtered = applySortFilter({ array, comparator, query, searchBy, searchByOther })
 
     return (
-        <>
+        <Card>
             <TableListToolbar
                 filter={filter}
                 placeholder={placeholder}
@@ -107,6 +108,6 @@ export default function Table<T>(props: TablePropsInterface<T>) {
                     setPage(newPage)
                 }}
             />
-        </>
+        </Card>
     )
 }

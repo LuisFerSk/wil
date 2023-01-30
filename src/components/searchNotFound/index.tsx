@@ -1,15 +1,15 @@
 import { Paper, PaperProps, Typography } from '@mui/material'
 
-interface SeachNotFoundProps extends PaperProps {
+interface Props extends PaperProps {
     searchQuery?: string
 }
 
-function SearchNotFound(props: SeachNotFoundProps): JSX.Element {
+function SearchNotFound(props: Props) {
     const { searchQuery = '', ...other } = props
     return (
         <Paper {...other}>
             <Typography gutterBottom align='center' variant='subtitle1'>
-                No se encontro
+                No se encontró
             </Typography>
             <Typography variant='body2' align='center'>
                 No se encontraron resultados para &nbsp;

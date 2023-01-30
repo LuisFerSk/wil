@@ -5,13 +5,13 @@ export type UseFormikFiledPropsReturn = ((fieldName: string) => FieldInputProps<
 export function useFormikFiledProps(props: FormikContextType<any>): UseFormikFiledPropsReturn {
   const { touched, errors, getFieldProps } = props;
 
-  function getFieldHelperText(filedName: string): string | undefined {
+  function getFieldHelperText(filedName: string) {
     if (touched[filedName] && errors[filedName]) {
       return String(errors[filedName])
     }
   }
 
-  function getFiledError(fieldName: string): boolean {
+  function getFiledError(fieldName: string) {
     return Boolean(fieldName in touched && fieldName in errors)
   }
 

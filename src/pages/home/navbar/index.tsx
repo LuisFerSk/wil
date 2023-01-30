@@ -1,21 +1,24 @@
+import { lazy, Suspense } from 'react'
+
 import { Icon } from '@iconify/react'
 import menu2Fill from '@iconify/icons-eva/menu-2-fill'
-import { Box, Stack, IconButton } from '@mui/material'
+import { Box, Stack, IconButton, Grid, CircularProgress } from '@mui/material'
 
 import AccountPopover from '../accountPopover'
-import { MHidden, Modal, ChangePassword } from 'components'
+import { MHidden, Modal } from 'components'
 import { RootStyle, ToolbarStyle } from './style'
 import { useFloat } from 'hooks'
 
-
-interface NavbarProps {
+interface Props {
     onOpenSidebar: () => void
 }
 
-export default function Navbar(props: NavbarProps) {
+export default function Navbar(props: Props) {
     const { onOpenSidebar } = props;
 
     const modalState = useFloat({ initialState: false })
+
+    const ChangePassword = lazy(() => import('components/changePassword'))
 
     return (
         <RootStyle>
@@ -31,7 +34,13 @@ export default function Navbar(props: NavbarProps) {
                 </Stack>
             </ToolbarStyle>
             <Modal title={'Modificar mi contraseña'} isOpen={modalState.isOpen} onClose={modalState.close}>
-                <ChangePassword />
+                <Suspense fallback={
+                    <Grid textAlign='center'>
+                        <CircularProgress color='primary' />
+                    </Grid>
+                }>
+                    <ChangePassword />
+                </Suspense>
             </Modal>
         </RootStyle>
     )

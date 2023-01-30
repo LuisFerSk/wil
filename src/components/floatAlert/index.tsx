@@ -1,13 +1,13 @@
 import { Snackbar, Alert, AlertColor } from '@mui/material'
 
-interface FloatAlertProps {
+interface Props {
     children: JSX.Element,
     isOpen: boolean,
     close: () => void,
     severity: AlertColor
 }
 
-function FloatAlert(props: FloatAlertProps): JSX.Element {
+function FloatAlert(props: Props) {
     const { children, isOpen, close, severity } = props
     return (
         <Snackbar

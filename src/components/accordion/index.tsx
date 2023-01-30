@@ -11,24 +11,32 @@ import {
 
 import useStyles from 'theme/useStylesAccordion'
 
-interface AccordionProps {
-    accordions: { title: string, subtitle?: string, icon: JSX.Element, content: JSX.Element }[]
+interface AccordionInterface {
+    title: string,
+    subtitle?: string,
+    icon: JSX.Element,
+    content: JSX.Element
+}
+
+interface Props {
+    accordions: AccordionInterface[]
     indexOpen?: number
 }
 
-export default function Accordion(props: AccordionProps): JSX.Element {
+export default function Accordion(props: Props) {
     const { accordions, indexOpen = -1 } = props
 
     const classes = useStyles()
     const [expanded, setExpanded] = useState<number | boolean>(indexOpen >= 0 ? indexOpen : false)
 
-    const handleChange = (panel: number) => (event: SyntheticEvent<Element, Event>, isExpanded: boolean) => {
-        setExpanded(isExpanded ? panel : false)
+    function handleChange(panel: number) {
+        return (event: SyntheticEvent<Element, Event>, isExpanded: boolean) => {
+            setExpanded(isExpanded ? panel : false)
+        }
     }
-
     return (
         <>
-            {accordions.map((element, index: number) => (
+            {accordions.map((element, index) => (
                 <MaterialAccordion
                     key={index}
                     expanded={expanded === index}

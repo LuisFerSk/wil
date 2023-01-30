@@ -6,10 +6,12 @@ interface usuario {
     password: string,
 }
 
+const urlBase = `${import.meta.env.VITE_BACKEND_URL}`
+
 export function login(data: usuario) {
-    return axios.post(`${import.meta.env.VITE_BACKEND_URL}/singin`, data)
+    return axios.post(`${urlBase}/singin`, data)
 }
 
 export function verifyToken(token: string) {
-    return axios.get(`${import.meta.env.VITE_BACKEND_URL}/verify-token`, postToken(token))
+    return axios.get(`${urlBase}/verify-token`, postToken(token))
 }

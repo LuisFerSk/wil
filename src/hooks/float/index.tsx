@@ -1,23 +1,23 @@
+import { AlertColor } from '@mui/material'
 import { useState } from 'react'
 
 type title = string | null
 type content = string | JSX.Element | null
-type severity = 'success' | 'error' | 'warning' | 'info'
 
-interface useFloatProps {
+interface Props {
     initialState: boolean
     initialContent?: content
     initialTitle?: title
-    initialSeverity?: severity
+    initialSeverity?: AlertColor
 }
 
-export function useFloat(props: useFloatProps) {
+export function useFloat(props: Props) {
     const { initialState = false, initialContent = null, initialTitle = null, initialSeverity = 'success' } = props;
 
-    const [title, setTitle] = useState<title>(initialTitle)
-    const [isOpen, setItsOpen] = useState<boolean>(initialState)
-    const [content, setContent] = useState<content>(initialContent)
-    const [severity, setSeverity] = useState<severity>(initialSeverity)
+    const [title, setTitle] = useState(initialTitle)
+    const [isOpen, setItsOpen] = useState(initialState)
+    const [content, setContent] = useState(initialContent)
+    const [severity, setSeverity] = useState(initialSeverity)
 
     const open = () => setItsOpen(true)
     const close = () => setItsOpen(false)

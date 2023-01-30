@@ -4,11 +4,11 @@ import moreVerticalFill from '@iconify/icons-eva/more-vertical-fill'
 
 import { Menu, IconButton, } from '@mui/material'
 
-interface TableMoreMenuProps {
+interface Props {
 	children: JSX.Element
 }
 
-export default function TableMoreMenu(props: TableMoreMenuProps) {
+export default function TableMoreMenu(props: Props) {
 	const { children } = props
 
 	const ref = useRef(null)

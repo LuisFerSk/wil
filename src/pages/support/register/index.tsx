@@ -9,7 +9,7 @@ import { authContext } from "provider/Auth";
 import { supportInitialValues, supportSchema } from "../schema";
 import { supportCreate } from "services/support";
 
-export default function SupportRegister<T>(props: RegisterInterface<T[] | []>): JSX.Element {
+export default function SupportRegister<T>(props: RegisterInterface<T[] | []>) {
     const { setData } = props;
 
     const _authContext = useContext(authContext)

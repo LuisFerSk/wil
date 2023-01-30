@@ -4,11 +4,11 @@ import { useFormik } from "formik";
 import { useFormikFiledProps, useMessage } from "hooks";
 import { schema, typesPrinterScanner } from "../schema";
 import { addIfNotExist, updateDataInArray } from "utils";
-import { BrandStateInterface, PrinterScannerInterface, UpdateInterface } from "interfaces";
+import { BrandStateInterface, PrinterScannerInterface, UpdateInterface, flat } from "interfaces";
 import { useContext, useId } from "react";
 import { authContext } from "provider/Auth";
 import { printerScannerUpdate } from "services/printer_scanner";
-import { areas, flat, headquarters } from "constants";
+import { areas, headquarters } from "constants";
 
 interface Props extends UpdateInterface<PrinterScannerInterface>, BrandStateInterface { }
 

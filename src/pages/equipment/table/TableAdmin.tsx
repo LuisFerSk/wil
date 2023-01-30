@@ -1,16 +1,16 @@
+import { lazy, Suspense } from 'react'
+
 import editFill from '@iconify/icons-eva/edit-fill'
 import trash2Outline from '@iconify/icons-eva/trash-2-outline'
+import baselineRemoveRedEye from '@iconify/icons-ic/baseline-remove-red-eye';
 
-import { TableCell } from '@mui/material'
+import { CircularProgress, Grid, TableCell } from '@mui/material'
 import { FloatAlert, Modal, Table } from 'components'
 
 import { mappingMenuItem } from 'components/table/TableFunctions'
 import TableMoreMenu from 'components/table/TableMoreMenu'
 import { useFloat } from 'hooks'
-import { BrandStateInterface, EquipmentInterface, HeadLabelInterface, TableDataInterface, TableOptionsInterface } from 'interfaces'
-import EquipmentDelete from '../delete'
-import EquipmentUpdate from '../update'
-
+import { BrandStateInterface, EquipmentInterface, HeadLabelInterface, TableDataInterface, TableOptionsInterface, typeEquipment } from 'interfaces'
 
 const headLabel: HeadLabelInterface[] = [
     { id: 'license_plate', label: 'Placa', alignRight: false },
@@ -26,6 +26,10 @@ interface EquipmentTableProps extends TableDataInterface<EquipmentInterface> {
 }
 
 export default function EquipmentTable(props: EquipmentTableProps) {
+    const EquipmentView = lazy(() => import('../view'))
+    const EquipmentDelete = lazy(() => import('../delete'))
+    const EquipmentUpdate = lazy(() => import('../update'))
+
     const { data, setData, updateProps } = props;
 
     const modalState = useFloat({ initialState: false })
@@ -40,16 +44,39 @@ export default function EquipmentTable(props: EquipmentTableProps) {
 
         const options: TableOptionsInterface[] = [
             {
+                label: 'Ver',
+                icon: baselineRemoveRedEye,
+                onClick: () => {
+                    modalState.setTitle('Equipo')
+                    modalState.setContent(
+                        <Suspense fallback={
+                            <Grid textAlign='center'>
+                                <CircularProgress color='primary' />
+                            </Grid>
+                        }>
+                            <EquipmentView data={row} />
+                        </Suspense>
+                    )
+                    modalState.open()
+                }
+            },
+            {
                 label: 'Editar',
                 icon: editFill,
                 onClick: () => {
                     modalState.setTitle('Actualizar Equipo')
                     modalState.setContent(
-                        <EquipmentUpdate
-                            {...updateProps}
-                            setData={setData}
-                            initData={row}
-                        />
+                        <Suspense fallback={
+                            <Grid textAlign='center'>
+                                <CircularProgress color='primary' />
+                            </Grid>
+                        }>
+                            <EquipmentUpdate
+                                {...updateProps}
+                                setData={setData}
+                                initData={row}
+                            />
+                        </Suspense>
                     )
                     modalState.open()
                 }
@@ -60,12 +87,19 @@ export default function EquipmentTable(props: EquipmentTableProps) {
                 onClick: () => {
                     modalState.setTitle('Eliminar Equipo')
                     modalState.setContent(
-                        <EquipmentDelete
-                            data={row}
-                            setData={setData}
-                            closeModal={modalState.close}
-                            openAlert={alertState.open}
-                        />
+                        <Suspense fallback={
+                            <Grid textAlign='center'>
+                                <CircularProgress color='primary' />
+                            </Grid>
+                        }>
+                            <EquipmentDelete
+                                data={row}
+                                setData={setData}
+                                closeModal={modalState.close}
+                                openAlert={alertState.open}
+                            />
+                        </Suspense>
+
                     )
                     modalState.open()
                 }
@@ -77,14 +111,14 @@ export default function EquipmentTable(props: EquipmentTableProps) {
             <>
                 <TableCell align='left'>{license_plate || 'Sin placa'}</TableCell>
                 <TableCell align='left'>{serial}</TableCell>
-                <TableCell align='left'>{type}</TableCell>
+                <TableCell align='left'>{typeEquipment[type]}</TableCell>
                 <TableCell align='left'>{brand.name}</TableCell>
                 <TableCell align='left'>{model}</TableCell>
-                {<TableCell padding='checkbox'>
+                <TableCell padding='checkbox'>
                     <TableMoreMenu>
                         {mappingMenuItem(options)}
                     </TableMoreMenu>
-                </TableCell>}
+                </TableCell>
             </>
         )
     }
@@ -101,9 +135,7 @@ export default function EquipmentTable(props: EquipmentTableProps) {
                 placeholder='Buscar por placa o serial'
             />
             <Modal title={modalState.title} isOpen={modalState.isOpen} onClose={modalState.close}>
-                <>
-                    {modalState.content}
-                </>
+                {modalState.content as JSX.Element}
             </Modal>
             <FloatAlert isOpen={alertState.isOpen} close={alertState.close} severity="success">
                 {alertState.content as JSX.Element}

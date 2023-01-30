@@ -14,7 +14,7 @@ const headLabel: HeadLabelInterface[] = [
     { id: '', label: '' }
 ]
 
-export default function SupportTable(props: TableDataInterface<SupportInterface>): JSX.Element {
+export default function SupportTable(props: TableDataInterface<SupportInterface>) {
     const { data, setData } = props;
 
     const modalState = useFloat({ initialState: false })
@@ -25,7 +25,7 @@ export default function SupportTable(props: TableDataInterface<SupportInterface>
     })
 
 
-    function createTableCells(row: SupportInterface): JSX.Element {
+    function createTableCells(row: SupportInterface) {
         const { id, username } = row;
 
         const options: TableOptionsInterface[] = [
@@ -82,9 +82,7 @@ export default function SupportTable(props: TableDataInterface<SupportInterface>
                 placeholder='Buscar por nombre de usuario'
             />
             <Modal title={modalState.title} isOpen={modalState.isOpen} onClose={modalState.close}>
-                <>
-                    {modalState.content}
-                </>
+                {modalState.content as JSX.Element}
             </Modal>
             <FloatAlert isOpen={alertState.isOpen} close={alertState.close} severity="success">
                 {alertState.content as JSX.Element}

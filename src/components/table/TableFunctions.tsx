@@ -1,19 +1,13 @@
 import { filter } from 'lodash'
 import { Icon } from '@iconify/react'
 import { MenuItem, ListItemIcon, ListItemText } from '@mui/material'
-import {
-    DataTableType,
-    DescendingComparatorInterface,
-    GetComparatorOrderType,
-    StabilizedSortType,
-    TableOptionsInterface
-} from 'interfaces'
+import { GetComparatorOrderType, TableOptionsInterface } from 'interfaces'
 
 export function mappingMenuItem(options: TableOptionsInterface[]) {
     return (
         <span>
             {options.map((row, index) => {
-                const { label, icon, onClick } = row
+                const { label, icon, onClick } = row;
                 return (
                     <MenuItem
                         href='#'
@@ -34,6 +28,12 @@ export function mappingMenuItem(options: TableOptionsInterface[]) {
 
 type descendingComparatorReturn = 1 | -1 | 0;
 
+interface DescendingComparatorInterface {
+    a: Record<any, any>,
+    b: Record<any, any>,
+    orderBy: string
+}
+
 export function descendingComparator(props: DescendingComparatorInterface): descendingComparatorReturn {
     const { a, b, orderBy } = props
 
@@ -48,35 +48,26 @@ export function descendingComparator(props: DescendingComparatorInterface): desc
     return 0;
 }
 
-type getComparatorReturn<T> = (a: T, b: T) => number;
-
-export function getComparator<T>(order: GetComparatorOrderType, orderBy: string): getComparatorReturn<T> {
+export function getComparator(order: GetComparatorOrderType, orderBy: string) {
     if (order === 'desc') {
-        return (a: T, b: T) => descendingComparator({
-            a: a as Record<any, any>,
-            b: b as Record<any, any>,
-            orderBy
-        })
+        return (a: Record<string, any>, b: Record<string, any>) => descendingComparator({ a, b, orderBy })
     }
-    return (a: T, b: T) => -descendingComparator({
-        a: a as Record<any, any>,
-        b: b as Record<any, any>,
-        orderBy
-    })
+
+    return (a: Record<string, any>, b: Record<string, any>) => -descendingComparator({ a, b, orderBy })
 }
 
-interface ApplySortFilterInterface<T> {
-    array: T[]
-    comparator: (a: T, b: T) => number
+interface ApplySortFilterInterface {
+    array: Record<string, any>[]
+    comparator: (a: Record<string, any>, b: Record<string, any>) => number
     query: string
     searchBy: string
     searchByOther?: string
 }
 
-export function applySortFilter<T>(props: ApplySortFilterInterface<T>): any[] {
-    const { array, comparator, query, searchBy, searchByOther } = props
+export function applySortFilter(props: ApplySortFilterInterface) {
+    const { array, comparator, query, searchBy, searchByOther } = props;
 
-    const stabilizedThis: StabilizedSortType<T>[] = array.map((element, index) => [element, index])
+    const stabilizedThis = array.map((element, index) => [element, index] as [Record<string, any>, number])
 
     stabilizedThis.sort((a, b) => {
         const order = comparator(a[0], b[0])
@@ -87,7 +78,7 @@ export function applySortFilter<T>(props: ApplySortFilterInterface<T>): any[] {
     })
 
     if (query) {
-        return filter(array, (header: Record<any, any>) => {
+        return filter(array, (header) => {
             if (header[searchBy] && searchByOther && header[searchByOther]) {
                 return header[searchByOther].toString().toLowerCase().indexOf(query.toLowerCase()) !== -1 || header[searchBy].toString().toLowerCase().indexOf(query.toLowerCase()) !== -1
             }
@@ -104,6 +95,5 @@ export function applySortFilter<T>(props: ApplySortFilterInterface<T>): any[] {
         })
     }
 
-
-    return stabilizedThis.map((element: any) => element[0])
+    return stabilizedThis.map((element) => element[0])
 }

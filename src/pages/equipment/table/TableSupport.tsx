@@ -1,7 +1,15 @@
-import { TableCell } from '@mui/material'
-import { Table } from 'components'
+import { lazy, Suspense } from 'react'
 
-import { DataTableType, EquipmentInterface, HeadLabelInterface } from 'interfaces'
+import { CircularProgress, Grid, TableCell } from '@mui/material'
+
+import baselineRemoveRedEye from '@iconify/icons-ic/baseline-remove-red-eye';
+
+import { Modal, Table } from 'components'
+import { mappingMenuItem } from 'components/table/TableFunctions'
+import TableMoreMenu from 'components/table/TableMoreMenu'
+import { useFloat } from 'hooks'
+
+import { EquipmentInterface, HeadLabelInterface } from 'interfaces'
 
 const headLabel: HeadLabelInterface[] = [
     { id: 'license_plate', label: 'Placa', alignRight: false },
@@ -12,15 +20,39 @@ const headLabel: HeadLabelInterface[] = [
     { id: '', label: '' }
 ]
 
-interface EquipmentTableProps {
-    data: DataTableType<EquipmentInterface>
+interface Props {
+    data: EquipmentInterface[]
 }
 
-export default function EquipmentTable(props: EquipmentTableProps) {
+export default function EquipmentTable(props: Props) {
+    const EquipmentView = lazy(() => import('../view'))
+
     const { data } = props;
+
+    const modalState = useFloat({ initialState: false })
 
     function createTableCells(row: EquipmentInterface) {
         const { serial, type, brand, model, license_plate } = row;
+
+        const options = [
+            {
+                label: 'Ver',
+                icon: baselineRemoveRedEye,
+                onClick: () => {
+                    modalState.setTitle('Equipo')
+                    modalState.setContent(
+                        <Suspense fallback={
+                            <Grid textAlign='center'>
+                                <CircularProgress color='primary' />
+                            </Grid>
+                        }>
+                            <EquipmentView data={row} />
+                        </Suspense>
+                    )
+                    modalState.open()
+                }
+            },
+        ]
 
         return (
             <>
@@ -29,6 +61,11 @@ export default function EquipmentTable(props: EquipmentTableProps) {
                 <TableCell align='left'>{type}</TableCell>
                 <TableCell align='left'>{brand.name}</TableCell>
                 <TableCell align='left'>{model}</TableCell>
+                <TableCell padding='checkbox'>
+                    <TableMoreMenu>
+                        {mappingMenuItem(options)}
+                    </TableMoreMenu>
+                </TableCell>
             </>
         )
     }
@@ -44,6 +81,9 @@ export default function EquipmentTable(props: EquipmentTableProps) {
                 searchByOther='serial'
                 placeholder='Buscar por placa o serial'
             />
+            <Modal title={modalState.title} isOpen={modalState.isOpen} onClose={modalState.close}>
+                {modalState.content as JSX.Element}
+            </Modal>
         </>
     )
 }

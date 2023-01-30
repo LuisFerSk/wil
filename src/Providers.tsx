@@ -1,7 +1,7 @@
 import { ProviderProps } from "interfaces"
 import { AuthState } from "provider/Auth"
 
-const Providers = (props: ProviderProps): JSX.Element => {
+export default function Providers(props: ProviderProps) {
   const { children } = props;
 
   return (
@@ -10,5 +10,3 @@ const Providers = (props: ProviderProps): JSX.Element => {
     </AuthState>
   )
 }
-
-export default Providers

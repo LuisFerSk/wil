@@ -1,12 +1,28 @@
-import { Equipment, Maintenance, NotFound, Dashboard, PrinterScanner } from 'pages'
-import { Navigate, useRoutes } from 'react-router-dom'
-import { AuthGuard, NotAuthGuard, SupportGuard } from 'guards';
+import { lazy, Suspense } from 'react'
 
-export default function Router(): JSX.Element | null {
+import { Navigate, useRoutes } from 'react-router-dom'
+import { SupportGuard, AuthGuard } from 'guards';
+import { CircularProgress, Grid } from '@mui/material';
+import { Loader } from 'pages';
+
+export default function Router() {
+  const Maintenance = lazy(() => import('pages/maintenance'));
+  const Equipment = lazy(() => import('pages/equipment'));
+  const NotFound = lazy(() => import('pages/404'));
+  const Dashboard = lazy(() => import('pages/dashboard'));
+  const PrinterScanner = lazy(() => import('pages/printerScanner'));
+  const NotAuthGuard = lazy(() => import('guards/NotAuthGuard'));
+
   return useRoutes([
     {
       path: '/login',
-      element: <NotAuthGuard />,
+      element: (
+        <Suspense fallback={
+          <Loader />
+        }>
+          <NotAuthGuard />
+        </Suspense>
+      ),
     },
     {
       path: '/',
@@ -18,15 +34,39 @@ export default function Router(): JSX.Element | null {
         },
         {
           path: "/equipment",
-          element: <Equipment />
+          element: (
+            <Suspense fallback={
+              <Grid textAlign='center'>
+                <CircularProgress color='primary' />
+              </Grid>
+            }>
+              <Equipment />
+            </Suspense>
+          )
         },
         {
           path: "/printer-scanner",
-          element: <PrinterScanner />
+          element: (
+            <Suspense fallback={
+              <Grid textAlign='center'>
+                <CircularProgress color='primary' />
+              </Grid>
+            }>
+              <PrinterScanner />
+            </Suspense>
+          )
         },
         {
           path: "/maintenance",
-          element: <Maintenance />
+          element: (
+            <Suspense fallback={
+              <Grid textAlign='center'>
+                <CircularProgress color='primary' />
+              </Grid>
+            }>
+              <Maintenance />
+            </Suspense>
+          )
         },
         {
           path: "/support",
@@ -34,13 +74,29 @@ export default function Router(): JSX.Element | null {
         },
         {
           path: "/home",
-          element: <Dashboard />
+          element: (
+            <Suspense fallback={
+              <Grid textAlign='center'>
+                <CircularProgress color='primary' />
+              </Grid>
+            }>
+              <Dashboard />
+            </Suspense>
+          )
         }
       ]
     },
     {
       path: '/404',
-      element: <NotFound />,
+      element: (
+        <Suspense fallback={
+          <Grid textAlign='center'>
+            <CircularProgress color='primary' />
+          </Grid>
+        }>
+          <NotFound />
+        </Suspense>
+      ),
     },
     {
       path: '*',

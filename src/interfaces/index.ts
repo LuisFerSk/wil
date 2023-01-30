@@ -1,35 +1,7 @@
 import { IconifyIcon } from "@iconify/react"
 import { Breakpoints, Color, Palette, PaletteColor, TypeBackground } from "@mui/material"
 import { Shape } from "@mui/system"
-import { FieldInputProps } from "formik"
-import { Dispatch, InputHTMLAttributes, MouseEventHandler, ReactNode, SetStateAction } from "react"
-
-export interface SidebarButtonProps {
-    tag: string
-    icon: JSX.Element
-    route: string
-}
-
-export interface ShowMenuStateInterface {
-    showMenuState: boolean
-    setShowMenuState: React.Dispatch<React.SetStateAction<boolean>>
-}
-
-export interface SidebarProps extends ShowMenuStateInterface {
-    className?: string
-}
-
-export type InputFormikAttributes = FieldInputProps<any> & InputHTMLAttributes<HTMLInputElement>
-
-export interface InputFormikProps extends InputFormikAttributes {
-    error: boolean
-}
-
-export type ColorType = 'primary' | 'secondary' | 'info' | 'success' | 'warning' | 'error'
-
-export interface ColorInterface {
-    color: ColorType
-}
+import { Dispatch, MouseEventHandler, ReactNode, SetStateAction } from "react"
 
 export interface ItemSidebarProps {
     title: string;
@@ -40,18 +12,6 @@ export interface ItemSidebarProps {
 }
 
 export type SidebarConfigInterface = ItemSidebarProps[] | []
-
-export interface PaletteGreyInterface extends Color {
-    0: string;
-    5008: string;
-    50012: string;
-    50016: string;
-    50024: string;
-    50032: string;
-    50048: string;
-    50056: string;
-    50080: string;
-}
 
 export interface PaletteColorInterface extends PaletteColor {
     lighter: string;
@@ -68,6 +28,18 @@ export interface PaletteGradientsInterface {
 
 export interface PaletteBackgroundInterface extends TypeBackground {
     neutral: string
+}
+
+export interface PaletteGreyInterface extends Color {
+    0: string;
+    5008: string;
+    50012: string;
+    50016: string;
+    50024: string;
+    50032: string;
+    50048: string;
+    50056: string;
+    50080: string;
 }
 
 export interface CustomPaletteInterface extends Palette {
@@ -125,12 +97,6 @@ export interface TableOptionsInterface {
     onClick: MouseEventHandler<HTMLAnchorElement>
 }
 
-export interface ResultApiInterface<T> {
-    status: number
-    message: string
-    data?: T
-}
-
 export interface DataBaseProps {
     created_at: string
     updated_at: string
@@ -143,14 +109,21 @@ export interface EntityInterface extends DataBaseProps {
     id: IdType
 }
 
+export enum typeEquipment {
+    'All in one' = 'Todo en uno',
+    'Desktop' = 'Escritorio',
+    'Laptop' = 'Laptop',
+    'Workstation' = 'Estación de trabajo',
+    'Tablet iOS' = 'Tablet iOS',
+}
 
 export interface EquipmentBaseProps {
-    type: string,
+    type: keyof typeof typeEquipment
     model: string,
     serial: string,
     monitor_serial: string | null | undefined,
     license_plate: string | null | undefined,
-    area: string,
+    area: keyof typeof flat,
     user: string,
     cc: string,
     phone: string | null | undefined,
@@ -170,13 +143,11 @@ export interface EquipmentInterface extends EntityInterface, EquipmentBaseProps 
     brand: BrandInterface
 }
 
-export type DataTableType<T> = T[];
-
-export interface TablePropsInterface<T> {
+export interface TablePropsInterface {
     id?: string
-    createTableCells: (row: T) => JSX.Element
+    createTableCells: (row: any) => JSX.Element
     headLabel: HeadLabelInterface[]
-    data: DataTableType<T>
+    data: Record<string, any>[]
     selectBy: string
     searchBy: string
     placeholder?: string
@@ -184,21 +155,11 @@ export interface TablePropsInterface<T> {
 }
 
 export interface TableDataInterface<T> {
-    data: DataTableType<T>
-    setData: Dispatch<SetStateAction<DataTableType<T>>>
+    data: T[]
+    setData: Dispatch<SetStateAction<T[]>>
 }
 
 export type GetComparatorOrderType = 'asc' | 'desc';
-
-export type StabilizedSortType<T> = [T, number];
-
-export type AnyObject = { [key: string]: any };
-
-export interface DescendingComparatorInterface {
-    a: Record<any, any>,
-    b: Record<any, any>,
-    orderBy: string
-}
 
 export interface RegisterInterface<T> {
     setData: Dispatch<SetStateAction<T>>
@@ -337,12 +298,37 @@ export interface BarCharData {
     data: number[];
 }
 
+export enum typePrinterScanner {
+    'Impresora' = 'Impresora',
+    'Impresora sencilla' = 'Imp Sencilla',
+    'Impresora multifuncional a color' = 'Imp Multifuncional Color',
+    'Impresora multifuncional BN' = 'Imp Multifuncional BN',
+    'Scanner' = 'Scanner'
+}
+
+export enum flat {
+    "DIRECCIÓN GENERAL" = 2,
+    "SECRETARIA GENERAL" = 2,
+    "OFICINA JURÍDICA" = 2,
+    "OFICINA CONTROL INTERNO" = 2,
+    "ASESOR DIRECCIÓN GENERAL" = 2,
+    "OFICINA DE SISTEMAS Y TICS" = 2,
+    "SUBDIRECCIÓN GENERAL ÁREA DE PLANEACIÓN" = 2,
+    "SUBDIRECCIÓN GENERAL ÁREA DE GESTIÓN AMBIENTAL" = 2,
+    "SUBDIRECCIÓN GENERAL ÁREA ADMINISTRATIVA Y FINANCIERA" = 1,
+    "GESTIÓN FINANCIERA" = 1,
+    "CONTABILIDAD" = 1,
+    "TESORERIA" = 1,
+    "PAGADURIA" = 1,
+    "VENTANILLA ÚNICA" = 1
+}
+
 export interface PrinterScannerBaseProps {
-    type: string,
+    type: keyof typeof typePrinterScanner,
     model: string,
     serial: string,
     license_plate: string | null | undefined,
-    area: string,
+    area: keyof typeof flat,
     user: string,
     cc: string,
     phone: string | null | undefined,

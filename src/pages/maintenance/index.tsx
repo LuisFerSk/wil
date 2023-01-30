@@ -17,7 +17,7 @@ const initConstants: ConstantsInterface = {
     equipments: undefined
 }
 
-export default function Maintenance(): JSX.Element {
+export default function Maintenance() {
     const [maintenances, setMaintenances] = useState<MaintenanceInterface[] | []>([])
     const [constants, setConstants] = useState<ConstantsInterface>(initConstants)
 
@@ -46,7 +46,7 @@ export default function Maintenance(): JSX.Element {
     }, [])
 
     return (
-        <Grid container spacing={6}>
+        <Grid container spacing={6} paddingX={2}>
             <Grid item xs={12} md={12} sm={12} lg={12}>
                 <Card>
                     <Accordion accordions={Accordions} indexOpen={0} />

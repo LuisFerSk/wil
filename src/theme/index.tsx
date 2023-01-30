@@ -11,11 +11,11 @@ import breakpoints from './breakpoints'
 import shadows, { customShadows } from './shadows'
 import ComponentsOverrides from './overrides'
 
-interface ThemeConfigProps {
+interface Props {
   children: JSX.Element
 }
 
-export default function ThemeConfig(props: ThemeConfigProps): JSX.Element {
+export default function ThemeConfig(props: Props) {
   const { children } = props
 
   const themeOptions = useMemo(() => ({

@@ -1,13 +1,14 @@
 import { Box, Checkbox, FormControlLabel, FormGroup, Grid, MenuItem, Radio, RadioGroup, Stack, TextField, Typography, useTheme } from "@mui/material";
+
 import { MaintenanceInterface } from "interfaces";
 import styles from './style.module.css'
 
 
-interface MaintenanceViewProps {
+interface Props {
     data: MaintenanceInterface
 }
 
-export default function MaintenanceView(props: MaintenanceViewProps) {
+export default function MaintenanceView(props: Props) {
     const theme = useTheme()
 
     const { data } = props;

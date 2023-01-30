@@ -8,7 +8,7 @@ import { authContext } from 'provider/Auth';
 import SupportRegister from './register';
 import SupportTable from './table';
 
-export default function Support(): JSX.Element {
+export default function Support() {
     const [support, setSupport] = useState<SupportInterface[] | []>([])
 
     const _authContext = useContext(authContext)
@@ -29,7 +29,7 @@ export default function Support(): JSX.Element {
     }, [])
 
     return (
-        <Grid container spacing={6}>
+        <Grid container spacing={6} paddingX={2}>
             <Grid item xs={12} md={12} sm={12} lg={12}>
                 <Card>
                     <Accordion accordions={Accordions} indexOpen={0} />

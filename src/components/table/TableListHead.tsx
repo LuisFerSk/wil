@@ -2,20 +2,23 @@ import { visuallyHidden } from '@mui/utils'
 import { Box, TableRow, TableCell, TableHead, TableSortLabel } from '@mui/material'
 import { GetComparatorOrderType, HeadLabelInterface } from 'interfaces'
 
-interface TableListHeadProps {
+type MouseEventType = React.MouseEvent<HTMLAnchorElement, MouseEvent>
+
+interface Props {
     order: GetComparatorOrderType
     orderBy: string
     headLabel: HeadLabelInterface[]
-    onRequestSort: (event: any, property: string) => void
+    onRequestSort: (event: MouseEventType, property: string) => void
 }
 
-export default function TableListHead(props: TableListHeadProps) {
-    const { order, orderBy, headLabel, onRequestSort, } = props
-    const createSortHandler = (property: string) => (event: any) => {
-        onRequestSort(event, property)
+export default function TableListHead(props: Props) {
+    const { order, orderBy, headLabel, onRequestSort, } = props;
+
+    function createSortHandler(property: string) {
+        return (event: MouseEventType) => { onRequestSort(event, property) }
     }
 
-    const getOrderTextBox = () => {
+    function getOrderTextBox() {
         return order === 'desc' ? 'sorted descending' : 'sorted ascending'
     }
 

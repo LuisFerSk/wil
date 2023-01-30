@@ -1,18 +1,18 @@
 import { Breakpoint, useMediaQuery } from '@mui/material'
 import { Theme } from '@mui/material/styles';
 
-interface MHiddenProps {
+interface Props {
     width: 'xsDown' | 'smDown' | 'mdDown' | 'lgDown' | 'xlDown' | 'xsUp' | 'smUp' | 'mdUp' | 'lgUp' | 'xlUp';
     children: JSX.Element;
 }
 
-function getBreakpoint(width: MHiddenProps['width']): Breakpoint {
+function getBreakpoint(width: Props['width']) {
     return width.substring(0, 2) as Breakpoint;
 }
 
-export default function MHidden(props: MHiddenProps): JSX.Element | null {
+export default function MHidden(props: Props) {
     const { width, children } = props
-    const breakpoint: Breakpoint = getBreakpoint(width)
+    const breakpoint = getBreakpoint(width)
 
     const hiddenUp = useMediaQuery((theme: Theme) => theme.breakpoints.up(breakpoint))
     const hiddenDown = useMediaQuery((theme: Theme) => theme.breakpoints.down(breakpoint))

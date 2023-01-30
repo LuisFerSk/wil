@@ -4,15 +4,15 @@ import { useFormik } from "formik";
 import { useFormikFiledProps, useMessage } from "hooks";
 import { equipmentSchema, typesEquipments } from "../schema";
 import { addIfNotExist, updateDataInArray } from "utils";
-import { BrandStateInterface, EquipmentInterface, UpdateInterface } from "interfaces";
+import { BrandStateInterface, EquipmentInterface, flat, UpdateInterface } from "interfaces";
 import { useContext, useId } from "react";
 import { authContext } from "provider/Auth";
 import { equipmentUpdate } from "services/equipment";
-import { areas, flat, headquarters } from "constants";
+import { areas, headquarters } from "constants";
 
-interface EquipmentUpdateProps extends UpdateInterface<EquipmentInterface>, BrandStateInterface { }
+interface Props extends UpdateInterface<EquipmentInterface>, BrandStateInterface { }
 
-export default function EquipmentUpdate(props: EquipmentUpdateProps): JSX.Element {
+export default function EquipmentUpdate(props: Props) {
     const { initData, setData, brands, setBrands } = props;
 
     const _authContext = useContext(authContext)

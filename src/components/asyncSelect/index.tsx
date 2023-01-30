@@ -1,19 +1,18 @@
 import { TextField, TextFieldProps } from "@mui/material";
 import { Select } from "components";
-import { AnyObject } from "interfaces";
 
-interface AsyncSelectProps {
+interface Props {
     children: JSX.Element[] | undefined
     fieldProps: TextFieldProps
-    data: AnyObject[] | undefined
+    data: Record<any, any> | undefined
     textLoading?: string
     textNotData?: string
 }
 
-export default function AsyncSelect(props: AsyncSelectProps): JSX.Element {
+export default function AsyncSelect(props: Props) {
     const { children, data, fieldProps, textNotData, textLoading = 'Cargando...' } = props;
 
-    function textFieldUserReturn(): JSX.Element {
+    function textFieldUserReturn() {
         if (!data) {
             return (
                 <TextField

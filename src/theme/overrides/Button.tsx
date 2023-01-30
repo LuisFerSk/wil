@@ -1,6 +1,6 @@
 import { Theme } from "@mui/material/styles"
 
-function Button(theme: Theme) {
+export default function Button(theme: Theme) {
   return {
     MuiButton: {
       styleOverrides: {
@@ -40,5 +40,3 @@ function Button(theme: Theme) {
     }
   }
 }
-
-export default Button

@@ -1,20 +1,20 @@
 import { deleteInArrayData } from 'utils'
-import { DataTableType, EquipmentInterface } from 'interfaces';
+import { EquipmentInterface } from 'interfaces';
 import { Dispatch, SetStateAction, useContext } from 'react';
 import { Delete } from 'components';
 import { authContext } from 'provider/Auth';
 import { equipmentDestroy } from 'services/equipment';
 import { useMessage } from 'hooks';
 
-interface DeleteEquipmentProps {
+interface Props {
     data: EquipmentInterface
-    setData: Dispatch<SetStateAction<DataTableType<EquipmentInterface>>>
+    setData: Dispatch<SetStateAction<EquipmentInterface[]>>
     closeModal: Function
     openAlert: Function
 }
 
 
-export default function EquipmentDelete(props: DeleteEquipmentProps): JSX.Element {
+export default function EquipmentDelete(props: Props) {
     const { data, setData, closeModal, openAlert } = props;
 
     const { id, serial } = data;

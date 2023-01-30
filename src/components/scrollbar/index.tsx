@@ -1,6 +1,6 @@
-import { Box } from '@mui/material'
+import { Box, BoxProps } from '@mui/material'
 
-export default function Scrollbar(props: any): JSX.Element {
+export default function Scrollbar(props: BoxProps) {
     const { children, sx, ...rest } = props
 
     return (

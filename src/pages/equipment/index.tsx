@@ -1,5 +1,7 @@
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
+
 import { Box, Card, Grid } from "@mui/material";
+
 import { Accordion } from "components";
 import { BrandInterface, EquipmentInterface } from 'interfaces';
 import { useContext } from 'react';
@@ -12,7 +14,7 @@ import { useGetQueryApi } from 'hooks/getQueryApi';
 import { brandFindAll } from 'services/brand';
 import { roles } from 'constants';
 
-export default function Equipment(): JSX.Element {
+export default function Equipment() {
     const _authContext = useContext(authContext)
     const { token, user } = _authContext;
 
@@ -29,7 +31,7 @@ export default function Equipment(): JSX.Element {
     ]
 
     return (
-        <Grid container spacing={6}>
+        <Grid container spacing={6} paddingX={2}>
             <Grid item xs={12} md={12} sm={12} lg={12}>
                 <Card>
                     <Accordion accordions={Accordions} indexOpen={0} />

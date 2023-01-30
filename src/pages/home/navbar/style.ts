@@ -7,7 +7,7 @@ export const RootStyle = styled(AppBar)(({ theme }) => ({
     boxShadow: 'none',
     backdropFilter: 'blur(6px)',
     WebkitBackdropFilter: 'blur(6px)', // Fix on Mobile
-    backgroundColor: alpha('#fff', 0.72),
+    backgroundColor: alpha(theme.palette.grey[100], 0.72),
     height: 60
 
 }))

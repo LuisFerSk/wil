@@ -1,20 +1,20 @@
 import { deleteInArrayData } from 'utils'
-import { DataTableType, MaintenanceInterface } from 'interfaces';
+import { MaintenanceInterface } from 'interfaces';
 import { Dispatch, SetStateAction, useContext } from 'react';
 import { Delete } from 'components';
 import { authContext } from 'provider/Auth';
 import { useMessage } from 'hooks';
 import { maintenanceDestroy } from 'services/maintenance';
 
-interface MaintenanceDeleteProps {
+interface Props {
     data: MaintenanceInterface
-    setData: Dispatch<SetStateAction<DataTableType<MaintenanceInterface>>>
+    setData: Dispatch<SetStateAction<MaintenanceInterface[]>>
     closeModal: Function
     openAlert: Function
 }
 
 
-export default function MaintenanceDelete(props: MaintenanceDeleteProps): JSX.Element {
+export default function MaintenanceDelete(props: Props) {
     const { data, setData, closeModal, openAlert } = props;
 
     const { id } = data;
