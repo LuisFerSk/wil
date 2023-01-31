@@ -1,7 +1,13 @@
 import { filter } from 'lodash'
-import { Icon } from '@iconify/react'
+import { Icon, IconifyIcon } from '@iconify/react'
 import { MenuItem, ListItemIcon, ListItemText } from '@mui/material'
-import { GetComparatorOrderType, TableOptionsInterface } from 'interfaces'
+import { GetComparatorOrderType } from 'interfaces'
+
+interface TableOptionsInterface {
+    label: string
+    icon: IconifyIcon | string
+    onClick: React.MouseEventHandler<HTMLAnchorElement>
+}
 
 export function mappingMenuItem(options: TableOptionsInterface[]) {
     return (

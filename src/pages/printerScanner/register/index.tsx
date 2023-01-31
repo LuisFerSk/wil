@@ -4,15 +4,17 @@ import { Autocomplete, Form, Select } from "components";
 import { useFormik } from "formik";
 import { useFormikFiledProps, useMessage } from "hooks";
 import { addIfNotExist, addInArray } from "utils";
-import { BrandStateInterface, RegisterInterface, flat, PrinterScannerProps } from "interfaces";
+import { BrandStateInterface, flat, PrinterScannerProps, PrinterScannerInterface } from "interfaces";
 import { authContext } from "provider/Auth";
 import { initialValues, schema, typesPrinterScanner } from "../schema";
 import { areas, headquarters } from "constants";
 import { printerScannerCreate } from "services/printer_scanner";
 
-interface Props<T> extends RegisterInterface<T[] | []>, BrandStateInterface { }
+interface Props extends BrandStateInterface {
+    setData: React.Dispatch<React.SetStateAction<PrinterScannerInterface[]>>
+}
 
-export default function PrinterScannerRegister<T>(props: Props<T>) {
+export default function PrinterScannerRegister(props: Props) {
     const { setData, brands, setBrands } = props;
 
     const _authContext = useContext(authContext)
@@ -39,7 +41,7 @@ export default function PrinterScannerRegister<T>(props: Props<T>) {
 
             printerScannerCreate(token, newData as PrinterScannerProps)
                 .then((response) => {
-                    setData((old) => addInArray<T>(old, response.data.info))
+                    setData((old) => addInArray(old, response.data.info))
                     setBrands((old) => addIfNotExist(old, response.data.info.brand))
                     resetForm()
                     setMessage("success", 'Se ha guardado correctamente la impresora o scanner.')
@@ -119,7 +121,7 @@ export default function PrinterScannerRegister<T>(props: Props<T>) {
                 </Grid>
                 <Grid item xs={2}>
                     <TextField
-                        value={flat[formik.values.area as any] || ''}
+                        value={flat[formik.values.area as keyof typeof flat] || ''}
                         fullWidth
                         label="Piso"
                         type="number"

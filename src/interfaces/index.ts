@@ -1,7 +1,5 @@
-import { IconifyIcon } from "@iconify/react"
 import { Breakpoints, Color, Palette, PaletteColor, TypeBackground } from "@mui/material"
 import { Shape } from "@mui/system"
-import { Dispatch, MouseEventHandler, ReactNode, SetStateAction } from "react"
 
 export interface ItemSidebarProps {
     title: string;
@@ -10,8 +8,6 @@ export interface ItemSidebarProps {
     children?: ItemSidebarProps[];
     info?: string;
 }
-
-export type SidebarConfigInterface = ItemSidebarProps[] | []
 
 export interface PaletteColorInterface extends PaletteColor {
     lighter: string;
@@ -91,12 +87,6 @@ export interface CustomShadowsInterface {
     dropdown: string;
 }
 
-export interface TableOptionsInterface {
-    label: string
-    icon: IconifyIcon | string
-    onClick: MouseEventHandler<HTMLAnchorElement>
-}
-
 export interface DataBaseProps {
     created_at: string
     updated_at: string
@@ -156,20 +146,15 @@ export interface TablePropsInterface {
 
 export interface TableDataInterface<T> {
     data: T[]
-    setData: Dispatch<SetStateAction<T[]>>
+    setData: React.Dispatch<React.SetStateAction<T[]>>
 }
 
 export type GetComparatorOrderType = 'asc' | 'desc';
 
-export interface RegisterInterface<T> {
-    setData: Dispatch<SetStateAction<T>>
-}
-
 export interface UpdateInterface<T> {
     initData: T,
-    setData: Dispatch<SetStateAction<T[] | []>>
+    setData: React.Dispatch<React.SetStateAction<T[] | []>>
 }
-
 
 export interface UserProps {
     username: string,
@@ -182,7 +167,7 @@ export interface UserInterface extends EntityInterface, UserProps { }
 export type ColorThemeType = 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success'
 
 export interface ProviderProps {
-    children: ReactNode
+    children: React.ReactNode
 }
 
 export type StateMessage = JSX.Element | null;
@@ -288,7 +273,7 @@ export interface BrandInterface extends EntityInterface {
 
 export interface BrandStateInterface {
     brands: BrandInterface[]
-    setBrands: Dispatch<SetStateAction<BrandInterface[]>>
+    setBrands: React.Dispatch<React.SetStateAction<BrandInterface[]>>
 }
 
 export interface BarCharData {

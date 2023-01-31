@@ -5,12 +5,12 @@ import { Modal, Table } from 'components'
 
 import baselineRemoveRedEye from '@iconify/icons-ic/baseline-remove-red-eye';
 
-import { PrinterScannerInterface, HeadLabelInterface } from 'interfaces'
+import { PrinterScannerInterface } from 'interfaces'
 import { useFloat } from 'hooks';
 import TableMoreMenu from 'components/table/TableMoreMenu';
 import { mappingMenuItem } from 'components/table/TableFunctions';
 
-const headLabel: HeadLabelInterface[] = [
+const headLabel = [
     { id: 'license_plate', label: 'Placa', alignRight: false },
     { id: 'serial', label: 'Serial', alignRight: false },
     { id: 'type', label: 'Tipo', alignRight: false },

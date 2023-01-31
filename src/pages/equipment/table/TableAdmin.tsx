@@ -10,9 +10,9 @@ import { FloatAlert, Modal, Table } from 'components'
 import { mappingMenuItem } from 'components/table/TableFunctions'
 import TableMoreMenu from 'components/table/TableMoreMenu'
 import { useFloat } from 'hooks'
-import { BrandStateInterface, EquipmentInterface, HeadLabelInterface, TableDataInterface, TableOptionsInterface, typeEquipment } from 'interfaces'
+import { BrandStateInterface, EquipmentInterface, TableDataInterface, typeEquipment } from 'interfaces'
 
-const headLabel: HeadLabelInterface[] = [
+const headLabel = [
     { id: 'license_plate', label: 'Placa', alignRight: false },
     { id: 'serial', label: 'Serial', alignRight: false },
     { id: 'type', label: 'Tipo', alignRight: false },
@@ -42,7 +42,7 @@ export default function EquipmentTable(props: EquipmentTableProps) {
     function createTableCells(row: EquipmentInterface) {
         const { serial, type, brand, model, license_plate } = row;
 
-        const options: TableOptionsInterface[] = [
+        const options = [
             {
                 label: 'Ver',
                 icon: baselineRemoveRedEye,

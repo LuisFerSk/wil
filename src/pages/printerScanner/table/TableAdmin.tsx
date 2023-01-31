@@ -10,9 +10,9 @@ import { FloatAlert, Modal, Table } from 'components'
 import { mappingMenuItem } from 'components/table/TableFunctions'
 import TableMoreMenu from 'components/table/TableMoreMenu'
 import { useFloat } from 'hooks'
-import { BrandStateInterface, HeadLabelInterface, PrinterScannerInterface, TableDataInterface } from 'interfaces'
+import { BrandStateInterface, PrinterScannerInterface, TableDataInterface } from 'interfaces'
 
-const headLabel: HeadLabelInterface[] = [
+const headLabel = [
     { id: 'serial', label: 'Serial', alignRight: false },
     { id: 'type', label: 'Tipo', alignRight: false },
     { id: 'brand', label: 'Marca', alignRight: false },

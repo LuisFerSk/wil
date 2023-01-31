@@ -4,12 +4,16 @@ import { Form, TextFieldPassword } from "components";
 import { useFormik } from "formik";
 import { useFormikFiledProps, useMessage } from "hooks";
 import { addInArray } from "utils";
-import { RegisterInterface } from "interfaces";
+import { SupportInterface } from "interfaces";
 import { authContext } from "provider/Auth";
 import { supportInitialValues, supportSchema } from "../schema";
 import { supportCreate } from "services/support";
 
-export default function SupportRegister<T>(props: RegisterInterface<T[] | []>) {
+interface Props {
+    setData: React.Dispatch<React.SetStateAction<SupportInterface[]>>
+}
+
+export default function SupportRegister(props: Props) {
     const { setData } = props;
 
     const _authContext = useContext(authContext)
@@ -25,7 +29,7 @@ export default function SupportRegister<T>(props: RegisterInterface<T[] | []>) {
 
             supportCreate(token, data)
                 .then((response) => {
-                    setData((old) => addInArray<T>(old, response.data.info))
+                    setData((old) => addInArray(old, response.data.info))
                     resetForm()
                     setMessage("success", 'Se ha guardado correctamente el usuario.')
                 })
@@ -50,7 +54,7 @@ export default function SupportRegister<T>(props: RegisterInterface<T[] | []>) {
                     <TextField {...getFieldFormikProps('username')} fullWidth label="Nombre de usuario" variant="outlined" />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                    <TextFieldPassword {...getFieldFormikProps('password')}  fullWidth type="password" label="Contraseña" variant="outlined" />
+                    <TextFieldPassword {...getFieldFormikProps('password')} fullWidth type="password" label="Contraseña" variant="outlined" />
                 </Grid>
                 <Grid item xs={12}>
                     <Button type="submit" variant="contained">Guardar</Button>

@@ -5,7 +5,7 @@ import { useFormik } from "formik";
 import { useFormikFiledProps, useMessage } from "hooks";
 import { equipmentCreate } from "services/equipment";
 import { addIfNotExist, addInArray } from "utils";
-import { BrandStateInterface, EquipmentProps, flat, RegisterInterface } from "interfaces";
+import { BrandStateInterface, EquipmentInterface, EquipmentProps, flat } from "interfaces";
 import { authContext } from "provider/Auth";
 import { equipmentInitialValues, equipmentSchema, typesEquipments } from "../schema";
 import { areas, headquarters } from "constants";
@@ -18,9 +18,11 @@ const noMonitor = {
     'Tablet iOS': true,
 }
 
-interface EquipmentRegisterProps<T> extends RegisterInterface<T[] | []>, BrandStateInterface { }
+interface Props extends BrandStateInterface {
+    setData: React.Dispatch<React.SetStateAction<EquipmentInterface[]>>
+}
 
-export default function EquipmentRegister<T>(props: EquipmentRegisterProps<T>) {
+export default function EquipmentRegister(props: Props) {
     const { setData, brands, setBrands } = props;
 
     const _authContext = useContext(authContext)
@@ -48,7 +50,7 @@ export default function EquipmentRegister<T>(props: EquipmentRegisterProps<T>) {
 
             equipmentCreate(token, newData as EquipmentProps)
                 .then((response) => {
-                    setData((old) => addInArray<T>(old, response.data.info))
+                    setData((old) => addInArray(old, response.data.info))
                     setBrands((old) => addIfNotExist(old, response.data.info.brand))
                     resetForm()
                     setMessage("success", 'Se ha guardado correctamente el equipo.')
@@ -151,7 +153,7 @@ export default function EquipmentRegister<T>(props: EquipmentRegisterProps<T>) {
                 </Grid>
                 <Grid item xs={12} sm={2}>
                     <TextField
-                        value={flat[formik.values.area as any] || ''}
+                        value={flat[formik.values.area as keyof typeof flat] || ''}
                         fullWidth
                         label="Piso"
                         type="number"

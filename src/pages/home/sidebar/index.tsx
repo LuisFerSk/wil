@@ -39,7 +39,6 @@ export default function Sidebar(props: Props) {
         if (isOpenSidebar) {
             onCloseSidebar()
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pathname])
 
     const renderContent = (

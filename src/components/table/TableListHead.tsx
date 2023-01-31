@@ -25,7 +25,7 @@ export default function TableListHead(props: Props) {
     return (
         <TableHead>
             <TableRow>
-                {headLabel.map((headCell: HeadLabelInterface) => (
+                {headLabel.map((headCell) => (
                     <TableCell padding={headCell.padding}
                         key={headCell.id}
                         align={headCell.alignRight ? 'right' : 'left'}

@@ -1,19 +1,22 @@
 import { useContext, useId } from "react";
+
 import { Box, Button, Checkbox, FormControlLabel, FormGroup, Grid, MenuItem, Radio, RadioGroup, TextField, Typography, useTheme } from "@mui/material";
-import { AsyncSelect, Form } from "components";
 import { useFormik } from "formik";
+import ReactSignatureCanvas from "react-signature-canvas";
+
+import { AsyncSelect, Form } from "components";
 import { useFormikFiledProps, useMessage } from "hooks";
 import { addInArray, dataURLtoBlob, formatDateApi } from "utils";
-import { RegisterInterface } from "interfaces";
+import { MaintenanceInterface } from "interfaces";
 import { authContext } from "provider/Auth";
 import { maintenanceInitialValues, maintenanceSchema } from "../schema";
 import { maintenanceCreate } from "services/maintenance";
 import { ConstantsInterface } from "../"
-import SignatureCanvas from 'react-signature-canvas'
 import styles from './style.module.css'
-import ReactSignatureCanvas from "react-signature-canvas";
 
-interface Props<T> extends RegisterInterface<T[] | []>, ConstantsInterface { }
+interface Props extends ConstantsInterface {
+    setData: React.Dispatch<React.SetStateAction<MaintenanceInterface[]>>
+}
 
 let sigPad: ReactSignatureCanvas | null = null;
 
@@ -21,7 +24,7 @@ function clear() {
     sigPad?.clear()
 }
 
-export default function MaintenanceRegister<T>(props: Props<T>) {
+export default function MaintenanceRegister(props: Props) {
     const { setData, equipments } = props;
 
     const _authContext = useContext(authContext)
@@ -56,7 +59,7 @@ export default function MaintenanceRegister<T>(props: Props<T>) {
             maintenanceCreate(token, dataToCreate)
                 .then((response) => {
                     clear()
-                    setData((old) => addInArray<T>(old, response.data.info))
+                    setData((old) => addInArray(old, response.data.info))
                     resetForm()
                     setMessage("success", 'Se ha guardado correctamente el mantenimiento.')
                 })
@@ -280,7 +283,7 @@ export default function MaintenanceRegister<T>(props: Props<T>) {
                         backgroundColor: theme.palette.grey[100],
                         borderRadius: '7px 7px 0px 0px'
                     }} >
-                        <SignatureCanvas
+                        <ReactSignatureCanvas
                             canvasProps={{ className: styles.sigPad }}
                             ref={(ref) => { sigPad = ref }}
                         />

@@ -41,7 +41,7 @@ export default function EquipmentUpdate(props: Props) {
 
             printerScannerUpdate(token, newData)
                 .then((response) => {
-                    setData((old) => updateDataInArray<PrinterScannerInterface>(old, id, response.data.info))
+                    setData((old) => updateDataInArray(old, id, response.data.info))
                     setBrands((old) => addIfNotExist(old, response.data.info.brand))
                     setMessage("success", 'Se ha actualizado correctamente el equipo.')
                 })

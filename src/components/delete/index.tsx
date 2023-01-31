@@ -1,4 +1,4 @@
-import * as Yup from 'yup'
+import { object, string } from 'yup'
 import { useFormik, Form, FormikProvider } from 'formik'
 import { Grid, TextField, Button } from '@mui/material'
 
@@ -20,8 +20,8 @@ export default function Delete(props: Props) {
     const formik = useFormik({
         initialValues: { value: '' },
         onSubmit: () => onSubmitFormik(),
-        validationSchema: Yup.object().shape({
-            value: Yup.string().test('len', messageError, confirm => confirm === value)
+        validationSchema: object().shape({
+            value: string().test('len', messageError, confirm => confirm === value)
         }),
 
     })

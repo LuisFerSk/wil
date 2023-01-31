@@ -33,8 +33,14 @@ export default function EquipmentDelete(props: Props) {
                 openAlert()
                 closeModal()
             })
-            .catch(({ response }) => {
-                console.log(response)
+            .catch((error) => {
+                const { response } = error;
+                if (response) {
+                    setMessage('error', response.data)
+                    return;
+                }
+                setMessage('error', "Ha sucedió un error al realizar la operación")
+                console.log(error)
             })
     }
 

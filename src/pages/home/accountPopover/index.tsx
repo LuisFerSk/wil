@@ -1,6 +1,6 @@
 import { useContext, useRef, useState } from 'react'
 
-import { Icon, IconifyIcon } from '@iconify/react'
+import { Icon } from '@iconify/react'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Button, Box, MenuItem, Typography, Grid } from '@mui/material'
 
@@ -8,12 +8,7 @@ import { MenuPopover } from 'components'
 import formTextboxPassword from '@iconify/icons-mdi/form-textbox-password';
 import { authContext } from 'provider/Auth';
 
-type MenuOption = {
-    label: string
-    icon: IconifyIcon
-}[]
-
-const MENU_OPTIONS: MenuOption = [
+const MENU_OPTIONS = [
     {
         label: 'Actualizar mi contraseña',
         icon: formTextboxPassword,

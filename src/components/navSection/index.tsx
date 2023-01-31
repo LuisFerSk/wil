@@ -1,17 +1,20 @@
 import { matchPath, useLocation } from 'react-router-dom'
 import { Box, List } from '@mui/material'
-import { SidebarConfigInterface } from 'interfaces'
 import { BoxProps } from '@mui/system'
 import NavItem from './navItem'
+import { ItemSidebarProps } from 'interfaces'
 
 interface Props extends BoxProps {
-    navConfig: SidebarConfigInterface
+    navConfig: ItemSidebarProps[]
 }
 
 export default function NavSection(props: Props) {
     const { navConfig, ...other } = props;
     const { pathname } = useLocation()
-    const match = (path: string) => (path ? !!matchPath({ path, end: false }, pathname) : false)
+
+    function match(path: string) {
+        return path ? !!matchPath({ path, end: false }, pathname) : false;
+    }
 
     return (
         <Box {...other}>

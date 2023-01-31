@@ -5,11 +5,11 @@ import { FloatAlert, Modal, Table, ChangePassword } from 'components'
 import { mappingMenuItem } from 'components/table/TableFunctions'
 import TableMoreMenu from 'components/table/TableMoreMenu'
 import { useFloat } from 'hooks'
-import { HeadLabelInterface, TableDataInterface, TableOptionsInterface, SupportInterface } from 'interfaces'
+import { TableDataInterface, SupportInterface } from 'interfaces'
 import SupportDelete from '../delete'
 
 
-const headLabel: HeadLabelInterface[] = [
+const headLabel = [
     { id: 'username', label: 'Nombre de usuario', alignRight: false },
     { id: '', label: '' }
 ]
@@ -28,7 +28,7 @@ export default function SupportTable(props: TableDataInterface<SupportInterface>
     function createTableCells(row: SupportInterface) {
         const { id, username } = row;
 
-        const options: TableOptionsInterface[] = [
+        const options = [
             {
                 label: 'Cambiar contraseña',
                 icon: formTextboxPassword,

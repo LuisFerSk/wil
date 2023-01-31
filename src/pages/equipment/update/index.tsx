@@ -43,7 +43,7 @@ export default function EquipmentUpdate(props: Props) {
 
             equipmentUpdate(token, newData)
                 .then((response) => {
-                    setData((old) => updateDataInArray<EquipmentInterface>(old, id, response.data.info))
+                    setData((old) => updateDataInArray(old, id, response.data.info))
                     setBrands((old) => addIfNotExist(old, response.data.info.brand))
                     setMessage("success", 'Se ha actualizado correctamente el equipo.')
                 })
@@ -127,7 +127,7 @@ export default function EquipmentUpdate(props: Props) {
                 </Grid>
                 <Grid item xs={12} sm={2}>
                     <TextField
-                        value={flat[formik.values.area as any] || ''}
+                        value={flat[formik.values.area as keyof typeof flat] || ''}
                         fullWidth
                         label="Piso"
                         type="number"

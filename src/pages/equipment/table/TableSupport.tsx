@@ -9,9 +9,9 @@ import { mappingMenuItem } from 'components/table/TableFunctions'
 import TableMoreMenu from 'components/table/TableMoreMenu'
 import { useFloat } from 'hooks'
 
-import { EquipmentInterface, HeadLabelInterface } from 'interfaces'
+import { EquipmentInterface } from 'interfaces'
 
-const headLabel: HeadLabelInterface[] = [
+const headLabel = [
     { id: 'license_plate', label: 'Placa', alignRight: false },
     { id: 'serial', label: 'Serial', alignRight: false },
     { id: 'type', label: 'Tipo', alignRight: false },

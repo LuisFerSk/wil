@@ -5,15 +5,13 @@ import personSupport24Filled from '@iconify/icons-fluent/person-support-24-fille
 import scheduledMaintenance from '@iconify/icons-mdi/scheduled-maintenance';
 import DesktopWindowsIcon from '@mui/icons-material/DesktopWindows';
 
-import { SidebarConfigInterface } from 'interfaces'
-
 function getIcon(name: IconifyIcon) {
     return (
         <Icon icon={name} width={22} height={22} />
     )
 }
 
-export const sidebarConfigSupport: SidebarConfigInterface = [
+export const sidebarConfigSupport = [
     {
         title: 'Home',
         path: '/home',
@@ -36,7 +34,7 @@ export const sidebarConfigSupport: SidebarConfigInterface = [
     },
 ]
 
-export const sidebarConfigAdministrator: SidebarConfigInterface = [
+export const sidebarConfigAdministrator = [
     ...sidebarConfigSupport,
     {
         title: 'Soportes',

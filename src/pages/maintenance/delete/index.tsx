@@ -13,7 +13,6 @@ interface Props {
     openAlert: Function
 }
 
-
 export default function MaintenanceDelete(props: Props) {
     const { data, setData, closeModal, openAlert } = props;
 
@@ -33,8 +32,14 @@ export default function MaintenanceDelete(props: Props) {
                 openAlert()
                 closeModal()
             })
-            .catch(({ response }) => {
-                console.log(response)
+            .catch((error) => {
+                const { response } = error;
+                if (response) {
+                    setMessage('error', response.data)
+                    return;
+                }
+                setMessage('error', "Ha sucedió un error al realizar la operación")
+                console.log(error)
             })
     }
 

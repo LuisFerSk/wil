@@ -11,6 +11,5 @@ export default function Loader() {
             <CircularProgress />
             Cargando
         </Grid>
-
     )
 }

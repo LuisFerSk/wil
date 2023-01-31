@@ -48,7 +48,7 @@ export default function PrinterScannerView(props: Props) {
                     Placa
                 </Typography>
                 <Typography variant="body2" >
-                    {data.license_plate || 'no registrado'}
+                    {data.license_plate || 'No registrado'}
                 </Typography>
             </Grid>
             <Grid item xs={12} sm={6} lg={4}>

@@ -8,17 +8,19 @@ import { Modal, Table } from 'components'
 import { mappingMenuItem } from 'components/table/TableFunctions'
 import TableMoreMenu from 'components/table/TableMoreMenu'
 import { useFloat } from 'hooks'
-import { HeadLabelInterface, TableOptionsInterface, MaintenanceInterface } from 'interfaces'
+import { MaintenanceInterface } from 'interfaces'
 
-const headLabel: HeadLabelInterface[] = [
+const headLabel = [
     { id: 'id', label: 'Id', alignRight: false },
     { id: 'equipment', label: 'Equipo', alignRight: false },
     { id: 'date', label: 'Fecha', alignRight: false },
     { id: '', label: '' }
 ]
 
+type TableType = MaintenanceInterface
+
 interface Props {
-    data: MaintenanceInterface[]
+    data: TableType[]
 }
 
 export default function MaintenanceTable(props: Props) {
@@ -29,10 +31,10 @@ export default function MaintenanceTable(props: Props) {
     const modalState = useFloat({ initialState: false })
 
 
-    function createTableCells(row: MaintenanceInterface) {
+    function createTableCells(row: TableType) {
         const { id, equipment, date } = row;
 
-        const options: TableOptionsInterface[] = [
+        const options = [
             {
                 label: 'Ver',
                 icon: baselineRemoveRedEye,
@@ -55,7 +57,7 @@ export default function MaintenanceTable(props: Props) {
         return (
             <>
                 <TableCell align='left'>{id}</TableCell>
-                <TableCell align='left'>{equipment.license_plate}</TableCell>
+                <TableCell align='left'>{equipment.license_plate || 'No registrado'}</TableCell>
                 <TableCell align='left'>{date.split('T')[0]}</TableCell>
                 <TableCell padding='checkbox'>
                     <TableMoreMenu>

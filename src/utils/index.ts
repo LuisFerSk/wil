@@ -8,7 +8,7 @@ export function indexTab(index: number) {
     }
 }
 
-export function addInArray<T>(array: T[] | [], data: T) {
+export function addInArray<T>(array: T[], data: T) {
     return [...array, data]
 }
 
