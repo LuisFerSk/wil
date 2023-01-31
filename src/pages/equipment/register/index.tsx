@@ -10,6 +10,14 @@ import { authContext } from "provider/Auth";
 import { equipmentInitialValues, equipmentSchema, typesEquipments } from "../schema";
 import { areas, headquarters } from "constants";
 
+const noMonitor = {
+    'All in one': true,
+    Desktop: false,
+    Laptop: true,
+    Workstation: false,
+    'Tablet iOS': true,
+}
+
 interface EquipmentRegisterProps<T> extends RegisterInterface<T[] | []>, BrandStateInterface { }
 
 export default function EquipmentRegister<T>(props: EquipmentRegisterProps<T>) {
@@ -105,7 +113,13 @@ export default function EquipmentRegister<T>(props: EquipmentRegisterProps<T>) {
                     <TextField {...getFieldFormikProps('serial')} fullWidth label="Serial" variant="outlined" />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                    <TextField {...getFieldFormikProps('monitor_serial')} fullWidth label="Serial del monitor" variant="outlined" />
+                    <TextField
+                        {...getFieldFormikProps('monitor_serial')}
+                        fullWidth
+                        label="Serial del monitor"
+                        variant="outlined"
+                        disabled={noMonitor[formik.values.type as keyof typeof noMonitor]}
+                    />
                 </Grid>
                 <Grid item xs={12} sm={4}>
                     <Select
