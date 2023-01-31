@@ -92,12 +92,26 @@ export default function EquipmentUpdate(props: Props) {
                     <TextField {...getFieldFormikProps('serial')} fullWidth label="Serial" variant="outlined" />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                    <TextField {...getFieldFormikProps('monitor_serial')} fullWidth label="Serial del monitor" variant="outlined" />
+                    <TextField
+                        fullWidth
+                        {...getFieldFormikProps('monitor_license_plate')}
+                        type='number'
+                        label="Placa del monitor"
+                        variant="outlined"
+                    />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                    <TextField
+                        {...getFieldFormikProps('monitor_serial')}
+                        fullWidth
+                        label="Serial del monitor"
+                        variant="outlined"
+                    />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <TextField {...getFieldFormikProps('license_plate')} type='number' fullWidth label="Placa" variant="outlined" />
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={12} sm={6}>
                     <Select
                         fullWidth
                         label="Sede"
@@ -111,7 +125,7 @@ export default function EquipmentUpdate(props: Props) {
                         )}
                     </Select>
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={10}>
                     <Select
                         fullWidth
                         label="Area"

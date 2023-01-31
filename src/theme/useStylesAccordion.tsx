@@ -9,14 +9,10 @@ const useStylesAccordion = makeStyles(() => {
         },
         heading: {
             fontSize: theme.typography.pxToRem(15),
-            flexBasis: '33.33%',
+            flexBasis: '80%',
             flexShrink: 0,
             paddingLeft: theme.spacing(2),
-        },
-        secondaryHeading: {
-            fontSize: theme.typography.pxToRem(15),
-            color: theme.palette.text.secondary,
-        },
+        }
     }
 });
 

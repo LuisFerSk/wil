@@ -52,6 +52,14 @@ export default function EquipmentView(props: Props) {
             </Grid>
             <Grid item xs={12} sm={6} lg={4}>
                 <Typography variant="subtitle1" >
+                    Placa del monitor
+                </Typography>
+                <Typography variant="body2" >
+                    {data.monitor_license_plate || 'no registrado'}
+                </Typography>
+            </Grid>
+            <Grid item xs={12} sm={6} lg={4}>
+                <Typography variant="subtitle1" >
                     Placa
                 </Typography>
                 <Typography variant="body2" >
@@ -66,7 +74,7 @@ export default function EquipmentView(props: Props) {
                     {data.campus}
                 </Typography>
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={12}  lg={4}>
                 <Typography variant="subtitle1" >
                     Area
                 </Typography>

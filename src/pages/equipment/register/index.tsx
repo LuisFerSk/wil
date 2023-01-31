@@ -99,6 +99,7 @@ export default function EquipmentRegister(props: Props) {
                         }}
                     />
                 </Grid>
+
                 <Grid item xs={12} sm={6}>
                     <TextField
                         {...getFieldFormikProps('license_plate')}
@@ -116,6 +117,15 @@ export default function EquipmentRegister(props: Props) {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <TextField
+                        {...getFieldFormikProps('monitor_license_plate')}
+                        type='number'
+                        fullWidth
+                        label="Placa del monitor"
+                        variant="outlined"
+                    />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                    <TextField
                         {...getFieldFormikProps('monitor_serial')}
                         fullWidth
                         label="Serial del monitor"
@@ -123,7 +133,7 @@ export default function EquipmentRegister(props: Props) {
                         disabled={noMonitor[formik.values.type as keyof typeof noMonitor]}
                     />
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={12} sm={6}>
                     <Select
                         fullWidth
                         label="Sede"
@@ -137,7 +147,7 @@ export default function EquipmentRegister(props: Props) {
                         )}
                     </Select>
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={10}>
                     <Select
                         fullWidth
                         label="Area"

@@ -13,7 +13,6 @@ import useStyles from 'theme/useStylesAccordion'
 
 interface AccordionInterface {
     title: string,
-    subtitle?: string,
     icon: JSX.Element,
     content: JSX.Element
 }
@@ -50,9 +49,6 @@ export default function Accordion(props: Props) {
                         {element.icon}
                         <Typography className={classes.heading}>
                             {element.title}
-                        </Typography>
-                        <Typography className={classes.secondaryHeading}>
-                            {element.subtitle}
                         </Typography>
                     </AccordionSummary>
                     <AccordionDetails>

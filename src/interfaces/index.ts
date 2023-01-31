@@ -112,6 +112,7 @@ export interface EquipmentBaseProps {
     model: string,
     serial: string,
     monitor_serial: string | null | undefined,
+    monitor_license_plate: string | null | undefined,
     license_plate: string | null | undefined,
     area: keyof typeof flat,
     user: string,

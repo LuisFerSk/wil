@@ -41,6 +41,21 @@ export const equipmentSchema = object().shape({
             }
             return true;
         }),
+    monitor_license_plate: string()
+        .nullable()
+        .test('len', 'La placa del monitor debe contener solo números.', value => {
+            if (value) {
+                return /^[0-9]+$/.test(value)
+            }
+            return true;
+        })
+        .test('len', 'La placa del monitor debe tener entre 4 a 5 dígitos.', value => {
+            if (value) {
+                const valueLength = value.replace(/\s+/g, '').length;
+                return valueLength >= 4 && valueLength <= 5
+            }
+            return true;
+        }),
     license_plate: string()
         .nullable()
         .test('len', 'La placa del equipo debe contener solo números.', value => {
@@ -106,6 +121,7 @@ export const equipmentInitialValues = {
     model: '',
     serial: '',
     monitor_serial: '',
+    monitor_license_plate: '',
     license_plate: '',
     area: '',
     user: '',
