@@ -48,7 +48,7 @@ export default function EquipmentUpdate(props: Props) {
                     setMessage("success", 'Se ha actualizado correctamente el equipo.')
                 })
                 .catch(({ response }) => {
-                    setMessage('error', response.data.message)
+                    setMessage('error', response.data)
                 })
         },
     })
