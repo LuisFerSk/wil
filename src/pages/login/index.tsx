@@ -59,7 +59,7 @@ export default function Login() {
 					<Grid item xs={12} textAlign='center'>
 						<Logo height={100} />
 						<Typography color={theme.palette.primary.main} variant="h5">
-							Title
+							Coordinación de Sistemas y TICS
 						</Typography>
 					</Grid>
 					<Grid item xs={12} textAlign='center'>
