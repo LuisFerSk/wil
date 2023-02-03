@@ -122,6 +122,7 @@ export default function EquipmentRegister(props: Props) {
                         fullWidth
                         label="Placa del monitor"
                         variant="outlined"
+                        disabled={noMonitor[formik.values.type as keyof typeof noMonitor]}
                     />
                 </Grid>
                 <Grid item xs={12} sm={6}>

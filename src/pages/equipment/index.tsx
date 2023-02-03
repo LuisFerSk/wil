@@ -11,7 +11,7 @@ import TableSupport from './table/TableSupport';
 import RegisterEquipment from './register';
 import { equipmentFindAll } from 'services/equipment';
 import { useGetQueryApi } from 'hooks/getQueryApi';
-import { brandFindAll } from 'services/brand';
+import { brandFindAllByEquipment } from 'services/brand';
 import { roles } from 'constants';
 
 export default function Equipment() {
@@ -20,7 +20,7 @@ export default function Equipment() {
 
     const [equipments, setEquipments] = useGetQueryApi<EquipmentInterface[]>(equipmentFindAll(token), [])
 
-    const [brands, setBrands] = useGetQueryApi<BrandInterface[]>(brandFindAll(token), [])
+    const [brands, setBrands] = useGetQueryApi<BrandInterface[]>(brandFindAllByEquipment(token), [])
 
     const Accordions = [
         {

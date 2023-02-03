@@ -9,7 +9,7 @@ import TableAdmin from './table/TableAdmin';
 import TableSupport from './table/TableSupport';
 import RegisterEquipment from './register';
 import { useGetQueryApi } from 'hooks/getQueryApi';
-import { brandFindAll } from 'services/brand';
+import { brandFindAllByPrinterScanner } from 'services/brand';
 import { roles } from 'constants';
 import { printerScannerFindAll } from 'services/printer_scanner';
 
@@ -19,7 +19,7 @@ export default function PrinterScanner() {
 
     const [equipments, setEquipments] = useGetQueryApi<PrinterScannerInterface[]>(printerScannerFindAll(token), [])
 
-    const [brands, setBrands] = useGetQueryApi<BrandInterface[]>(brandFindAll(token), [])
+    const [brands, setBrands] = useGetQueryApi<BrandInterface[]>(brandFindAllByPrinterScanner(token), [])
 
     const Accordions = [
         {
