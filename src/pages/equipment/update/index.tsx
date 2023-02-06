@@ -8,7 +8,7 @@ import { BrandStateInterface, EquipmentInterface, flat, UpdateInterface } from "
 import { useContext, useId } from "react";
 import { authContext } from "provider/Auth";
 import { equipmentUpdate } from "services/equipment";
-import { areas, headquarters } from "constants";
+import { areas, headquarters, noMonitor } from "constants";
 
 interface Props extends UpdateInterface<EquipmentInterface>, BrandStateInterface { }
 
@@ -98,6 +98,7 @@ export default function EquipmentUpdate(props: Props) {
                         type='number'
                         label="Placa del monitor"
                         variant="outlined"
+                        disabled={noMonitor[formik.values.type]}
                     />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -106,6 +107,7 @@ export default function EquipmentUpdate(props: Props) {
                         fullWidth
                         label="Serial del monitor"
                         variant="outlined"
+                        disabled={noMonitor[formik.values.type]}
                     />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -141,7 +143,7 @@ export default function EquipmentUpdate(props: Props) {
                 </Grid>
                 <Grid item xs={12} sm={2}>
                     <TextField
-                        value={flat[formik.values.area as keyof typeof flat] || ''}
+                        value={flat[formik.values.area] || ''}
                         fullWidth
                         label="Piso"
                         type="number"

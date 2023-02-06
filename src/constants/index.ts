@@ -84,3 +84,11 @@ export const areas = [
         value: 'VENTANILLA ÚNICA'
     },
 ]
+
+export const noMonitor = {
+    'All in one': true,
+    Desktop: false,
+    Laptop: true,
+    Workstation: false,
+    'Tablet iOS': true,
+}

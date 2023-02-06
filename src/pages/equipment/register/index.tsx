@@ -8,15 +8,8 @@ import { addIfNotExist, addInArray } from "utils";
 import { BrandStateInterface, EquipmentInterface, EquipmentProps, flat } from "interfaces";
 import { authContext } from "provider/Auth";
 import { equipmentInitialValues, equipmentSchema, typesEquipments } from "../schema";
-import { areas, headquarters } from "constants";
+import { areas, headquarters, noMonitor } from "constants";
 
-const noMonitor = {
-    'All in one': true,
-    Desktop: false,
-    Laptop: true,
-    Workstation: false,
-    'Tablet iOS': true,
-}
 
 interface Props extends BrandStateInterface {
     setData: React.Dispatch<React.SetStateAction<EquipmentInterface[]>>
@@ -45,7 +38,8 @@ export default function EquipmentRegister(props: Props) {
                 cc: data.cc.toString(),
                 phone: data.phone?.toString() || null,
                 license_plate: data.license_plate?.toString() || null,
-                monitor_serial: data.monitor_serial || null
+                monitor_serial: data.monitor_serial || null,
+                monitor_license_plate: data.monitor_license_plate?.toString() || null,
             }
 
             equipmentCreate(token, newData as EquipmentProps)

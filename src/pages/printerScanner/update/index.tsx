@@ -122,7 +122,7 @@ export default function EquipmentUpdate(props: Props) {
                 </Grid>
                 <Grid item xs={4}>
                     <TextField
-                        value={flat[formik.values.area as any] || ''}
+                        value={flat[formik.values.area] || ''}
                         fullWidth
                         label="Piso"
                         type="number"
