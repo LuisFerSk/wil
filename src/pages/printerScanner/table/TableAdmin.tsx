@@ -5,14 +5,15 @@ import trash2Outline from '@iconify/icons-eva/trash-2-outline'
 import baselineRemoveRedEye from '@iconify/icons-ic/baseline-remove-red-eye';
 
 import { CircularProgress, Grid, TableCell } from '@mui/material'
-import { FloatAlert, Modal, Table } from 'components'
 
+import { FloatAlert, Modal, Table } from 'components'
 import { mappingMenuItem } from 'components/table/TableFunctions'
 import TableMoreMenu from 'components/table/TableMoreMenu'
 import { useFloat } from 'hooks'
 import { BrandStateInterface, PrinterScannerInterface, TableDataInterface } from 'interfaces'
 
 const headLabel = [
+    { id: 'license_plate', label: 'Placa', alignRight: false },
     { id: 'serial', label: 'Serial', alignRight: false },
     { id: 'type', label: 'Tipo', alignRight: false },
     { id: 'brand', label: 'Marca', alignRight: false },

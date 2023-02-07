@@ -1,10 +1,10 @@
 import { lazy, Suspense } from 'react'
 
 import { CircularProgress, Grid, TableCell } from '@mui/material'
-import { Modal, Table } from 'components'
 
 import baselineRemoveRedEye from '@iconify/icons-ic/baseline-remove-red-eye';
 
+import { Modal, Table } from 'components'
 import { PrinterScannerInterface } from 'interfaces'
 import { useFloat } from 'hooks';
 import TableMoreMenu from 'components/table/TableMoreMenu';
