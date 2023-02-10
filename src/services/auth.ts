@@ -9,7 +9,7 @@ interface usuario {
 const urlBase = `${import.meta.env.VITE_BACKEND_URL}`
 
 export function login(data: usuario) {
-    return axios.post(`${urlBase}/singin`, data)
+    return axios.post(`${urlBase}/signin`, data)
 }
 
 export function verifyToken(token: string) {
