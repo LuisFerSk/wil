@@ -63,7 +63,7 @@ export default function PrinterScannerRegister(props: Props) {
     return (
         <Form formik={formik}>
             <Grid container spacing={3}>
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={6}>
                     <Select
                         fullWidth
                         label="Tipo"
@@ -77,7 +77,7 @@ export default function PrinterScannerRegister(props: Props) {
                         )}
                     </Select>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={6}>
                     <Autocomplete
                         fieldValue={formik.values.brand}
                         setFieldValue={formik.setFieldValue}
@@ -90,7 +90,7 @@ export default function PrinterScannerRegister(props: Props) {
                         }}
                     />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={6}>
                     <TextField
                         {...getFieldFormikProps('license_plate')}
                         type='number'
@@ -99,13 +99,13 @@ export default function PrinterScannerRegister(props: Props) {
                         variant="outlined"
                     />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={6}>
                     <TextField {...getFieldFormikProps('model')} fullWidth label="Modelo" variant="outlined" />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={6}>
                     <TextField {...getFieldFormikProps('serial')} fullWidth label="Serial" variant="outlined" />
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={12} sm={6}>
                     <Select
                         fullWidth
                         label="Sede"
@@ -119,7 +119,7 @@ export default function PrinterScannerRegister(props: Props) {
                         )}
                     </Select>
                 </Grid>
-                <Grid item xs={2}>
+                <Grid item xs={12} sm={2}>
                     <TextField
                         value={flat[formik.values.area as keyof typeof flat] || ''}
                         fullWidth
@@ -131,7 +131,7 @@ export default function PrinterScannerRegister(props: Props) {
                         }}
                     />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={6}>
                     <Select
                         fullWidth
                         label="Area"
@@ -153,10 +153,10 @@ export default function PrinterScannerRegister(props: Props) {
                 <Grid item xs={12}>
                     <TextField {...getFieldFormikProps('user')} fullWidth label="Nombre" variant="outlined" />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={6}>
                     <TextField {...getFieldFormikProps('cc')} fullWidth type="number" label="Cédula" variant="outlined" />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={6}>
                     <TextField {...getFieldFormikProps('phone')} fullWidth type="number" label="Teléfono" variant="outlined" />
                 </Grid>
                 <Grid item xs={12}>
