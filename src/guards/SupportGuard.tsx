@@ -11,7 +11,7 @@ export default function SupportGuard() {
     const _authContext = useContext(authContext)
     const { user } = _authContext;
 
-    const Support = lazy(() => import('pages/support'))
+    const Support = lazy(() => import('pages/support/Support'))
 
     if (user?.role === roles.administrator) {
         return (

@@ -6,11 +6,11 @@ import { CircularProgress, Grid } from '@mui/material';
 import { Loader } from 'pages';
 
 export default function Router() {
-  const Maintenance = lazy(() => import('pages/maintenance'));
-  const Equipment = lazy(() => import('pages/equipment'));
-  const NotFound = lazy(() => import('pages/404'));
-  const Dashboard = lazy(() => import('pages/dashboard'));
-  const PrinterScanner = lazy(() => import('pages/printerScanner'));
+  const Maintenance = lazy(() => import('pages/maintenance/Maintenance'));
+  const Equipment = lazy(() => import('pages/equipment/EquipmentPage'));
+  const NotFound = lazy(() => import('pages/404/404'));
+  const Dashboard = lazy(() => import('pages/dashboard/Dashboard'));
+  const PrinterScanner = lazy(() => import('pages/printerScanner/PrinterScanner'));
   const NotAuthGuard = lazy(() => import('guards/NotAuthGuard'));
 
   return useRoutes([
