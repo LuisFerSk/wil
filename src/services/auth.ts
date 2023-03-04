@@ -1,17 +1,13 @@
 import axios from 'axios';
 import { postToken } from "services"
-
-interface usuario {
-    username: string,
-    password: string,
-}
+import { SignInRequest, SignInResponse, VerifyTokenResponse } from './models';
 
 const urlBase = `${import.meta.env.VITE_BACKEND_URL}`
 
-export function login(data: usuario) {
-    return axios.post(`${urlBase}/signin`, data)
+export function login(data: SignInRequest) {
+    return axios.post<SignInResponse>(`${urlBase}/signin`, data)
 }
 
 export function verifyToken(token: string) {
-    return axios.get(`${urlBase}/verify-token`, postToken(token))
+    return axios.get<VerifyTokenResponse>(`${urlBase}/verify-token`, postToken(token))
 }

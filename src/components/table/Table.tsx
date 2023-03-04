@@ -15,17 +15,28 @@ import SearchNotFound from '../searchNotFound/SearchNotFound'
 import TableListHead from './TableListHead'
 import TableListToolbar from './TableListToolbar'
 import { getComparator, applySortFilter } from './TableFunctions'
-import { GetComparatorOrderType, TablePropsInterface } from 'interfaces'
+import { GetComparatorOrderType, HeadLabelInterface } from 'interfaces'
+
+interface Props {
+    id?: string
+    createTableCells: (row: any) => JSX.Element
+    headLabel: HeadLabelInterface[]
+    data: Record<string, any>[]
+    selectBy: string
+    searchBy: string
+    placeholder?: string
+    searchByOther?: string
+}
 
 
-export default function Table(props: TablePropsInterface) {
+export default function Table(props: Props) {
     const { headLabel, data, selectBy, createTableCells, searchBy, placeholder, searchByOther } = props
 
-    const [page, setPage] = useState<number>(0)
-    const [filter, setFilter] = useState<string>('')
+    const [page, setPage] = useState(0)
+    const [filter, setFilter] = useState('')
     const [order, setOrder] = useState<GetComparatorOrderType>('asc')
-    const [orderBy, setOrderBy] = useState<string>(selectBy)
-    const [rowsPerPage, setRowsPerPage] = useState<number>(5)
+    const [orderBy, setOrderBy] = useState(selectBy)
+    const [rowsPerPage, setRowsPerPage] = useState(5)
 
     const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
 

@@ -1,25 +1,24 @@
-import { deleteInArrayData } from 'utils'
-import { MaintenanceInterface } from 'interfaces';
-import { Dispatch, SetStateAction, useContext } from 'react';
+import { useContext } from 'react';
+
 import { Delete } from 'components';
-import { authContext } from 'provider/Auth';
+import { AuthContext } from 'provider/Auth';
 import { useMessage } from 'hooks';
 import { maintenanceDestroy } from 'services/maintenance';
+import { MaintenanceFindResponse } from 'services/models';
+import { MaintenanceContext } from 'pages/maintenance/context';
 
 interface Props {
-    data: MaintenanceInterface
-    setData: Dispatch<SetStateAction<MaintenanceInterface[]>>
-    closeModal: Function
-    openAlert: Function
+    data: MaintenanceFindResponse
 }
 
 export default function DeleteMaintenance(props: Props) {
-    const { data, setData, closeModal, openAlert } = props;
+    const { id } = props.data;
 
-    const { id } = data;
+    const authContext = useContext(AuthContext)
+    const { token } = authContext;
 
-    const _authContext = useContext(authContext)
-    const { token } = _authContext;
+    const maintenanceContext = useContext(MaintenanceContext)
+    const { openAlert, closeModal, getMaintenances } = maintenanceContext;
 
     const [message, setMessage, messageLoader] = useMessage()
 
@@ -28,9 +27,9 @@ export default function DeleteMaintenance(props: Props) {
 
         maintenanceDestroy(token, id)
             .then(response => {
-                setData(old => deleteInArrayData(old, id))
-                openAlert()
-                closeModal()
+                getMaintenances && getMaintenances()
+                openAlert && openAlert()
+                closeModal && closeModal()
             })
             .catch((error) => {
                 const { response } = error;

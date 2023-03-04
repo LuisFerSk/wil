@@ -24,7 +24,7 @@ export default function Navbar(props: Props) {
         <RootStyleNavbar>
             <ToolbarStyle>
                 <MHidden width='lgUp'>
-                    <IconButton onClick={onOpenSidebar} sx={{ mr: 1, color: 'text.primary' }}>
+                    <IconButton onClick={onOpenSidebar} sx={{ mr: 1, color: 'text.primary' }} name='button-menu'>
                         <Icon icon={menu2Fill} />
                     </IconButton>
                 </MHidden>

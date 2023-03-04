@@ -1,93 +1,111 @@
+import { useContext, Suspense, lazy } from 'react'
 import formTextboxPassword from '@iconify/icons-mdi/form-textbox-password';
 import trash2Outline from '@iconify/icons-eva/trash-2-outline'
-import { TableCell } from '@mui/material'
+import { CircularProgress, Grid, TableCell } from '@mui/material'
 
-import { FloatAlert, Modal, Table, ChangePassword } from 'components'
+import { Table, TryAgain } from 'components'
 import { mappingMenuItem } from 'components/table/TableFunctions'
 import TableMoreMenu from 'components/table/TableMoreMenu'
-import { useFloat } from 'hooks'
-import { TableDataInterface, SupportInterface } from 'interfaces'
-import SupportDelete from '../deleteSupport/DeleteSupport'
+import { SupportContext } from 'pages/support/context';
+import { SupportFindAllBlocLoading, SupportFindAllBlocSuccess } from 'bloc';
+import { SupportFindResponse } from 'services/models';
+import Loader from 'pages/loader/Loader';
 
+export default function TableSupport() {
+    const supportContext = useContext(SupportContext)
+    const { bloc, getSupports } = supportContext;
 
-const headLabel = [
-    { id: 'username', label: 'Nombre de usuario', alignRight: false },
-    { id: '', label: '' }
-]
-
-export default function TableSupport(props: TableDataInterface<SupportInterface>) {
-    const { data, setData } = props;
-
-    const modalState = useFloat({ initialState: false })
-
-    const alertState = useFloat({
-        initialState: false,
-        initialContent: '¡Se ha eliminado correctamente el funcionario!'
-    })
-
-
-    function createTableCells(row: SupportInterface) {
-        const { id, username } = row;
-
-        const options = [
-            {
-                label: 'Cambiar contraseña',
-                icon: formTextboxPassword,
-                onClick: () => {
-                    modalState.setTitle(`Cambiar contraseña de ${username}`)
-                    modalState.setContent(
-                        <ChangePassword id={id} />
-                    )
-                    modalState.open()
-                }
-            },
-            {
-                label: 'Eliminar',
-                icon: trash2Outline,
-                onClick: () => {
-                    modalState.setTitle('Eliminar Soporte')
-                    modalState.setContent(
-                        <SupportDelete
-                            data={row}
-                            setData={setData}
-                            closeModal={modalState.close}
-                            openAlert={alertState.open}
-                        />
-                    )
-                    modalState.open()
-                }
-            },
-        ]
-
-
+    if (bloc instanceof SupportFindAllBlocSuccess) {
         return (
-            <>
-                <TableCell align='left'>{username}</TableCell>
-                <TableCell padding='checkbox'>
-                    <TableMoreMenu>
-                        {mappingMenuItem(options)}
-                    </TableMoreMenu>
-                </TableCell>
-            </>
+            <_TableSupport data={bloc.state} />
         )
     }
 
+    if (bloc instanceof SupportFindAllBlocLoading) {
+        <Loader />
+    }
+
+    return (
+        <TryAgain
+            message='Ha ocurrido un error al consultar los soportes.'
+            onClick={() => { getSupports && getSupports() }}
+        >
+            volver a intentarlo
+        </TryAgain >
+    )
+}
+
+interface Props {
+    data: SupportFindResponse[]
+}
+
+function _TableSupport(props: Props) {
+    const headLabel = [
+        { id: 'username', label: 'Nombre de usuario', alignRight: false },
+        { id: '', label: '' }
+    ]
+
+    return (
+        <Table
+            createTableCells={createTableCells}
+            headLabel={headLabel}
+            data={props.data}
+            selectBy='username'
+            searchBy='username'
+            placeholder='Buscar por nombre de usuario'
+        />
+    )
+}
+
+function createTableCells(row: SupportFindResponse) {
+    const { id, username } = row;
+
+    const supportContext = useContext(SupportContext)
+    const { setContentModal, setTitleModal, openModal } = supportContext;
+
+    const SupportDelete = lazy(() => import('../deleteSupport/DeleteSupport'))
+    const ChangePassword = lazy(() => import('components/changePassword/ChangePassword'))
+
+    const options = [
+        {
+            label: 'Cambiar contraseña',
+            icon: formTextboxPassword,
+            onClick: () => {
+                setTitleModal && setTitleModal(`Cambiar contraseña de ${username}`)
+                setContentModal && setContentModal(
+                    <ChangePassword id={id} />
+                )
+                openModal && openModal()
+            }
+        },
+        {
+            label: 'Eliminar',
+            icon: trash2Outline,
+            onClick: () => {
+                setTitleModal && setTitleModal('Eliminar Soporte')
+                setContentModal && setContentModal(
+                    <Suspense fallback={
+                        <Grid textAlign='center'>
+                            <CircularProgress color='success' />
+                        </Grid>
+                    }>
+                        <SupportDelete data={row} />
+                    </Suspense>
+
+                )
+                openModal && openModal()
+            }
+        },
+    ]
+
     return (
         <>
-            <Table
-                createTableCells={createTableCells}
-                headLabel={headLabel}
-                data={data}
-                selectBy='username'
-                searchBy='username'
-                placeholder='Buscar por nombre de usuario'
-            />
-            <Modal title={modalState.title} isOpen={modalState.isOpen} onClose={modalState.close}>
-                {modalState.content as JSX.Element}
-            </Modal>
-            <FloatAlert isOpen={alertState.isOpen} close={alertState.close} severity="success">
-                {alertState.content as JSX.Element}
-            </FloatAlert>
+            <TableCell align='left'>{username}</TableCell>
+            <TableCell padding='checkbox'>
+                <TableMoreMenu>
+                    {mappingMenuItem(options)}
+                </TableMoreMenu>
+            </TableCell>
         </>
     )
 }

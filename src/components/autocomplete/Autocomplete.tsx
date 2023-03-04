@@ -1,11 +1,11 @@
 import { Autocomplete as AutocompleteMaterial, AutocompleteRenderInputParams, createFilterOptions, TextField, TextFieldProps } from "@mui/material";
 import { FormikErrors } from "formik";
 
-interface Props<T> {
+export interface AutoCompleteProps<T> {
     options: string[]
     textFieldProps: TextFieldProps
     fieldValue: string
-    setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<FormikErrors<T>> | Promise<void>
+    setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<FormikErrors<T>> | Promise<void> | void
 }
 
 export interface valueProps {
@@ -15,7 +15,7 @@ export interface valueProps {
 
 const filter = createFilterOptions<valueProps>();
 
-export default function Autocomplete<T>(props: Props<T>) {
+export default function Autocomplete<T>(props: AutoCompleteProps<T>) {
     const { options, fieldValue, setFieldValue, textFieldProps } = props;
     const { name = '' } = textFieldProps;
 

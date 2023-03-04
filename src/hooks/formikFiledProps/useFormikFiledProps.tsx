@@ -1,21 +1,21 @@
 import { FieldInputProps, FormikContextType } from 'formik'
 
-type UseFormikFiledPropsReturn = ((fieldName: string) => FieldInputProps<any>)[]
+type UseFormikFiledPropsReturn<T> = ((fieldName: keyof T) => FieldInputProps<T>)[]
 
-export default function useFormikFiledProps(props: FormikContextType<any>): UseFormikFiledPropsReturn {
+export default function useFormikFiledProps<T>(props: FormikContextType<T>): UseFormikFiledPropsReturn<T> {
   const { touched, errors, getFieldProps } = props;
 
-  function getFieldHelperText(filedName: string) {
+  function getFieldHelperText(filedName: keyof T) {
     if (touched[filedName] && errors[filedName]) {
       return String(errors[filedName])
     }
   }
 
-  function getFiledError(fieldName: string) {
+  function getFiledError(fieldName: keyof T) {
     return Boolean(fieldName in touched && fieldName in errors)
   }
 
-  function getFieldFormikProps(filedName: string) {
+  function getFieldFormikProps(filedName: keyof T) {
     return {
       ...getFieldProps(filedName),
       helperText: getFieldHelperText(filedName),

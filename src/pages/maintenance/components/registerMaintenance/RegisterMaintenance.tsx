@@ -1,21 +1,20 @@
-import { useContext, useId } from "react";
-import { Box, Button, Checkbox, FormControlLabel, FormGroup, Grid, MenuItem, Radio, RadioGroup, TextField, Typography, useTheme } from "@mui/material";
+import { useContext, useEffect, useId, useState } from "react";
+import { Box, Button, Checkbox, FormControlLabel, FormGroup, Grid, MenuItem, Radio, RadioGroup, TextFieldProps, Typography, useTheme, TextField } from "@mui/material";
 import { useFormik } from "formik";
 import ReactSignatureCanvas from "react-signature-canvas";
 
-import { AsyncSelect, Form } from "components";
+import { Form, Select } from "components";
 import { useFormikFiledProps, useMessage } from "hooks";
-import { addInArray, dataURLtoBlob, formatDateApi } from "utils";
-import { MaintenanceInterface } from "interfaces";
-import { authContext } from "provider/Auth";
+import { dataURLtoBlob } from "utils";
+import { AuthContext } from "provider/Auth";
 import { maintenanceCreate } from "services/maintenance";
 import styles from './style.module.css'
-import { maintenanceInitialValues, maintenanceSchema } from "pages/maintenance/schema";
-import { ConstantsInterface } from "pages/maintenance/Maintenance";
-
-interface Props extends ConstantsInterface {
-    setData: React.Dispatch<React.SetStateAction<MaintenanceInterface[]>>
-}
+import { maintenanceSchema } from "schemas/maintenance";
+import { MaintenanceCreateRequest } from "services/models";
+import { MaintenanceContext } from "pages/maintenance/context";
+import { EquipmentFindAllBloc, EquipmentFindAllBlocFailure, EquipmentFindAllBlocLoading, EquipmentFindAllBlocSuccess } from "bloc";
+import { equipmentFindAll } from "services/equipment";
+import { QUESTIONS_OPTIONS } from "constants";
 
 let sigPad: ReactSignatureCanvas | null = null;
 
@@ -23,51 +22,43 @@ function clear() {
     sigPad?.clear()
 }
 
-export default function RegisterMaintenance(props: Props) {
-    const { setData, equipments } = props;
+export default function RegisterMaintenance() {
+    const authContext = useContext(AuthContext)
+    const { token } = authContext;
 
-    const _authContext = useContext(authContext)
-    const { token } = _authContext;
-
-    const uuidEquipment = useId()
+    const maintenanceContext = useContext(MaintenanceContext)
+    const { getMaintenances } = maintenanceContext;
 
     const theme = useTheme()
 
-    const [message, setMessage, messageLoader, resetMensaje] = useMessage()
+    const [message, setMessage, messageLoader] = useMessage()
 
     const formik = useFormik({
-        initialValues: maintenanceInitialValues,
+        initialValues: new MaintenanceCreateRequest(),
         validationSchema: maintenanceSchema,
         onSubmit: (data, { resetForm }) => {
             messageLoader()
 
-            if (!sigPad) {
-                return;
-            }
+            const signature = sigPad ? dataURLtoBlob(sigPad.getTrimmedCanvas().toDataURL('image/png')) : undefined
 
-            const { date } = data;
+            const dataToCreate = { ...data, signature }
 
-            const signature = dataURLtoBlob(sigPad.getTrimmedCanvas().toDataURL('image/png'))
+            maintenanceCreate(token, new MaintenanceCreateRequest(dataToCreate))
+                .then((_) => {
+                    getMaintenances && getMaintenances()
 
-            const dataToCreate = {
-                ...data,
-                signature,
-                date: formatDateApi(date)
-            }
-
-            maintenanceCreate(token, dataToCreate)
-                .then((response) => {
                     clear()
-                    setData((old) => addInArray(old, response.data.info))
                     resetForm()
                     setMessage("success", 'Se ha guardado correctamente el mantenimiento.')
                 })
                 .catch((error) => {
                     const { response } = error;
+
                     if (response) {
                         setMessage('error', response.data)
                         return;
                     }
+
                     setMessage('error', "Ha sucedió un error al realizar la operación")
                     console.log(error)
                 })
@@ -85,23 +76,12 @@ export default function RegisterMaintenance(props: Props) {
                     </Typography>
                 </Grid>
                 <Grid item xs={12}>
-                    <AsyncSelect
-                        data={equipments}
-                        textLoading='Cargando equipos...'
-                        textNotData='Se debe registrar al menos un equipo para poder realizar un mantenimiento'
-                        fieldProps={{
-                            ...getFieldFormikProps('equipment_id'),
-                            fullWidth: true,
-                            variant: 'outlined',
-                            label: 'Equipo',
-                        }}
-                    >
-                        {equipments?.map((equipment, key) =>
-                            <MenuItem key={`${uuidEquipment}-${key}`} value={equipment.id}>
-                                {`${equipment.type} - ${equipment.brand.name} ${equipment.model} - serial: ${equipment.serial}`}
-                            </MenuItem>
-                        )}
-                    </AsyncSelect>
+                    <SelectEquipment
+                        {...getFieldFormikProps('equipmentId')}
+                        fullWidth
+                        variant='outlined'
+                        label='Equipo'
+                    />
                 </Grid>
                 <Grid item xs={12} sm={4}>
                     <TextField
@@ -138,10 +118,10 @@ export default function RegisterMaintenance(props: Props) {
                 </Grid>
                 <Grid item xs={12} sm={4}>
                     <FormGroup>
-                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('ignition_station')} />} label="Encendido estación" />
-                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('operating_system_boot')} />} label="Arranque del SO" />
+                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('ignitionStation')} />} label="Encendido estación" />
+                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('operatingSystemBoot')} />} label="Arranque del SO" />
                         <FormControlLabel control={<Checkbox {...getFieldFormikProps('HDD')} />} label="Disco duro" />
-                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('CD_rom_DVD')} />} label="CD Rom y/o DVD" />
+                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('cdRomDvd')} />} label="CD Rom y/o DVD" />
                         <FormControlLabel control={<Checkbox {...getFieldFormikProps('display')} />} label="Monitor" />
                         <FormControlLabel control={<Checkbox {...getFieldFormikProps('mouse')} />} label="Mouse" />
                         <FormControlLabel control={<Checkbox {...getFieldFormikProps('keyboard')} />} label="Teclado" />
@@ -149,7 +129,7 @@ export default function RegisterMaintenance(props: Props) {
                 </Grid>
                 <Grid item xs={12} sm={8}>
                     <TextField
-                        {...getFieldFormikProps('error_description')}
+                        {...getFieldFormikProps('errorDescription')}
                         fullWidth
                         label="Descripción de error encontrado o reportado"
                         variant="outlined"
@@ -164,17 +144,17 @@ export default function RegisterMaintenance(props: Props) {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <FormGroup>
-                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('remove_indoor_dust')} />} label="Remover polvo interno sin desconectar tarjetas" />
-                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('check_internal_connections')} />} label="Verificar conexiones internas" />
-                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('connect_power_peripheral_cables')} />} label="Conectar cables de potencia y periféricos" />
-                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('close_PC_clean_case')} />} label="Cerrar CPU y limpiar carcaza" />
+                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('removeIndoorDust')} />} label="Remover polvo interno sin desconectar tarjetas" />
+                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('checkInternalConnections')} />} label="Verificar conexiones internas" />
+                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('connectPowerPeripheralCables')} />} label="Conectar cables de potencia y periféricos" />
+                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('closePcCleanCase')} />} label="Cerrar CPU y limpiar carcaza" />
                     </FormGroup>
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <FormGroup>
-                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('clean_keyboard')} />} label="Limpiar teclado" />
-                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('clean_monitor')} />} label="Limpiar monitor" />
-                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('clean_mouse')} />} label="Limpiar mouse (esfera y rodillo)" />
+                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('cleanKeyboard')} />} label="Limpiar teclado" />
+                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('cleanMonitor')} />} label="Limpiar monitor" />
+                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('cleanMouse')} />} label="Limpiar mouse (esfera y rodillo)" />
                     </FormGroup>
                 </Grid>
                 <Grid item xs={12}>
@@ -184,18 +164,18 @@ export default function RegisterMaintenance(props: Props) {
                 </Grid>
                 <Grid item xs={12} sm={4}>
                     <FormGroup>
-                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('end_ignition_station')} />} label="Encendido estación" />
-                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('end_operating_system_boot')} />} label="Arranque del SO" />
-                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('end_HDD')} />} label="Disco duro" />
-                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('end_CD_rom_DVD')} />} label="CD Rom y/o DVD" />
-                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('end_display')} />} label="Monitor" />
-                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('end_mouse')} />} label="Mouse" />
-                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('end_keyboard')} />} label="Teclado" />
+                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('endIgnitionStation')} />} label="Encendido estación" />
+                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('endOperatingSystemBoot')} />} label="Arranque del SO" />
+                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('endHdd')} />} label="Disco duro" />
+                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('endCdRomDvd')} />} label="CD Rom y/o DVD" />
+                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('endDisplay')} />} label="Monitor" />
+                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('endMouse')} />} label="Mouse" />
+                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('endKeyboard')} />} label="Teclado" />
                     </FormGroup>
                 </Grid>
                 <Grid item xs={12} sm={8}>
                     <TextField
-                        {...getFieldFormikProps('end_error_description')}
+                        {...getFieldFormikProps('endErrorDescription')}
                         fullWidth
                         label="Descripción de error encontrado o reportado"
                         variant="outlined"
@@ -210,9 +190,9 @@ export default function RegisterMaintenance(props: Props) {
                 </Grid>
                 <Grid item xs={12}>
                     <FormGroup>
-                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('check_anti_virus')} />} label="Verificación antivirus" />
-                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('deletion_temporary_cookies')} />} label="Eliminación de temporales y cookies" />
-                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('disk_defragmentation')} />} label="Desfragmentar disco duro" />
+                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('checkAntiVirus')} />} label="Verificación antivirus" />
+                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('deletionTemporaryCookies')} />} label="Eliminación de temporales y cookies" />
+                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('diskDefragmentation')} />} label="Desfragmentar disco duro" />
                     </FormGroup>
                 </Grid>
                 <Grid item xs={12}>
@@ -222,7 +202,7 @@ export default function RegisterMaintenance(props: Props) {
                 </Grid>
                 <Grid item xs={12}>
                     <FormGroup>
-                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('equipment_delivery')} />} label="Entrega del equipo al usuario" />
+                        <FormControlLabel control={<Checkbox {...getFieldFormikProps('equipmentDelivery')} />} label="Entrega del equipo al usuario" />
                     </FormGroup>
                 </Grid>
                 <Grid item xs={12}>
@@ -235,10 +215,10 @@ export default function RegisterMaintenance(props: Props) {
                         7.1. ¿Cual es el nivel de satisfacción con el servicio recibido?
                     </Typography>
                     <FormGroup>
-                        <RadioGroup {...getFieldFormikProps('Q1')} row>
-                            <FormControlLabel value="buena" control={<Radio />} label="Buena" />
-                            <FormControlLabel value="regular" control={<Radio />} label="Regular" />
-                            <FormControlLabel value="malo" control={<Radio />} label="Malo" />
+                        <RadioGroup {...getFieldFormikProps('question_1')} row>
+                            {QUESTIONS_OPTIONS.map((item) =>
+                                <FormControlLabel value={item.value} control={<Radio />} label={item.label} />
+                            )}
                         </RadioGroup>
                     </FormGroup>
                 </Grid>
@@ -247,10 +227,10 @@ export default function RegisterMaintenance(props: Props) {
                         7.2. ¿Como califica la atención brindada por el soporte?
                     </Typography>
                     <FormGroup>
-                        <RadioGroup {...getFieldFormikProps('Q2')} row>
-                            <FormControlLabel value="buena" control={<Radio />} label="Buena" />
-                            <FormControlLabel value="regular" control={<Radio />} label="Regular" />
-                            <FormControlLabel value="malo" control={<Radio />} label="Malo" />
+                        <RadioGroup {...getFieldFormikProps('question_2')} row>
+                            {QUESTIONS_OPTIONS.map((item) =>
+                                <FormControlLabel value={item.value} control={<Radio />} label={item.label} />
+                            )}
                         </RadioGroup>
                     </FormGroup>
                 </Grid>
@@ -259,10 +239,10 @@ export default function RegisterMaintenance(props: Props) {
                         7.3. ¿Cual es su percepción sobre la capacitación del personal que realizo las actividades de mantenimiento?
                     </Typography>
                     <FormGroup>
-                        <RadioGroup {...getFieldFormikProps('Q3')} row>
-                            <FormControlLabel value="buena" control={<Radio />} label="Buena" />
-                            <FormControlLabel value="regular" control={<Radio />} label="Regular" />
-                            <FormControlLabel value="malo" control={<Radio />} label="Malo" />
+                        <RadioGroup {...getFieldFormikProps('question_3')} row>
+                            {QUESTIONS_OPTIONS.map((item) =>
+                                <FormControlLabel value={item.value} control={<Radio />} label={item.label} />
+                            )}
                         </RadioGroup>
                     </FormGroup>
                 </Grid>
@@ -302,5 +282,73 @@ export default function RegisterMaintenance(props: Props) {
                 </Grid>
             </Grid>
         </Form >
+    )
+}
+
+function SelectEquipment(props: TextFieldProps) {
+    const [bloc, setBloc] = useState<EquipmentFindAllBloc>(new EquipmentFindAllBlocLoading())
+
+    const authContext = useContext(AuthContext)
+    const { token } = authContext;
+
+    useEffect(() => {
+        equipmentFindAll(token)
+            .then((response) => {
+                setBloc(new EquipmentFindAllBlocSuccess(response.data))
+            })
+            .catch((error) => {
+                setBloc(new EquipmentFindAllBlocFailure(error))
+
+            })
+    }, [])
+
+    if (bloc instanceof EquipmentFindAllBlocSuccess) {
+        return <_SelectEquipment
+            textFieldProps={props}
+            bloc={bloc}
+        />
+
+    }
+
+    if (bloc instanceof EquipmentFindAllBlocLoading) {
+        return (
+            <TextField
+                {...props}
+                value="Cargando equipos..."
+                disabled
+            />
+        )
+    }
+
+    return (
+        <TextField
+            {...props}
+            disabled
+            value=''
+            helperText="Se debe registrar al menos un equipo para poder realizar un mantenimiento"
+            error={true}
+        />
+    )
+
+}
+
+interface Props {
+    bloc: EquipmentFindAllBlocSuccess
+    textFieldProps: TextFieldProps
+}
+
+function _SelectEquipment(props: Props) {
+    const { bloc, textFieldProps } = props;
+
+    return (
+        <Select
+            {...textFieldProps}
+        >
+            {bloc.state?.map((equipment, key) =>
+                <MenuItem key={`${useId()}-${key}`} value={equipment.id}>
+                    {`${equipment.type} - ${equipment.brand.name} ${equipment.model} - serial: ${equipment.serial}`}
+                </MenuItem>
+            )}
+        </Select>
     )
 }

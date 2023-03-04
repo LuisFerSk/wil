@@ -1,47 +1,29 @@
-import { postToken } from "services";
 import axios from "axios";
-import { IdType, SupportProps } from "interfaces";
+
+import { postToken } from "services";
+import { ChangePasswordRequest, SupportCreateRequest, SupportFindResponse } from "./models";
 
 const userBaseUrl = `${import.meta.env.VITE_BACKEND_URL}/support`
 
 export function supportFindAll(token: string) {
-    return axios.get(`${userBaseUrl}/find-all`, postToken(token))
+    return axios.get<SupportFindResponse[]>(`${userBaseUrl}/find-all`, postToken(token))
 }
 
-export function supportDestroy(token: string, id: IdType) {
+export function supportDestroy(token: string, id: number) {
     const config = {
         data: { id }
     }
-    return axios.delete(`${userBaseUrl}/destroy`, postToken(token, config))
+    return axios.delete<string>(`${userBaseUrl}/destroy`, postToken(token, config))
 }
 
-export function supportUpdate(token: string, user: SupportProps) {
-    return axios.put(`${userBaseUrl}/update`, user, postToken(token))
-}
-
-export function supportCreate(token: string, user: SupportProps) {
+export function supportCreate(token: string, user: SupportCreateRequest) {
     return axios.post(`${userBaseUrl}/create`, user, postToken(token))
 }
 
-interface ChangePasswordProps {
-    token: string
-    id: IdType
-    password: string
+export function changePassword(token: string, data: ChangePasswordRequest) {
+    return axios.put<string>(`${userBaseUrl}/change-password`, data, postToken(token))
 }
 
-export function changePassword(props: ChangePasswordProps) {
-    const { token, ...user } = props;
-
-    return axios.put(`${userBaseUrl}/change-password`, user, postToken(token))
-}
-
-interface ChangeMePasswordProps {
-    token: string
-    password: string
-}
-
-export function changeMePassword(props: ChangeMePasswordProps) {
-    const { token, ...user } = props;
-
-    return axios.put(`${userBaseUrl}/change-me-password`, user, postToken(token))
+export function changeMePassword(token: string, password: string) {
+    return axios.put<string>(`${userBaseUrl}/change-me-password`, { password }, postToken(token))
 }

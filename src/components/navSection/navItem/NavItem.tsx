@@ -5,6 +5,7 @@ import arrowIosForwardFill from '@iconify/icons-eva/arrow-ios-forward-fill'
 import arrowIosDownwardFill from '@iconify/icons-eva/arrow-ios-downward-fill'
 import { NavLink as RouterLink } from 'react-router-dom'
 import { Box, Collapse, List, ListItemText } from '@mui/material'
+
 import { ItemSidebarProps } from 'interfaces'
 import { activeSubStyle, ListItemIconStyle, ListItemStyle } from './style'
 
@@ -13,11 +14,11 @@ interface Props {
     active: (path: string) => boolean
 }
 
-function NavItem(props: Props) {
+export default function NavItem(props: Props) {
     const { item, active } = props
     const theme = useTheme()
     const isActiveRoot = active(item.path)
-    const [open, setOpen] = useState<boolean>(isActiveRoot)
+    const [open, setOpen] = useState(isActiveRoot)
     const { title, path, icon, info, children } = item;
 
     const handleOpen = () => {
@@ -106,5 +107,3 @@ function NavItem(props: Props) {
         </ListItemStyle>
     )
 }
-
-export default NavItem

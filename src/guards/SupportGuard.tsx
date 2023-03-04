@@ -1,28 +1,26 @@
-import { lazy, Suspense } from 'react'
-
-import { CircularProgress, Grid } from '@mui/material';
-
-import { roles } from "constants";
-import { authContext } from "provider/Auth";
-import { useContext } from "react";
 import { Navigate } from "react-router-dom";
+import { useContext } from "react";
 
-export default function SupportGuard() {
-    const _authContext = useContext(authContext)
-    const { user } = _authContext;
+import { AuthContext } from "provider/Auth";
+import { ROLES } from "constants";
 
-    const Support = lazy(() => import('pages/support/Support'))
+interface Props {
+    adminElement: JSX.Element,
+    supportElement: JSX.Element
+}
 
-    if (user?.role === roles.administrator) {
-        return (
-            <Suspense fallback={
-                <Grid textAlign='center'>
-                    <CircularProgress color='primary' />
-                </Grid>
-            }>
-                <Support />
-            </Suspense>
-        )
+export default function SupportGuard(props: Props) {
+    const { adminElement, supportElement } = props;
+
+    const authContext = useContext(AuthContext)
+    const { user } = authContext;
+
+    if (user?.role === ROLES.administrator) {
+        return adminElement;
+    }
+
+    if (user?.role === ROLES.support) {
+        return supportElement;
     }
 
     return <Navigate to='/404' replace />

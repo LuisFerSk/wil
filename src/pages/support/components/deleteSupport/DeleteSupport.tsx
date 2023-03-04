@@ -1,37 +1,36 @@
+import { useContext } from 'react';
+
 import { deleteInArrayData } from 'utils'
-import { SupportInterface } from 'interfaces';
-import { Dispatch, SetStateAction, useContext } from 'react';
 import { Delete } from 'components';
-import { authContext } from 'provider/Auth';
+import { AuthContext } from 'provider/Auth';
 import { useMessage } from 'hooks';
-import { userDestroy } from 'services/user';
+import { supportDestroy } from 'services/support';
+import { SupportFindResponse } from 'services/models';
+import { SupportContext } from 'pages/support/context';
 
 interface Props {
-    data: SupportInterface
-    setData: Dispatch<SetStateAction<SupportInterface[]>>
-    closeModal: Function
-    openAlert: Function
+    data: SupportFindResponse
 }
 
-
 export default function DeleteSupport(props: Props) {
-    const { data, setData, closeModal, openAlert } = props;
+    const { id, username } = props.data;
 
-    const { id, username } = data;
+    const authContext = useContext(AuthContext)
+    const { token } = authContext;
 
-    const _authContext = useContext(authContext)
-    const { token } = _authContext;
+    const supportContext = useContext(SupportContext)
+    const { getSupports, openAlert, closeModal } = supportContext;
 
     const [message, setMessage, messageLoader] = useMessage()
 
     const onSubmit = () => {
         messageLoader()
 
-        userDestroy(token, id)
-            .then(response => {
-                setData(old => deleteInArrayData(old, id))
-                openAlert()
-                closeModal()
+        supportDestroy(token, id)
+            .then((_) => {
+                getSupports && getSupports()
+                openAlert && openAlert()
+                closeModal && closeModal()
             })
             .catch((error) => {
                 const { response } = error;

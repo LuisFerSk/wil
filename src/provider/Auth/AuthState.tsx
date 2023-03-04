@@ -1,45 +1,28 @@
+import { useState, useEffect, createContext } from 'react'
+
 import { verifyToken } from 'services/auth'
 import { useLocalStorage } from 'hooks'
 import { ProviderProps } from 'interfaces'
-import { useState, useEffect } from 'react'
-import { createContext } from 'react'
 import { serializeToken } from 'utils'
+import { VerifyTokenResponse, SignInResponse } from 'services/models'
 
 const initToken = ''
 
-interface UserApiInterface {
-    username: string
-    role: string
-}
-
-interface loginProps {
-    status: string,
-    message: string
-    info: UserApiInterface
-    token: string
-}
-
-const initialStateAuthState = {
-    user: undefined,
-    token: initToken,
-    login: () => { },
-    logout: () => { },
-    getUser: () => { return undefined },
-}
-
 interface AuthContextProps {
-    user: UserApiInterface | undefined | null
+    user?: VerifyTokenResponse | null
     token: string
-    login: (data: loginProps) => void
-    logout: () => void
+    login?: (data: SignInResponse) => void
+    logout?: VoidFunction
 }
 
-export const authContext = createContext<AuthContextProps>(initialStateAuthState)
+export const AuthContext = createContext<AuthContextProps>({
+    token: initToken,
+})
 
 export default function AuthState(props: ProviderProps) {
     const { children } = props;
 
-    const [user, setUser] = useState<UserApiInterface | undefined | null>()
+    const [user, setUser] = useState<VerifyTokenResponse | null>()
 
     const [token, setToken] = useLocalStorage('token', initToken)
 
@@ -49,19 +32,19 @@ export default function AuthState(props: ProviderProps) {
         setToken(initToken)
     }
 
-    function login(data: loginProps) {
+    function login(data: SignInResponse) {
         setToken(data.token)
     }
 
     useEffect(() => {
-        if (typeof token === 'string' && token.length > 0) {
+        if (token) {
             const _serializedToken = serializeToken(token)
 
             setSerializedToken(_serializedToken)
 
             verifyToken(_serializedToken)
-                .then(({ data }) => {
-                    setUser(data.info)
+                .then((response) => {
+                    setUser(response.data)
                 })
                 .catch(error => {
                     console.log(error)
@@ -73,7 +56,7 @@ export default function AuthState(props: ProviderProps) {
     }, [token])
 
     return (
-        <authContext.Provider
+        <AuthContext.Provider
             value={{
                 user,
                 token: serializedToken,
@@ -82,6 +65,6 @@ export default function AuthState(props: ProviderProps) {
             }}
         >
             {children}
-        </authContext.Provider>
+        </AuthContext.Provider>
     )
 }

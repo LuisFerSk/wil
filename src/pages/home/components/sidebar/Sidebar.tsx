@@ -5,8 +5,8 @@ import { Box, Drawer, useTheme } from '@mui/material'
 import { Logo, Scrollbar, NavSection, MHidden } from 'components'
 import { sidebarConfigSupport, sidebarConfigAdministrator } from './SidebarConfig'
 import { DRAWER_WIDTH, RootStyleSidebar } from './style'
-import { authContext } from 'provider/Auth'
-import { roles } from 'constants'
+import { AuthContext } from 'provider/Auth'
+import { ROLES } from 'constants'
 
 interface Props {
     isOpenSidebar: boolean
@@ -18,17 +18,17 @@ export default function Sidebar(props: Props) {
 
     const { pathname } = useLocation()
 
-    const _authContext = useContext(authContext)
-    const { user } = _authContext;
+    const authContext = useContext(AuthContext)
+    const { user } = authContext;
 
     const theme = useTheme()
 
     function getNavConfig() {
-        if (user?.role === roles.administrator) {
+        if (user?.role === ROLES.administrator) {
             return sidebarConfigAdministrator
         }
 
-        if (user?.role === roles.support) {
+        if (user?.role === ROLES.support) {
             return sidebarConfigSupport
         }
 

@@ -1,4 +1,4 @@
-import { EntityInterface, IdType } from "interfaces"
+import { IdType } from "interfaces"
 import { filter } from "lodash"
 
 export function indexTab(index: number) {
@@ -18,6 +18,8 @@ export function addIfNotExist<T>(array: T[], data: T) {
     }
     return addInArray(array, data)
 }
+
+interface EntityInterface { id: IdType }
 
 export function deleteInArrayData<T extends EntityInterface>(array: T[], id: IdType) {
     return filter(array, row => row.id !== id)
@@ -67,8 +69,8 @@ export function formatDateApi(date: string, daysSetting: number = 1) {
     return dateFormat.toLocaleDateString()
 }
 
-export function dataURLtoBlob(dataurl: string) {
-    const arr = dataurl.split(',')
+export function dataURLtoBlob(dataUrl: string) {
+    const arr = dataUrl.split(',')
 
     const arrReg = arr[0].match(/:(.*?);/)
 

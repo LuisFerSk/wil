@@ -90,7 +90,6 @@ export interface CustomShadowsInterface {
 export interface DataBaseProps {
     created_at: Date
     updated_at: Date
-    deleted_at: Date | null
 }
 
 export type IdType = number | string;
@@ -107,42 +106,9 @@ export enum typeEquipment {
     'Tablet iOS' = 'Tablet iOS',
 }
 
-export interface EquipmentBaseProps {
-    type: keyof typeof typeEquipment
-    model: string,
-    serial: string,
-    monitor_serial: string | null | undefined,
-    monitor_license_plate: string | null | undefined,
-    license_plate: string | null | undefined,
-    area: keyof typeof flat,
-    user: string,
-    cc: string,
-    phone: string | null | undefined,
-    campus: string,
-}
-
-export interface EquipmentProps extends EquipmentBaseProps {
-    brand: string,
-}
-
 export interface BrandInterface extends EntityInterface {
     id: IdType
     name: string
-}
-
-export interface EquipmentInterface extends EntityInterface, EquipmentBaseProps {
-    brand: BrandInterface
-}
-
-export interface TablePropsInterface {
-    id?: string
-    createTableCells: (row: any) => JSX.Element
-    headLabel: HeadLabelInterface[]
-    data: Record<string, any>[]
-    selectBy: string
-    searchBy: string
-    placeholder?: string
-    searchByOther?: string
 }
 
 export interface TableDataInterface<T> {
@@ -228,7 +194,6 @@ export interface MaintenanceProps extends MaintenanceBaseProps, MaintenanceInitV
 export type BooleanTypeApi = 1 | 0
 
 export interface MaintenanceInterface extends EntityInterface, MaintenanceBaseProps {
-    equipment: EquipmentInterface
     ignition_station: BooleanTypeApi | null
     operating_system_boot: BooleanTypeApi | null
     HDD: BooleanTypeApi | null
@@ -282,49 +247,4 @@ export interface BarCharData {
     type: string;
     fill: string;
     data: number[];
-}
-
-export enum typePrinterScanner {
-    'Impresora' = 'Impresora',
-    'Impresora sencilla' = 'Imp Sencilla',
-    'Impresora multifuncional a color' = 'Imp Multifuncional Color',
-    'Impresora multifuncional BN' = 'Imp Multifuncional BN',
-    'Scanner' = 'Scanner'
-}
-
-export enum flat {
-    "DIRECCIÓN GENERAL" = 2,
-    "SECRETARIA GENERAL" = 2,
-    "OFICINA JURÍDICA" = 2,
-    "OFICINA CONTROL INTERNO" = 2,
-    "ASESOR DIRECCIÓN GENERAL" = 2,
-    "OFICINA DE SISTEMAS Y TICS" = 2,
-    "SUBDIRECCIÓN GENERAL ÁREA DE PLANEACIÓN" = 2,
-    "SUBDIRECCIÓN GENERAL ÁREA DE GESTIÓN AMBIENTAL" = 2,
-    "SUBDIRECCIÓN GENERAL ÁREA ADMINISTRATIVA Y FINANCIERA" = 1,
-    "GESTIÓN FINANCIERA" = 1,
-    "CONTABILIDAD" = 1,
-    "TESORERIA" = 1,
-    "PAGADURIA" = 1,
-    "VENTANILLA ÚNICA" = 1
-}
-
-export interface PrinterScannerBaseProps {
-    type: keyof typeof typePrinterScanner,
-    model: string,
-    serial: string,
-    license_plate: string | null | undefined,
-    area: keyof typeof flat,
-    user: string,
-    cc: string,
-    phone: string | null | undefined,
-    campus: string,
-}
-
-export interface PrinterScannerProps extends PrinterScannerBaseProps {
-    brand: string
-}
-
-export interface PrinterScannerInterface extends EntityInterface, PrinterScannerBaseProps {
-    brand: BrandInterface
 }

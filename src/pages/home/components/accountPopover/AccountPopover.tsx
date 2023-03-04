@@ -5,7 +5,7 @@ import { Button, Box, MenuItem, Typography, Grid } from '@mui/material'
 import formTextboxPassword from '@iconify/icons-mdi/form-textbox-password';
 
 import { MenuPopover } from 'components'
-import { authContext } from 'provider/Auth';
+import { AuthContext } from 'provider/Auth';
 
 const MENU_OPTIONS = [
     {
@@ -24,8 +24,8 @@ export default function AccountPopover(props: Props) {
     const anchorRef = useRef(null)
     const [open, setOpen] = useState(false)
 
-    const _authContext = useContext(authContext)
-    const { user, logout } = _authContext;
+    const authContext = useContext(AuthContext)
+    const { user, logout } = authContext;
 
     function handleOpen() {
         setOpen(true)
@@ -86,7 +86,7 @@ export default function AccountPopover(props: Props) {
                         color='inherit'
                         variant='outlined'
                         onClick={() => {
-                            logout()
+                            logout && logout()
                         }}
                     >
                         Cerrar sesión

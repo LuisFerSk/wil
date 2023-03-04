@@ -1,11 +1,12 @@
-import { Home, Loader } from "pages";
-import { authContext } from "provider/Auth";
 import { useContext } from "react";
 import { Navigate } from "react-router-dom";
 
+import { Home, Loader } from "pages";
+import { AuthContext } from "provider/Auth";
+
 export default function AuthGuard() {
-    const _authContext = useContext(authContext)
-    const { user } = _authContext;
+    const authContext = useContext(AuthContext)
+    const { user } = authContext;
 
     if (user === undefined) {
         return <Loader />

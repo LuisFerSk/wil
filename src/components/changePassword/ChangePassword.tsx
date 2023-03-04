@@ -1,39 +1,35 @@
+import { useContext } from "react";
 import { Button, Grid } from "@mui/material";
+import { useFormik } from "formik";
+
 import { changeMePassword, changePassword } from "services/support";
 import { Form, TextFieldPassword } from "components";
-import { useFormik } from "formik";
 import { useFormikFiledProps, useMessage } from "hooks";
-import { IdType } from "interfaces";
-import { authContext } from "provider/Auth";
-import { useContext } from "react";
+import { AuthContext } from "provider/Auth";
 import { changePasswordInitialValues, changePasswordSchema } from "./schema";
+import { ChangePasswordRequest } from "services/models";
 
 interface Props {
-    id?: IdType
+    id?: number
 }
 
 export default function ChangePassword(props: Props) {
     const { id } = props;
 
-    const [message, setMessage, messageLoader, resetMessage] = useMessage()
+    const [message, setMessage, messageLoader] = useMessage()
 
-    const _authContext = useContext(authContext)
-    const { token } = _authContext;
+    const authContext = useContext(AuthContext)
+    const { token } = authContext;
 
     const formik = useFormik({
         initialValues: changePasswordInitialValues,
         validationSchema: changePasswordSchema,
-        onSubmit: (data, { resetForm }) => {
+        onSubmit: (data) => {
             messageLoader()
 
-            const propsChangeMePassword = {
-                token,
-                password: data.password,
-            }
-
             if (!id) {
-                changeMePassword(propsChangeMePassword)
-                    .then((response) => {
+                changeMePassword(token, data.password)
+                    .then((_) => {
                         setMessage("success", 'Se ha cambiado la contraseña exitosamente.')
                     })
                     .catch(error => {
@@ -50,11 +46,11 @@ export default function ChangePassword(props: Props) {
 
             const propsChangePassword = {
                 id,
-                ...propsChangeMePassword,
+                password: data.password,
             }
 
-            changePassword(propsChangePassword)
-                .then((response) => {
+            changePassword(token, new ChangePasswordRequest(propsChangePassword))
+                .then((_) => {
                     setMessage("success", 'Se ha cambiado la contraseña exitosamente.')
                 })
                 .catch(error => {

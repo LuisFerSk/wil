@@ -25,7 +25,7 @@ const MainStyle = styled('div')(({ theme }) => ({
 }))
 
 export default function Home() {
-    const [open, setOpen] = useState<boolean>(false)
+    const [open, setOpen] = useState(false)
 
     return (
         <RootStyle>

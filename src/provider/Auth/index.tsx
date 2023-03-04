@@ -1,1 +1,1 @@
-export { default as AuthState, authContext } from './AuthState'
+export { default as AuthState, AuthContext } from './AuthState'

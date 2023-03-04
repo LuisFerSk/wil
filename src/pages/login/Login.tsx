@@ -2,27 +2,28 @@ import { useFormik } from 'formik'
 import { useContext } from 'react'
 import { Button, Grid, Paper, TextField, Typography, useTheme } from '@mui/material'
 
-import { loginInitialValues, loginSchema } from './schema'
+import { loginSchema } from './schema'
 import { Form, Logo, TextFieldPassword } from 'components'
 import { useFormikFiledProps, useMessage } from 'hooks'
 import { login } from 'services/auth'
-import { authContext } from 'provider/Auth'
+import { AuthContext } from 'provider/Auth'
+import { SignInRequest } from 'services/models'
 
 export default function Login() {
-	const _authContext = useContext(authContext)
+	const authContext = useContext(AuthContext)
 
 	const theme = useTheme()
 
 	const [mensaje, setMensaje, mensajeLoader] = useMessage()
 
 	const formik = useFormik({
-		initialValues: loginInitialValues,
+		initialValues: new SignInRequest(),
 		validationSchema: loginSchema,
 		onSubmit: (data) => {
 			mensajeLoader()
-			login(data)
+			login(new SignInRequest(data))
 				.then((result) => {
-					_authContext.login(result.data)
+					authContext.login && authContext.login(result.data)
 				})
 				.catch((err) => {
 					setMensaje('error', err.response.data)
@@ -89,7 +90,6 @@ export default function Login() {
 						</Button>
 					</Grid>
 				</Grid>
-
 			</Grid >
 		</Form >
 	)

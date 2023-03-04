@@ -1,36 +1,33 @@
 import { useContext } from "react";
 import { useFormik } from "formik";
-
 import { Button, Grid, TextField } from "@mui/material";
+
 import { Form, TextFieldPassword } from "components";
 import { useFormikFiledProps, useMessage } from "hooks";
-import { addInArray } from "utils";
-import { SupportInterface } from "interfaces";
-import { authContext } from "provider/Auth";
+import { AuthContext } from "provider/Auth";
 import { supportCreate } from "services/support";
-import { supportInitialValues, supportSchema } from "pages/support/schema";
+import { supportSchema } from "pages/support/schema";
+import { SupportCreateRequest } from "services/models";
+import { SupportContext } from "pages/support/context";
 
-interface Props {
-    setData: React.Dispatch<React.SetStateAction<SupportInterface[]>>
-}
+export default function SupportRegister() {
+    const authContext = useContext(AuthContext)
+    const { token } = authContext;
 
-export default function SupportRegister(props: Props) {
-    const { setData } = props;
-
-    const _authContext = useContext(authContext)
-    const { token } = _authContext;
+    const supportContext = useContext(SupportContext)
+    const { getSupports } = supportContext;
 
     const [message, setMessage, messageLoader] = useMessage()
 
     const formik = useFormik({
-        initialValues: supportInitialValues,
+        initialValues: new SupportCreateRequest(),
         validationSchema: supportSchema,
         onSubmit: (data, { resetForm }) => {
             messageLoader()
 
-            supportCreate(token, data)
-                .then((response) => {
-                    setData((old) => addInArray(old, response.data.info))
+            supportCreate(token, new SupportCreateRequest(data))
+                .then((_) => {
+                    getSupports && getSupports()
                     resetForm()
                     setMessage("success", 'Se ha guardado correctamente el usuario.')
                 })

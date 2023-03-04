@@ -1,21 +1,51 @@
-import { Grid, Container, Typography } from '@mui/material';
+import { Grid, Container, Typography, Skeleton } from '@mui/material';
+import { useContext, useEffect, useState } from 'react';
+
 import { maintenanceFindMadePerDay } from 'services/maintenance';
-
-import { authContext } from 'provider/Auth';
-import { useContext } from 'react';
-import { useGetQueryApi } from 'hooks';
+import { AuthContext } from 'provider/Auth';
 import { BarChar } from 'components';
-
-interface dataInterface {
-  date: string
-  count: number
-}
+import { MaintenanceFindMadePerDayBloc, MaintenanceFindMadePerDayBlocFailure, MaintenanceFindMadePerDayBlocLoading, MaintenanceFindMadePerDayBlocSuccess } from 'bloc';
 
 export default function Dashboard() {
-  const _authContext = useContext(authContext)
-  const { token } = _authContext;
+  const authContext = useContext(AuthContext)
+  const { token } = authContext;
 
-  const [data] = useGetQueryApi<dataInterface[]>(maintenanceFindMadePerDay(token), [])
+  const [bloc, setBloc] = useState<MaintenanceFindMadePerDayBloc>(new MaintenanceFindMadePerDayBlocLoading())
+
+  function charRender() {
+    if (bloc instanceof MaintenanceFindMadePerDayBlocSuccess) {
+      return (
+        <BarChar
+          title="Mantenimientos realizados"
+          chartLabels={bloc.state.map(row => row.date)}
+          suffix='realizados'
+          chartData={[
+            {
+              name: 'Mantenimientos',
+              type: 'area',
+              fill: 'gradient',
+              data: bloc.state.map(row => row.count),
+            },
+          ]}
+        />
+      )
+    }
+
+    if (bloc instanceof MaintenanceFindMadePerDayBlocLoading) {
+      return <Skeleton animation="wave" variant="rounded" height={380} />
+    }
+
+    return <>Ha ocurrido un error al consultar las estadísticas</>
+  }
+
+  useEffect(() => {
+    maintenanceFindMadePerDay(token)
+      .then((response) => {
+        setBloc(new MaintenanceFindMadePerDayBlocSuccess(response.data))
+      }).catch((error) => {
+        setBloc(new MaintenanceFindMadePerDayBlocFailure(error))
+      })
+  }, [])
 
   return (
     <>
@@ -25,19 +55,7 @@ export default function Dashboard() {
         </Typography>
         <Grid container spacing={3}>
           <Grid item xs={12}>
-            <BarChar
-              title="Mantenimientos realizados"
-              chartLabels={data.map(row => row.date)}
-              suffix='realizados'
-              chartData={[
-                {
-                  name: 'Mantenimientos',
-                  type: 'area',
-                  fill: 'gradient',
-                  data: data.map(row => row.count),
-                },
-              ]}
-            />
+            {charRender()}
           </Grid>
         </Grid>
       </Container>
