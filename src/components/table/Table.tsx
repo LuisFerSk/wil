@@ -17,20 +17,19 @@ import TableListToolbar from './TableListToolbar'
 import { getComparator, applySortFilter } from './TableFunctions'
 import { GetComparatorOrderType, HeadLabelInterface } from 'interfaces'
 
-interface Props {
+interface Props<T extends Record<string, any>> {
     id?: string
-    createTableCells: (row: any) => JSX.Element
-    headLabel: HeadLabelInterface[]
-    data: Record<string, any>[]
-    selectBy: string
-    searchBy: string
+    createTableCells: (row: T) => JSX.Element
+    headLabel: HeadLabelInterface<T>[]
+    data: T[]
+    selectBy: keyof T
+    searchBy: keyof T
+    optionsSearchBy?: []
     placeholder?: string
-    searchByOther?: string
 }
 
-
-export default function Table(props: Props) {
-    const { headLabel, data, selectBy, createTableCells, searchBy, placeholder, searchByOther } = props
+export default function Table<T extends Record<string, any>>(props: Props<T>) {
+    const { headLabel, data, selectBy, createTableCells, searchBy, placeholder } = props
 
     const [page, setPage] = useState(0)
     const [filter, setFilter] = useState('')
@@ -44,7 +43,7 @@ export default function Table(props: Props) {
     const comparator = getComparator(order, orderBy);
     const query = filter;
 
-    const filtered = applySortFilter({ array, comparator, query, searchBy, searchByOther })
+    const filtered = applySortFilter({ array, comparator, query, searchBy })
 
     return (
         <Card>

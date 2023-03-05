@@ -4,6 +4,7 @@ import { QUESTIONS_OPTIONS } from 'constants';
 
 export const maintenanceSchema = object().shape({
     equipmentId: number()
+        .transform((value) => (isNaN(value) ? undefined : value))
         .required('El equipo es requerido.'),
     date: date()
         .test('len', 'La fecha no puede ser mayor a la de hoy.', value => {

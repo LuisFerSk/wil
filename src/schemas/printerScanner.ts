@@ -22,6 +22,7 @@ export const printerScannerSchema = object().shape({
         .max(25, 'El numero serial del equipo debe tener entre 3 a 25 caracteres.')
         .required('El numero serial del equipo es requerido.'),
     licensePlate: number()
+        .transform((value) => (isNaN(value) ? undefined : value))
         .nullable()
         .positive('La placa del equipo debe contener solo números.')
         .integer('La placa del equipo debe contener solo números.')

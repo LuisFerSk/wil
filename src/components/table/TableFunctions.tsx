@@ -34,13 +34,13 @@ export function mappingMenuItem(options: TableOptionsInterface[]) {
 
 type descendingComparatorReturn = 1 | -1 | 0;
 
-interface DescendingComparatorInterface {
-    a: Record<any, any>,
-    b: Record<any, any>,
-    orderBy: string
+interface DescendingComparatorInterface<T extends Record<string, any>> {
+    a: T,
+    b: T,
+    orderBy: keyof T
 }
 
-export function descendingComparator(props: DescendingComparatorInterface): descendingComparatorReturn {
+export function descendingComparator<T extends Record<string, any>>(props: DescendingComparatorInterface<T>): descendingComparatorReturn {
     const { a, b, orderBy } = props
 
     if (b[orderBy] < a[orderBy]) {
@@ -54,26 +54,25 @@ export function descendingComparator(props: DescendingComparatorInterface): desc
     return 0;
 }
 
-export function getComparator(order: GetComparatorOrderType, orderBy: string) {
+export function getComparator<T extends Record<string, any>>(order: GetComparatorOrderType, orderBy: keyof T) {
     if (order === 'desc') {
-        return (a: Record<string, any>, b: Record<string, any>) => descendingComparator({ a, b, orderBy })
+        return (a: T, b: T) => descendingComparator({ a, b, orderBy })
     }
 
-    return (a: Record<string, any>, b: Record<string, any>) => -descendingComparator({ a, b, orderBy })
+    return (a: T, b: T) => -descendingComparator({ a, b, orderBy })
 }
 
-interface ApplySortFilterInterface {
-    array: Record<string, any>[]
-    comparator: (a: Record<string, any>, b: Record<string, any>) => number
+interface ApplySortFilterInterface<T extends Record<string, any>> {
+    array: T[]
+    comparator: (a: T, b: T) => number
     query: string
-    searchBy: string
-    searchByOther?: string
+    searchBy: keyof T
 }
 
-export function applySortFilter(props: ApplySortFilterInterface) {
-    const { array, comparator, query, searchBy, searchByOther } = props;
+export function applySortFilter<T extends Record<string, any>>(props: ApplySortFilterInterface<T>) {
+    const { array, comparator, query, searchBy } = props;
 
-    const stabilizedThis = array.map((element, index) => [element, index] as [Record<string, any>, number])
+    const stabilizedThis = array.map((element, index) => [element, index] as [T, number])
 
     stabilizedThis.sort((a, b) => {
         const order = comparator(a[0], b[0])
@@ -84,21 +83,7 @@ export function applySortFilter(props: ApplySortFilterInterface) {
     })
 
     if (query) {
-        return filter(array, (header) => {
-            if (header[searchBy] && searchByOther && header[searchByOther]) {
-                return header[searchByOther].toString().toLowerCase().indexOf(query.toLowerCase()) !== -1 || header[searchBy].toString().toLowerCase().indexOf(query.toLowerCase()) !== -1
-            }
-
-            if (header[searchBy]) {
-                return header[searchBy].toString().toLowerCase().indexOf(query.toLowerCase()) !== -1
-            }
-
-            if (searchByOther && header[searchByOther]) {
-                return header[searchByOther].toString().toLowerCase().indexOf(query.toLowerCase()) !== -1
-            }
-
-            return -1
-        })
+        return filter(array, (header) => header[searchBy].toString().toLowerCase().indexOf(query.toLowerCase()) !== -1)
     }
 
     return stabilizedThis.map((element) => element[0])

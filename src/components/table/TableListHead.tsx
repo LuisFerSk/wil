@@ -4,17 +4,17 @@ import { GetComparatorOrderType, HeadLabelInterface } from 'interfaces'
 
 type MouseEventType = React.MouseEvent<HTMLAnchorElement, MouseEvent>
 
-interface Props {
+interface Props<T extends Record<string, any>> {
     order: GetComparatorOrderType
-    orderBy: string
-    headLabel: HeadLabelInterface[]
-    onRequestSort: (event: MouseEventType, property: string) => void
+    orderBy: keyof T
+    headLabel: HeadLabelInterface<T>[]
+    onRequestSort: (event: MouseEventType, property: keyof T) => void
 }
 
-export default function TableListHead(props: Props) {
+export default function TableListHead<T extends Record<string, any>>(props: Props<T>) {
     const { order, orderBy, headLabel, onRequestSort, } = props;
 
-    function createSortHandler(property: string) {
+    function createSortHandler(property: keyof T) {
         return (event: MouseEventType) => { onRequestSort(event, property) }
     }
 
@@ -27,7 +27,7 @@ export default function TableListHead(props: Props) {
             <TableRow>
                 {headLabel.map((headCell) => (
                     <TableCell padding={headCell.padding}
-                        key={headCell.id}
+                        key={headCell.id as string}
                         align={headCell.alignRight ? 'right' : 'left'}
                         sortDirection={orderBy === headCell.id ? order : false}
                     >

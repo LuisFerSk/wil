@@ -139,8 +139,8 @@ export interface ProviderProps {
 
 export type StateMessage = JSX.Element | null;
 
-export interface HeadLabelInterface {
-    id: string,
+export interface HeadLabelInterface<T> {
+    id: keyof T,
     label: string,
     alignRight?: boolean,
     padding?: "checkbox" | "none" | "normal",

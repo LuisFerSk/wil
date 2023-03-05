@@ -9,7 +9,7 @@ import { equipmentFind } from "services/equipment";
 import { AuthContext } from "provider/Auth";
 import { EquipmentFindBloc, EquipmentFindBlocFailure, EquipmentFindBlocLoading, EquipmentFindBlocSuccess } from "bloc";
 import { Loader } from "pages";
-import { FLAT } from "constants";
+import { FLAT, TYPE_EQUIPMENT } from "constants";
 import { TryAgain } from "components";
 
 export default function ViewEquipmentPage() {
@@ -71,7 +71,7 @@ export default function ViewEquipmentPage() {
                                 Tipo de equipo
                             </Typography>
                             <Typography variant="body2" >
-                                {typeEquipment[data.type as keyof typeof typeEquipment]}
+                                {TYPE_EQUIPMENT[data.type as keyof typeof TYPE_EQUIPMENT]}
                             </Typography>
                         </Grid>
                         <Grid item xs={12}>

@@ -6,20 +6,11 @@ import { EquipmentFindAllBlocSuccess } from "bloc"
 import { mappingMenuItem, Table, TableMoreMenu } from "components"
 import { EquipmentFindResponse } from "services/models"
 import { STATE_BOOLEAN } from "constants";
+import { HeadLabelInterface } from "interfaces";
 
 interface Props {
     bloc: EquipmentFindAllBlocSuccess
 }
-
-const headLabel = [
-    { id: 'licensePlate', label: 'Placa', alignRight: false },
-    { id: 'serial', label: 'Serial', alignRight: false },
-    { id: 'type', label: 'Tipo', alignRight: false },
-    { id: 'brand', label: 'Marca', alignRight: false },
-    { id: 'model', label: 'Modelo', alignRight: false },
-    { id: 'state', label: 'Estado', alignRight: false },
-    { id: '', label: '' }
-]
 
 export default function TableSupportEquipment(props: Props) {
     const { bloc } = props;
@@ -69,8 +60,16 @@ export default function TableSupportEquipment(props: Props) {
             data={bloc.state}
             selectBy='licensePlate'
             searchBy='licensePlate'
-            searchByOther='serial'
-            placeholder='Buscar por placa o serial'
+            placeholder='Buscar equipo'
         />
     )
 }
+
+const headLabel:HeadLabelInterface<EquipmentFindResponse>[] = [
+    { id: 'licensePlate', label: 'Placa', alignRight: false },
+    { id: 'serial', label: 'Serial', alignRight: false },
+    { id: 'type', label: 'Tipo', alignRight: false },
+    { id: 'brand', label: 'Marca', alignRight: false },
+    { id: 'model', label: 'Modelo', alignRight: false },
+    { id: 'state', label: 'Estado', alignRight: false },
+]

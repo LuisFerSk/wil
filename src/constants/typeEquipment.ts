@@ -20,3 +20,11 @@ export const TYPES_EQUIPMENTS_SELECT = Object.freeze([
         value: 'Tablet iOS'
     }
 ])
+
+export enum TYPE_EQUIPMENT {
+    'All in one' = 'Todo en uno',
+    'Desktop' = 'Escritorio',
+    'Laptop' = 'Laptop',
+    'Workstation' = 'Estación de trabajo',
+    'Tablet iOS' = 'Tablet iOS',
+}

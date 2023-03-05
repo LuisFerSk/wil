@@ -1,9 +1,9 @@
-import { useContext, useEffect, useId, useState } from "react";
-import { Box, Button, Checkbox, FormControlLabel, FormGroup, Grid, MenuItem, Radio, RadioGroup, TextFieldProps, Typography, useTheme, TextField } from "@mui/material";
+import { useContext, useEffect, useState } from "react";
+import { Box, Button, Checkbox, FormControlLabel, Autocomplete as AutocompleteMaterial, FormGroup, Grid, Radio, RadioGroup, Typography, useTheme, TextField } from "@mui/material";
 import { useFormik } from "formik";
 import ReactSignatureCanvas from "react-signature-canvas";
 
-import { Form, Select } from "components";
+import { Form } from "components";
 import { useFormikFiledProps, useMessage } from "hooks";
 import { dataURLtoBlob } from "utils";
 import { AuthContext } from "provider/Auth";
@@ -14,7 +14,8 @@ import { MaintenanceCreateRequest } from "services/models";
 import { MaintenanceContext } from "pages/maintenance/context";
 import { EquipmentFindAllBloc, EquipmentFindAllBlocFailure, EquipmentFindAllBlocLoading, EquipmentFindAllBlocSuccess } from "bloc";
 import { equipmentFindAll } from "services/equipment";
-import { QUESTIONS_OPTIONS } from "constants";
+import { QUESTIONS_OPTIONS, TYPE_EQUIPMENT } from "constants";
+import { AutoCompleteProps } from "components/autocomplete/Autocomplete";
 
 let sigPad: ReactSignatureCanvas | null = null;
 
@@ -77,10 +78,13 @@ export default function RegisterMaintenance() {
                 </Grid>
                 <Grid item xs={12}>
                     <SelectEquipment
-                        {...getFieldFormikProps('equipmentId')}
-                        fullWidth
-                        variant='outlined'
-                        label='Equipo'
+                        setFieldValue={formik.setFieldValue}
+                        textFieldProps={{
+                            ...getFieldFormikProps('equipmentId'),
+                            fullWidth: true,
+                            variant: 'outlined',
+                            label: 'Equipo',
+                        }}
                     />
                 </Grid>
                 <Grid item xs={12} sm={4}>
@@ -285,7 +289,11 @@ export default function RegisterMaintenance() {
     )
 }
 
-function SelectEquipment(props: TextFieldProps) {
+interface SelectEquipmentProps<T> extends Omit<AutoCompleteProps<T>, 'options' | 'fieldValue'> { }
+
+function SelectEquipment<T>(props: SelectEquipmentProps<T>) {
+    const { textFieldProps, setFieldValue } = props;
+
     const [bloc, setBloc] = useState<EquipmentFindAllBloc>(new EquipmentFindAllBlocLoading())
 
     const authContext = useContext(AuthContext)
@@ -304,8 +312,9 @@ function SelectEquipment(props: TextFieldProps) {
 
     if (bloc instanceof EquipmentFindAllBlocSuccess) {
         return <_SelectEquipment
-            textFieldProps={props}
+            textFieldProps={textFieldProps}
             bloc={bloc}
+            setFieldValue={setFieldValue}
         />
 
     }
@@ -313,7 +322,7 @@ function SelectEquipment(props: TextFieldProps) {
     if (bloc instanceof EquipmentFindAllBlocLoading) {
         return (
             <TextField
-                {...props}
+                {...textFieldProps}
                 value="Cargando equipos..."
                 disabled
             />
@@ -332,23 +341,41 @@ function SelectEquipment(props: TextFieldProps) {
 
 }
 
-interface Props {
+interface _SelectEquipmentProps<T> extends Omit<AutoCompleteProps<T>, 'options' | 'fieldValue'> {
     bloc: EquipmentFindAllBlocSuccess
-    textFieldProps: TextFieldProps
 }
 
-function _SelectEquipment(props: Props) {
-    const { bloc, textFieldProps } = props;
+function _SelectEquipment<T>(props: _SelectEquipmentProps<T>) {
+    const { bloc, textFieldProps, setFieldValue } = props;
+
+    const { name = '' } = textFieldProps;
 
     return (
-        <Select
-            {...textFieldProps}
-        >
-            {bloc.state?.map((equipment, key) =>
-                <MenuItem key={`${useId()}-${key}`} value={equipment.id}>
-                    {`${equipment.type} - ${equipment.brand.name} ${equipment.model} - serial: ${equipment.serial}`}
-                </MenuItem>
+        <AutocompleteMaterial
+            handleHomeEndKeys
+            options={bloc.state}
+            onChange={(event, value) => {
+                if (!value) {
+                    setFieldValue(name, '')
+                    return;
+                }
+
+                setFieldValue(name, value.id)
+            }}
+            getOptionLabel={(option) => option.serial}
+            renderOption={(props, option) => {
+                return (
+                    <li {...props}>{option.serial} ({TYPE_EQUIPMENT[option.type as keyof typeof TYPE_EQUIPMENT]} {option.brand.name} {option.model})</li>
+                )
+            }}
+            noOptionsText="No se encontró ningún equipo con ese serial"
+            renderInput={(params) => (
+                <TextField
+                    {...params}
+                    {...textFieldProps}
+                    label="Serial del equipo"
+                />
             )}
-        </Select>
+        />
     )
 }

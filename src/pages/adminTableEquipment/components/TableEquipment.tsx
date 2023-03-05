@@ -7,35 +7,34 @@ import { Chip, TableCell } from '@mui/material'
 
 import { EquipmentFindResponse } from 'services/models'
 import { mappingMenuItem, Table, TableMoreMenu } from 'components'
-import { typeEquipment } from 'interfaces'
-import Loader from 'pages/loader/Loader'
+import { HeadLabelInterface } from 'interfaces'
+import { Loader } from 'pages'
 import { EquipmentFindAllBlocSuccess } from 'bloc'
 import { AdminTableContext } from '../context'
-import { STATE_BOOLEAN } from 'constants'
+import { STATE_BOOLEAN, TYPE_EQUIPMENT } from 'constants'
 
 interface Props {
     bloc: EquipmentFindAllBlocSuccess
 }
 
-const headLabel = [
+const headLabel: HeadLabelInterface<EquipmentFindResponse>[] = [
     { id: 'licensePlate', label: 'Placa', alignRight: false },
     { id: 'serial', label: 'Serial', alignRight: false },
     { id: 'type', label: 'Tipo', alignRight: false },
     { id: 'brand', label: 'Marca', alignRight: false },
     { id: 'model', label: 'Modelo', alignRight: false },
     { id: 'state', label: 'Estado', alignRight: false },
-    { id: '', label: '' }
 ]
 
 export default function TableEquipment(props: Props) {
     const { bloc } = props;
 
+    const adminTableContext = useContext(AdminTableContext)
+    const { setTitleModal, setContentModal, openModal, closeModal, openAlert } = adminTableContext;
+
     const navigate = useNavigate()
 
     const EquipmentDelete = lazy(() => import('./DeleteEquipment'))
-
-    const adminTableContext = useContext(AdminTableContext)
-    const { setTitleModal, setContentModal, openModal, closeModal, openAlert } = adminTableContext;
 
     function createTableCells(row: EquipmentFindResponse) {
         const { id, serial, type, brand, model, licensePlate, state } = row;
@@ -78,7 +77,7 @@ export default function TableEquipment(props: Props) {
             <>
                 <TableCell align='left'>{licensePlate || 'Sin placa'}</TableCell>
                 <TableCell align='left'>{serial}</TableCell>
-                <TableCell align='left'>{typeEquipment[type as keyof typeof typeEquipment]}</TableCell>
+                <TableCell align='left'>{TYPE_EQUIPMENT[type as keyof typeof TYPE_EQUIPMENT]}</TableCell>
                 <TableCell align='left'>{brand.name}</TableCell>
                 <TableCell align='left'>{model}</TableCell>
                 <TableCell align='left'>
@@ -104,8 +103,8 @@ export default function TableEquipment(props: Props) {
             data={bloc.state}
             selectBy='licensePlate'
             searchBy='licensePlate'
-            searchByOther='serial'
-            placeholder='Buscar por placa o serial'
+            optionsSearchBy={[]}
+            placeholder='Buscar equipo'
         />
     )
 }

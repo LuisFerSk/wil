@@ -9,15 +9,73 @@ import TableMoreMenu from 'components/table/TableMoreMenu'
 import { SupportContext } from 'pages/support/context';
 import { SupportFindAllBlocLoading, SupportFindAllBlocSuccess } from 'bloc';
 import { SupportFindResponse } from 'services/models';
-import Loader from 'pages/loader/Loader';
+import { Loader } from 'pages';
+import { HeadLabelInterface } from 'interfaces';
 
 export default function TableSupport() {
     const supportContext = useContext(SupportContext)
-    const { bloc, getSupports } = supportContext;
+    const { bloc, getSupports, setContentModal, setTitleModal, openModal } = supportContext;
+
+    const SupportDelete = lazy(() => import('../deleteSupport/DeleteSupport'))
+    const ChangePassword = lazy(() => import('components/changePassword/ChangePassword'))
+
+    function createTableCells(row: SupportFindResponse) {
+        const { id, username } = row;
+
+        const options = [
+            {
+                label: 'Cambiar contraseña',
+                icon: formTextboxPassword,
+                onClick: () => {
+                    setTitleModal && setTitleModal(`Cambiar contraseña de ${username}`)
+                    setContentModal && setContentModal(
+                        <ChangePassword id={id} />
+                    )
+                    openModal && openModal()
+                }
+            },
+            {
+                label: 'Eliminar',
+                icon: trash2Outline,
+                onClick: () => {
+                    setTitleModal && setTitleModal('Eliminar Soporte')
+                    setContentModal && setContentModal(
+                        <Suspense fallback={
+                            <Grid textAlign='center'>
+                                <CircularProgress color='success' />
+                            </Grid>
+                        }>
+                            <SupportDelete data={row} />
+                        </Suspense>
+
+                    )
+                    openModal && openModal()
+                }
+            },
+        ]
+
+        return (
+            <>
+                <TableCell align='left'>{username}</TableCell>
+                <TableCell padding='checkbox'>
+                    <TableMoreMenu>
+                        {mappingMenuItem(options)}
+                    </TableMoreMenu>
+                </TableCell>
+            </>
+        )
+    }
 
     if (bloc instanceof SupportFindAllBlocSuccess) {
         return (
-            <_TableSupport data={bloc.state} />
+            <Table
+                createTableCells={createTableCells}
+                headLabel={headLabel}
+                data={bloc.state}
+                selectBy='username'
+                searchBy='username'
+                placeholder='Buscar por nombre de usuario'
+            />
         )
     }
 
@@ -35,77 +93,6 @@ export default function TableSupport() {
     )
 }
 
-interface Props {
-    data: SupportFindResponse[]
-}
-
-function _TableSupport(props: Props) {
-    const headLabel = [
-        { id: 'username', label: 'Nombre de usuario', alignRight: false },
-        { id: '', label: '' }
-    ]
-
-    return (
-        <Table
-            createTableCells={createTableCells}
-            headLabel={headLabel}
-            data={props.data}
-            selectBy='username'
-            searchBy='username'
-            placeholder='Buscar por nombre de usuario'
-        />
-    )
-}
-
-function createTableCells(row: SupportFindResponse) {
-    const { id, username } = row;
-
-    const supportContext = useContext(SupportContext)
-    const { setContentModal, setTitleModal, openModal } = supportContext;
-
-    const SupportDelete = lazy(() => import('../deleteSupport/DeleteSupport'))
-    const ChangePassword = lazy(() => import('components/changePassword/ChangePassword'))
-
-    const options = [
-        {
-            label: 'Cambiar contraseña',
-            icon: formTextboxPassword,
-            onClick: () => {
-                setTitleModal && setTitleModal(`Cambiar contraseña de ${username}`)
-                setContentModal && setContentModal(
-                    <ChangePassword id={id} />
-                )
-                openModal && openModal()
-            }
-        },
-        {
-            label: 'Eliminar',
-            icon: trash2Outline,
-            onClick: () => {
-                setTitleModal && setTitleModal('Eliminar Soporte')
-                setContentModal && setContentModal(
-                    <Suspense fallback={
-                        <Grid textAlign='center'>
-                            <CircularProgress color='success' />
-                        </Grid>
-                    }>
-                        <SupportDelete data={row} />
-                    </Suspense>
-
-                )
-                openModal && openModal()
-            }
-        },
-    ]
-
-    return (
-        <>
-            <TableCell align='left'>{username}</TableCell>
-            <TableCell padding='checkbox'>
-                <TableMoreMenu>
-                    {mappingMenuItem(options)}
-                </TableMoreMenu>
-            </TableCell>
-        </>
-    )
-}
+const headLabel: HeadLabelInterface<SupportFindResponse>[] = [
+    { id: 'username', label: 'Nombre de usuario', alignRight: false },
+]

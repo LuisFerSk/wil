@@ -6,16 +6,7 @@ import { PrinterScannerFindAllBlocSuccess } from "bloc";
 import { mappingMenuItem, Table, TableMoreMenu } from "components";
 import { PrinterScannerFindResponse } from "services/models";
 import { STATE_BOOLEAN } from "constants";
-
-const headLabel = [
-    { id: 'license_plate', label: 'Placa', alignRight: false },
-    { id: 'serial', label: 'Serial', alignRight: false },
-    { id: 'type', label: 'Tipo', alignRight: false },
-    { id: 'brand', label: 'Marca', alignRight: false },
-    { id: 'model', label: 'Modelo', alignRight: false },
-    { id: 'active', label: 'Estado', alignRight: false },
-    { id: '', label: '' }
-]
+import { HeadLabelInterface } from "interfaces";
 
 interface Props {
     bloc: PrinterScannerFindAllBlocSuccess
@@ -69,8 +60,16 @@ export default function TableSupportPrinterScanner(props: Props) {
             data={bloc.state}
             selectBy='licensePlate'
             searchBy='licensePlate'
-            searchByOther='serial'
-            placeholder='Buscar por placa o serial'
+            placeholder='Buscar impresora o scanner'
         />
     )
 }
+
+const headLabel: HeadLabelInterface<PrinterScannerFindResponse>[] = [
+    { id: 'licensePlate', label: 'Placa', alignRight: false },
+    { id: 'serial', label: 'Serial', alignRight: false },
+    { id: 'type', label: 'Tipo', alignRight: false },
+    { id: 'brand', label: 'Marca', alignRight: false },
+    { id: 'model', label: 'Modelo', alignRight: false },
+    { id: 'state', label: 'Estado', alignRight: false },
+]
