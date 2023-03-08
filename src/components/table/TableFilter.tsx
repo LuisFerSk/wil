@@ -65,24 +65,7 @@ export default function TableFilter<T extends Record<string, any>>(props: Props<
             content: (
                 <Grid container spacing={2}>
                     <Grid item md={12} container spacing={2}>
-                        <Grid item md={6} >
-                            <Button
-                                fullWidth
-                                color='inherit'
-                                variant='outlined'
-                                onClick={() => {
-                                    const newFilters = filters.map((item) => {
-                                        item.values = item.filterOptions.map((item) => item.value)
-                                        return item;
-                                    })
-
-                                    setFilters(newFilters)
-                                }}
-                            >
-                                Seleccionar todos
-                            </Button>
-                        </Grid>
-                        <Grid item md={6} >
+                        <Grid item md={12} >
                             <Button
                                 fullWidth
                                 color='inherit'
