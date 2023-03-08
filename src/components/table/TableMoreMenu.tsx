@@ -16,7 +16,7 @@ export default function TableMoreMenu(props: Props) {
 
 	return (
 		<>
-			<IconButton ref={ref} onClick={() => setIsOpen(true)}>
+			<IconButton ref={ref} onClick={() => setIsOpen(true)} aria-label="Menú de opciones">
 				<Icon icon={moreVerticalFill} width={20} height={20} />
 			</IconButton>
 			<Menu

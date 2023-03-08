@@ -1,54 +1,39 @@
 import { ChangeEvent } from 'react'
-
 import { Icon } from '@iconify/react'
 import searchFill from '@iconify/icons-eva/search-fill'
 import { styled } from '@mui/material/styles'
-import { Box, Toolbar, OutlinedInput, InputAdornment, } from '@mui/material'
-
-
-const RootStyle = styled(Toolbar)(({ theme }) => ({
-    height: 96,
-    display: 'flex',
-    justifyContent: 'space-between',
-    padding: theme.spacing(0, 1, 0, 3),
-}))
-
-const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
-    width: 240,
-    transition: theme.transitions.create(['box-shadow', 'width'], {
-        easing: theme.transitions.easing.easeInOut,
-        duration: theme.transitions.duration.shorter,
-    }),
-    '&.Mui-focused': { width: 320, boxShadow: theme.customShadows.z8 },
-    '& fieldset': {
-        borderWidth: `1px !important`,
-        borderColor: `${theme.palette.grey[500_32]} !important`,
-    }
-}))
+import { Box, Toolbar, OutlinedInput, InputAdornment, Grid } from '@mui/material'
 
 interface Props {
     filter: string
     onFilter: (event: ChangeEvent<HTMLInputElement>) => void
     type?: string
     placeholder?: string
+    children: JSX.Element | null
 }
 
 export default function TableListToolbar(props: Props) {
-    const { filter, onFilter, type = 'text', placeholder = 'Buscar', } = props;
+    const { filter, onFilter, type = 'text', placeholder = 'Buscar', children } = props;
 
     return (
-        <RootStyle>
-            <SearchStyle
-                type={type}
-                value={filter}
-                onChange={onFilter}
-                placeholder={placeholder}
-                startAdornment={
-                    <InputAdornment position='start'>
-                        <Box component={Icon} icon={searchFill} sx={{ color: 'text.disabled' }} />
-                    </InputAdornment>
-                }
-            />
-        </RootStyle>
+        <Grid container padding={3} spacing={3} justifyContent='space-between' display='flex'>
+            <Grid item xs={12} md={8}>
+                <OutlinedInput
+                    fullWidth
+                    type={type}
+                    value={filter}
+                    onChange={onFilter}
+                    placeholder={placeholder}
+                    startAdornment={
+                        <InputAdornment position='start'>
+                            <Box component={Icon} icon={searchFill} sx={{ color: 'text.disabled' }} />
+                        </InputAdornment>
+                    }
+                />
+            </Grid>
+            <Grid item xs={12} md={4}>
+                {children}
+            </Grid>
+        </Grid>
     )
 }

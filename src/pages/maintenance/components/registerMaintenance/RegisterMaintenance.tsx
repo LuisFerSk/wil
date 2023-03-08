@@ -310,13 +310,22 @@ function SelectEquipment<T>(props: SelectEquipmentProps<T>) {
             })
     }, [])
 
-    if (bloc instanceof EquipmentFindAllBlocSuccess) {
+    if (bloc instanceof EquipmentFindAllBlocSuccess && bloc.state.length > 0) {
         return <_SelectEquipment
             textFieldProps={textFieldProps}
             bloc={bloc}
             setFieldValue={setFieldValue}
         />
+    }
 
+    if (bloc instanceof EquipmentFindAllBlocSuccess && bloc.state.length <= 0) {
+        return <TextField
+            {...textFieldProps}
+            disabled
+            value=''
+            helperText="Se debe registrar al menos un equipo para poder realizar un mantenimiento"
+            error={true}
+        />
     }
 
     if (bloc instanceof EquipmentFindAllBlocLoading) {
@@ -331,10 +340,10 @@ function SelectEquipment<T>(props: SelectEquipmentProps<T>) {
 
     return (
         <TextField
-            {...props}
+            {...textFieldProps}
             disabled
             value=''
-            helperText="Se debe registrar al menos un equipo para poder realizar un mantenimiento"
+            helperText="Ha sucedido un error al cargar los equipos."
             error={true}
         />
     )

@@ -1,5 +1,6 @@
 import { styled } from '@mui/material/styles'
-import { ListItemIcon, ListItemButton } from '@mui/material'
+import { ListItemIcon, ListItemButton, ListItemButtonProps } from '@mui/material'
+
 
 export const ListItemStyle = styled((props: any) => <ListItemButton disableGutters {...props} />)(({ theme }) => ({
     height: 48,
@@ -28,7 +29,7 @@ export const ListItemIconStyle = styled(ListItemIcon)({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-}) as typeof ListItemIcon;
+});
 
 export const activeSubStyle = {
     color: 'text.primary',

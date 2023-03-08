@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useId } from 'react'
 
 import {
     TableRow,
@@ -8,6 +8,7 @@ import {
     TablePagination,
     Table as MaterialTable,
     Card,
+    MenuItem,
 } from '@mui/material'
 
 import Scrollbar from '../scrollbar/Scrollbar'
@@ -15,7 +16,8 @@ import SearchNotFound from '../searchNotFound/SearchNotFound'
 import TableListHead from './TableListHead'
 import TableListToolbar from './TableListToolbar'
 import { getComparator, applySortFilter } from './TableFunctions'
-import { GetComparatorOrderType, HeadLabelInterface } from 'interfaces'
+import { GetComparatorOrderType, HeadLabelInterface, SelectItemInterface } from 'interfaces'
+import { Select } from 'components'
 
 interface Props<T extends Record<string, any>> {
     id?: string
@@ -24,37 +26,57 @@ interface Props<T extends Record<string, any>> {
     data: T[]
     selectBy: keyof T
     searchBy: keyof T
-    optionsSearchBy?: []
+    optionsSearchBy?: SelectItemInterface<T>[]
     placeholder?: string
 }
 
 export default function Table<T extends Record<string, any>>(props: Props<T>) {
-    const { headLabel, data, selectBy, createTableCells, searchBy, placeholder } = props
+    const { headLabel, data, selectBy, createTableCells, searchBy, placeholder, optionsSearchBy } = props
 
     const [page, setPage] = useState(0)
     const [filter, setFilter] = useState('')
     const [order, setOrder] = useState<GetComparatorOrderType>('asc')
     const [orderBy, setOrderBy] = useState(selectBy)
     const [rowsPerPage, setRowsPerPage] = useState(5)
+    const [selectedSearchBy, setSelectedSearchBy] = useState(searchBy)
 
     const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
 
-    const array = data;
     const comparator = getComparator(order, orderBy);
-    const query = filter;
 
-    const filtered = applySortFilter({ array, comparator, query, searchBy })
+    const filtered = applySortFilter({
+        array: data,
+        comparator,
+        query: filter,
+        searchBy: selectedSearchBy
+    })
 
     return (
         <Card>
             <TableListToolbar
                 filter={filter}
                 placeholder={placeholder}
-                onFilter={(props) => {
-                    const { target } = props
-                    setFilter(target.value)
-                }}
-            />
+                onFilter={(props) => { setFilter(props.target.value) }}
+            >
+                {optionsSearchBy ?
+                    <Select
+                        fullWidth
+                        label="Buscar por"
+                        variant="outlined"
+                        value={selectedSearchBy}
+                        onChange={(event) => {
+                            setSelectedSearchBy(event.target.value)
+                        }}
+                    >
+                        {optionsSearchBy.map((item, key) =>
+                            <MenuItem key={`${useId()}-${key}`} value={item.id as string}>
+                                {item.label as string}
+                            </MenuItem>
+                        )}
+                    </Select>
+                    : null
+                }
+            </TableListToolbar>
             <Scrollbar>
                 <TableContainer sx={{ minWidth: 800 }}>
                     <MaterialTable>

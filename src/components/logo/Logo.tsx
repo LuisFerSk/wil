@@ -9,6 +9,13 @@ interface Props {
 export default function Logo(props: Props) {
     const { height = 50, width } = props;
     return (
-        <Box component='img' src={ImgLogo} sx={{ height, width }} />
+        <Box
+            title="logo de Coopocesar"
+            alt="logo de Coopocesar"
+            component='img'
+            src={ImgLogo}
+            width={width}
+            height={height}
+        />
     )
 }
