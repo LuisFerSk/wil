@@ -9,7 +9,7 @@ export const GUARANTEE = Object.freeze([
     },
 ])
 
-export enum guaranteeFilterValues {
-    noWarranty = 'sin garantía',
-    withGuarantee = 'con garantía'
+export const guaranteeFilterValues = {
+    noWarranty: GUARANTEE[0].value,
+    withGuarantee: GUARANTEE[1].value
 }

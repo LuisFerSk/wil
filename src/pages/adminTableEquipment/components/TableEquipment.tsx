@@ -3,81 +3,52 @@ import { useNavigate } from 'react-router-dom'
 import editFill from '@iconify/icons-eva/edit-fill'
 import trash2Outline from '@iconify/icons-eva/trash-2-outline'
 import baselineRemoveRedEye from '@iconify/icons-ic/baseline-remove-red-eye'
-import { Button, Card, Chip, Grid, TableCell, Typography } from '@mui/material'
+import { Chip, TableCell, } from '@mui/material'
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { filter } from 'lodash'
 
 import { EquipmentFindResponse } from 'services/models'
-import { Accordion, mappingMenuItem, Table, TableMoreMenu } from 'components'
+import { mappingMenuItem, Table, TableMoreMenu } from 'components'
 import { HeadLabelInterface, SelectItemInterface } from 'interfaces'
 import { Loader } from 'pages'
 import { EquipmentFindAllBlocSuccess } from 'bloc'
 import { AdminTableContext } from '../context'
 import { GUARANTEE, guaranteeFilterValues, PROCESSOR_TYPES, RAM_MEMORY_TYPES, STATE, STATE_BOOLEAN, TYPE_EQUIPMENT } from 'constants'
+import TableFilter, { FilterInterface } from 'components/table/TableFilter'
 
 interface Props {
     bloc: EquipmentFindAllBlocSuccess
 }
 
-interface FilterInterface<T extends Record<string, any>> {
-    id: keyof T
-    values: T[keyof T][]
-}
-
 export default function TableEquipment(props: Props) {
     const { bloc } = props;
 
-    const initialFilters: FilterInterface<EquipmentFindResponse>[] = [
+    const filters: FilterInterface<EquipmentFindResponse>[] = [
         {
             id: 'processorType',
-            values: PROCESSOR_TYPES.map((item) => item.value)
+            label: 'Tipo de procesador',
+            filterOptions: PROCESSOR_TYPES.map((item) => item),
+            values: []
         },
         {
             id: 'ramMemoryType',
-            values: RAM_MEMORY_TYPES.map((item) => item.value)
+            label: 'Tipo de memoria RAM',
+            filterOptions: RAM_MEMORY_TYPES.map((item) => item),
+            values: []
         },
         {
             id: 'state',
-            values: STATE.map((item) => item.value)
+            label: 'Estado',
+            filterOptions: STATE.map((item) => item),
+            values: []
         },
         {
             id: 'warrantyEndDate',
-            values: GUARANTEE.map((item) => item.value)
+            label: 'Garantía',
+            filterOptions: GUARANTEE.map((item) => item),
+            values: []
         },
     ]
-
-    const [filters, setFilters] = useState<FilterInterface<EquipmentFindResponse>[]>(initialFilters)
-
-    function handledChangeFilters(id: keyof EquipmentFindResponse, value: EquipmentFindResponse[keyof EquipmentFindResponse]) {
-        const found = filters.find((item) => item.values.includes(value))
-
-        if (!found) {
-            const newFilter = filters.map((item) => {
-                if (item.id === id) {
-                    item.values = [...item.values, value]
-                }
-
-                return item;
-            })
-
-            setFilters(newFilter)
-            return;
-        }
-
-        const newFilter = filters.map((item) => {
-            const { values } = item
-
-            const indexValue = values.indexOf(value)
-
-            if (indexValue >= 0) {
-                values.splice(indexValue, 1)
-            }
-
-            return item;
-        })
-
-        setFilters(newFilter)
-    }
 
     const [data, setData] = useState(bloc.state)
 
@@ -148,159 +119,32 @@ export default function TableEquipment(props: Props) {
         )
     }
 
-    const Accordions = [
-        {
-            title: 'Filtros',
-            icon: <FilterListIcon color='primary' />,
-            content: (
-                <Grid container spacing={2}>
-                    <Grid item md={12} container spacing={2}>
-                        <Grid item md={6} >
-                            <Button
-                                fullWidth
-                                color='inherit'
-
-                                variant='outlined'
-                                onClick={() => {
-                                    setFilters(initialFilters)
-                                }}
-                            >
-                                Seleccionar todos
-                            </Button>
-                        </Grid>
-                        <Grid item md={6} >
-                            <Button
-                                fullWidth
-                                color='inherit'
-                                variant='outlined'
-                                onClick={() => {
-                                    const newFilters = filters.map((item) => {
-                                        item.values = []
-                                        return item;
-                                    })
-
-                                    setFilters(newFilters)
-                                }}
-                            >
-                                Limpiar filtros
-                            </Button>
-                        </Grid>
-                    </Grid>
-                    <Grid item md={6}>
-                        <Grid item md={12}>
-                            <Typography variant='body2' >Tipo de procesador</Typography>
-                        </Grid>
-                        <Grid item md={12} container spacing={2}>
-                            {PROCESSOR_TYPES.map((options) => {
-                                let gridSize = 12 / PROCESSOR_TYPES.length;
-
-                                if (gridSize % 1 !== 0) {
-                                    gridSize += 1;
-                                }
-
-                                return (
-                                    <Grid item xs={12} md={gridSize} >
-                                        <Button
-                                            fullWidth
-                                            variant={filters.find((item) => item.values.includes(options.value)) ? 'contained' : 'outlined'}
-                                            onClick={() => {
-                                                handledChangeFilters('processorType', options.value)
-                                            }}
-                                        >
-                                            {options.label}
-                                        </Button>
-                                    </Grid>
-                                )
-                            })}
-                        </Grid>
-                    </Grid>
-                    <Grid item md={6}>
-                        <Grid item md={12}>
-                            <Typography variant='body2' >Tipo de memoria</Typography>
-                        </Grid>
-                        <Grid item md={12} container spacing={2}>
-                            {RAM_MEMORY_TYPES.map((options) =>
-                                <Grid item md={4} >
-                                    <Button
-                                        fullWidth
-                                        variant={filters.find((item) => item.values.includes(options.value)) ? 'contained' : 'outlined'}
-                                        onClick={() => {
-                                            handledChangeFilters('ramMemoryType', options.value)
-                                        }}
-                                    >
-                                        {options.label}
-                                    </Button>
-                                </Grid>
-                            )}
-                        </Grid>
-                    </Grid>
-                    <Grid item md={6}>
-                        <Grid item md={12}>
-                            <Typography variant='body2' >Estado</Typography>
-                        </Grid>
-                        <Grid item md={12} container spacing={2}>
-                            {STATE.map((options) =>
-                                <Grid item md={6} >
-                                    <Button
-                                        fullWidth
-                                        variant={filters.find((item) => item.values.includes(options.value)) ? 'contained' : 'outlined'}
-                                        onClick={() => {
-                                            handledChangeFilters('state', options.value)
-                                        }}
-                                    >
-                                        {options.label}
-                                    </Button>
-                                </Grid>
-                            )}
-                        </Grid>
-                    </Grid>
-                    <Grid item md={6}>
-                        <Grid item md={12}>
-                            <Typography variant='body2' >Garantía</Typography>
-                        </Grid>
-                        <Grid item md={12} container spacing={2}>
-                            {GUARANTEE.map((options) =>
-                                <Grid item md={6} >
-                                    <Button
-                                        fullWidth
-                                        variant={filters.find((item) => item.values.includes(options.value)) ? 'contained' : 'outlined'}
-                                        onClick={() => {
-                                            handledChangeFilters('warrantyEndDate', options.value)
-                                        }}
-                                    >
-                                        {options.label}
-                                    </Button>
-                                </Grid>
-                            )}
-                        </Grid>
-                    </Grid>
-                </Grid >
-            )
-        }
-    ]
-
-    useEffect(() => {
-        const nowDate = new Date()
-
-        const newData = filter(bloc.state, (state) =>
-            filters.every((strainer) =>
-                strainer.id === 'warrantyEndDate' &&
-                strainer.values.includes(guaranteeFilterValues.withGuarantee) &&
-                new Date(state.warrantyEndDate) > nowDate ||
-                strainer.values.includes(guaranteeFilterValues.noWarranty) &&
-                new Date(state.warrantyEndDate) < nowDate ||
-                strainer.values.includes(state[strainer.id])
-            )
-        )
-
-        setData(newData)
-    }, [filters])
-
     return (
         <>
-            <Card sx={{ marginBottom: 3 }}>
-                <Accordion accordions={Accordions} />
-            </Card>
+            <TableFilter
+                title='Filtros'
+                icon={<FilterListIcon color='primary' />}
+                filters={filters}
+                onChange={(filters) => {
+                    const nowDate = new Date()
+
+                    const newData = filter(bloc.state, (state) =>
+                        filters.every((strainer) =>
+                            strainer.values.length === 0 ||
+
+                            strainer.values.includes(guaranteeFilterValues.withGuarantee) &&
+                            new Date(state.warrantyEndDate) > nowDate ||
+
+                            strainer.values.includes(guaranteeFilterValues.noWarranty) &&
+                            new Date(state.warrantyEndDate) < nowDate ||
+
+                            strainer.values.includes(state[strainer.id])
+                        )
+                    )
+
+                    setData(newData)
+                }}
+            />
             <Table
                 createTableCells={createTableCells}
                 headLabel={headLabel}

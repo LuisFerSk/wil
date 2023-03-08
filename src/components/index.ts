@@ -22,6 +22,7 @@ export { default as Scrollbar } from './scrollbar/Scrollbar';
 export { default as SearchNotFound } from './searchNotFound/SearchNotFound';
 export { default as Select } from './select/Select';
 export { default as Table } from './table/Table';
+export { default as TableFilter } from './table/TableFilter';
 export * from './table/TableFunctions';
 export { default as TableListHead } from './table/TableListHead';
 export { default as TableListToolbar } from './table/TableListToolbar';
