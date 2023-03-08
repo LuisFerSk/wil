@@ -64,8 +64,8 @@ export default function TableFilter<T extends Record<string, any>>(props: Props<
             icon,
             content: (
                 <Grid container spacing={2}>
-                    <Grid item md={12} container spacing={2}>
-                        <Grid item md={12} >
+                    <Grid item xs={12} container spacing={2}>
+                        <Grid item xs={12} >
                             <Button
                                 fullWidth
                                 color='inherit'
